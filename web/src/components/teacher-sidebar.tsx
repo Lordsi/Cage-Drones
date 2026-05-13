@@ -58,7 +58,7 @@ export function TeacherSidebar({
         >
           <div
             className="flex h-7 w-7 items-center justify-center rounded-md text-xs font-bold"
-            style={{ background: "var(--accent)", color: "#fff" }}
+            style={{ background: "var(--accent)", color: "#0a0a0a" }}
           >
             C
           </div>
@@ -160,7 +160,7 @@ export function TeacherSidebar({
         <div className="mb-2 flex items-center gap-2 px-1">
           <div
             className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
-            style={{ background: "var(--accent)", color: "#fff" }}
+            style={{ background: "var(--accent)", color: "#0a0a0a" }}
           >
             {displayName.slice(0, 1).toUpperCase()}
           </div>

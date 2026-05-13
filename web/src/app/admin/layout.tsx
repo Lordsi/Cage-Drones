@@ -27,7 +27,7 @@ export default async function AdminLayout({
         <Link href="/admin" className="flex items-center gap-2">
           <div
             className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold"
-            style={{ background: "var(--accent)", color: "#fff" }}
+            style={{ background: "var(--accent)", color: "#0a0a0a" }}
           >
             C
           </div>

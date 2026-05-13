@@ -5,6 +5,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { DroneScene } from "@/components/drone-scene";
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -155,31 +156,39 @@ export function Landing() {
       {/* ── Hero ── */}
       <section className="landing-hero" aria-labelledby="hero-heading">
         <div className="landing-container">
-          <p className="landing-eyebrow">Precision Drone Solutions — Malawi</p>
-          <h1 id="hero-heading" className="landing-h1">
-            Aerial intelligence<br />
-            from sky to insight
-          </h1>
-          <p className="landing-hero-sub">
-            High-precision mapping, crop intelligence, and professional drone services
-            for agriculture, infrastructure, and environmental monitoring. In technical
-            collaboration with{" "}
-            <a
-              href="https://www.luanar.ac.mw/tace/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-inline-link"
-            >
-              TACE at LUANAR
-            </a>.
-          </p>
-          <div className="landing-hero-actions">
-            <a href="#contact" className="landing-btn-primary">
-              Get a quote <ArrowRight size={16} aria-hidden />
-            </a>
-            <Link href="/register" className="landing-btn-secondary">
-              Create account
-            </Link>
+          <div className="landing-hero-grid">
+            <div className="landing-hero-text">
+              <p className="landing-eyebrow">Precision Drone Solutions — Malawi</p>
+              <h1 id="hero-heading" className="landing-h1">
+                Aerial intelligence<br />
+                from sky to insight
+              </h1>
+              <p className="landing-hero-sub">
+                High-precision mapping, crop intelligence, and professional drone services
+                for agriculture, infrastructure, and environmental monitoring. In technical
+                collaboration with{" "}
+                <a
+                  href="https://www.luanar.ac.mw/tace/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="landing-inline-link"
+                >
+                  TACE at LUANAR
+                </a>.
+              </p>
+              <div className="landing-hero-actions">
+                <a href="#contact" className="landing-btn-primary">
+                  Get a quote <ArrowRight size={16} aria-hidden />
+                </a>
+                <Link href="/register" className="landing-btn-secondary">
+                  Create account
+                </Link>
+              </div>
+            </div>
+
+            <div className="landing-hero-model">
+              <DroneScene />
+            </div>
           </div>
 
           <dl className="landing-stats">
