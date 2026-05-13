@@ -137,7 +137,7 @@ export default async function GradebookPage({
 
   return (
     <div>
-      <h1 className="display text-2xl font-extrabold">Gradebook</h1>
+      <h1 className="text-2xl font-bold tracking-tight">Gradebook</h1>
       <p className="mt-1 text-sm" style={{ color: "var(--muted2)" }}>
         {course.title as string} — best exam score per assessment; assignment
         shows grade or status.

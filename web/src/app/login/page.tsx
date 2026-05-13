@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { homePathForRole, type UserRole } from "@/lib/profile";
-import { Radar } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,18 +39,13 @@ export default function LoginPage() {
       style={{ background: "var(--deep)" }}
     >
       <Link href="/" className="mb-10 flex items-center gap-2">
-        <div
-          className="flex h-10 w-10 items-center justify-center rounded-lg"
-          style={{ background: "var(--cyan)" }}
-        >
-          <Radar size={22} color="#000" />
-        </div>
-        <span className="display text-xl font-extrabold">
-          CAGE<span style={{ color: "var(--cyan)" }}> Portal</span>
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold" style={{ background: "var(--accent)", color: "#fff" }}>C</div>
+        <span className="text-xl font-bold">
+          CAGE<span style={{ color: "var(--accent)" }}> Portal</span>
         </span>
       </Link>
-      <div className="card w-full max-w-md rounded-2xl p-8">
-        <h1 className="display mb-2 text-2xl font-bold">Sign in</h1>
+      <div className="card w-full max-w-md rounded-xl p-8">
+        <h1 className="mb-2 text-2xl font-bold">Sign in</h1>
         <p className="mb-6 text-sm" style={{ color: "var(--muted2)" }}>
           Use your email and password. Admins land on Administration; teachers on the Teacher portal;
           students on the learning hub.
@@ -102,11 +96,11 @@ export default function LoginPage() {
           </p>
         ) : null}
         <p className="mt-6 text-center text-sm" style={{ color: "var(--muted)" }}>
-          <Link href="/register" className="underline" style={{ color: "var(--cyan)" }}>
+          <Link href="/register" className="underline" style={{ color: "var(--accent)" }}>
             Create an account
           </Link>
           {" · "}
-          <Link href="/" className="underline" style={{ color: "var(--cyan)" }}>
+          <Link href="/" className="underline" style={{ color: "var(--accent)" }}>
             Back to site
           </Link>
         </p>

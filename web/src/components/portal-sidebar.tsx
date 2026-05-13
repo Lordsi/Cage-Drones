@@ -8,7 +8,6 @@ import {
   BookOpen,
   Layers,
   LogOut,
-  Radar,
   Shield,
   GraduationCap,
   School,
@@ -56,20 +55,9 @@ export function PortalSidebar({
       style={{ background: "var(--surface)", borderColor: "var(--border)" }}
     >
       <div className="mb-8 flex items-center gap-2 px-1">
-        <div
-          className="flex h-[34px] w-[34px] items-center justify-center rounded-lg"
-          style={{ background: "var(--cyan)" }}
-        >
-          <Radar size={18} color="#000" />
-        </div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold" style={{ background: "var(--accent)", color: "#fff" }}>C</div>
         <div>
-          <div className="display text-sm font-extrabold leading-tight">CAGE Portal</div>
-          <div
-            className="text-[0.68rem] uppercase tracking-widest"
-            style={{ color: "var(--muted)" }}
-          >
-            Learning Hub
-          </div>
+          <div className="text-sm font-bold leading-tight">CAGE Portal</div>
         </div>
       </div>
 
@@ -114,10 +102,8 @@ export function PortalSidebar({
         <div className="divider my-3" />
         <div className="mb-2 flex items-center gap-3 px-1">
           <div
-            className="flex h-[34px] w-[34px] items-center justify-center rounded-full text-sm font-bold text-black"
-            style={{
-              background: "linear-gradient(135deg,#00C6FF,#9B7EF5)",
-            }}
+            className="flex h-[34px] w-[34px] items-center justify-center rounded-full text-sm font-bold text-white"
+            style={{ background: "var(--accent)", color: "#fff" }}
           >
             {displayName.slice(0, 1).toUpperCase()}
           </div>

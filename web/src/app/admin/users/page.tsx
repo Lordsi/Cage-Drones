@@ -13,13 +13,13 @@ export default async function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="display mb-8 text-2xl font-extrabold">Users & roles</h1>
+      <h1 className="mb-8 text-2xl font-bold tracking-tight">Users & roles</h1>
       <p className="mb-6 text-sm" style={{ color: "var(--muted2)" }}>
         Assign <strong>Student</strong>, <strong>Teacher</strong>, or <strong>Admin</strong>. New
         sign-ups default to Student until you change their role here.
       </p>
 
-      <div className="overflow-x-auto rounded-2xl border" style={{ borderColor: "var(--border)" }}>
+      <div className="overflow-x-auto rounded-xl border" style={{ borderColor: "var(--border)" }}>
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead style={{ background: "var(--surface)" }}>
             <tr>

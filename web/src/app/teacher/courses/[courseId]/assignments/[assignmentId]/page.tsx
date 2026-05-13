@@ -56,7 +56,7 @@ export default async function AssignmentDetailPage({
       >
         ← Assignments
       </Link>
-      <h1 className="display mt-4 text-2xl font-extrabold">
+      <h1 className="mt-4 text-2xl font-bold tracking-tight">
         {assignment.title as string}
       </h1>
       {assignment.instructions && (

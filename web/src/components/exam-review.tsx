@@ -29,14 +29,13 @@ export function ExamReview({
       className="flex min-h-screen flex-col items-center justify-center p-8"
       style={{ background: "var(--deep)" }}
     >
-      <div className="card w-full max-w-lg rounded-3xl p-10 text-center">
+      <div className="card w-full max-w-lg rounded-xl p-10 text-center">
         <div
-          className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-2"
+          className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
           style={{
             background: pass
               ? "rgba(34,211,163,.15)"
               : "rgba(255,101,53,.15)",
-            borderColor: pass ? "var(--green)" : "var(--orange)",
           }}
         >
           {pass ? (
@@ -46,7 +45,7 @@ export function ExamReview({
           )}
         </div>
         <div
-          className="display text-6xl font-black leading-none"
+          className="text-6xl font-black leading-none"
           style={{ color: pass ? "var(--green)" : "var(--orange)" }}
         >
           {score}%
@@ -64,7 +63,7 @@ export function ExamReview({
         </p>
 
         <div className="mt-8 max-h-80 overflow-y-auto text-left">
-          <div className="display mb-3 text-sm font-bold">
+          <div className="mb-3 text-sm font-bold">
             Question review
           </div>
           <ul className="space-y-2 text-sm">
@@ -135,7 +134,7 @@ export function ExamReview({
         <Link href="/portal/exams" className="mt-8 block">
           <button
             type="button"
-            className="btn-primary w-full justify-center rounded-xl py-3 text-sm"
+            className="btn-primary w-full justify-center rounded-lg py-3 text-sm"
           >
             Back to exams
           </button>

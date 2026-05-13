@@ -72,12 +72,12 @@ export default async function PortalResourcesPage() {
     <div>
       <div className="mb-8">
         <div
-          className="font-display mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
+          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
           style={{ color: "var(--muted)" }}
         >
           Learning materials
         </div>
-        <h1 className="display text-3xl font-extrabold">Resources</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Resources</h1>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,15 +87,19 @@ export default async function PortalResourcesPage() {
           </p>
         ) : (
           links.map((r) => (
-            <div key={r.id} className="card rounded-2xl p-5">
+            <div key={r.id} className="card rounded-xl p-5">
               <div className="flex gap-3">
                 <div
                   className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl border"
                   style={{
                     background:
-                      r.type === "pdf" ? "rgba(255,101,53,.1)" : "rgba(34,211,163,.1)",
+                      r.type === "pdf"
+                        ? "color-mix(in srgb, var(--accent) 10%, transparent)"
+                        : "color-mix(in srgb, var(--accent) 10%, transparent)",
                     borderColor:
-                      r.type === "pdf" ? "rgba(255,101,53,.2)" : "rgba(34,211,163,.2)",
+                      r.type === "pdf"
+                        ? "color-mix(in srgb, var(--accent) 20%, transparent)"
+                        : "color-mix(in srgb, var(--accent) 20%, transparent)",
                   }}
                 >
                   {r.type === "pdf" ? (
@@ -119,7 +123,7 @@ export default async function PortalResourcesPage() {
                         target="_blank"
                         rel="noreferrer"
                         className="text-xs underline"
-                        style={{ color: "var(--cyan)" }}
+                        style={{ color: "var(--accent)" }}
                       >
                         {r.label}
                       </Link>

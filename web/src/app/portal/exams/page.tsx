@@ -56,12 +56,12 @@ export default async function PortalExamsPage() {
     <div>
       <div className="mb-8">
         <div
-          className="font-display mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
+          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
           style={{ color: "var(--muted)" }}
         >
           Assessment centre
         </div>
-        <h1 className="display text-3xl font-extrabold">My exams</h1>
+        <h1 className="text-3xl font-bold tracking-tight">My exams</h1>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -82,20 +82,20 @@ export default async function PortalExamsPage() {
             return (
               <div
                 key={e.id}
-                className="card flex flex-wrap items-center gap-4 rounded-2xl p-6"
+                className="card flex flex-wrap items-center gap-4 rounded-xl p-6"
               >
                 <div
-                  className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-2xl border"
+                  className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-xl border"
                   style={{
-                    background: "rgba(0,198,255,.08)",
-                    borderColor: "rgba(0,198,255,.15)",
+                    background: "color-mix(in srgb, var(--accent) 8%, transparent)",
+                    borderColor: "color-mix(in srgb, var(--accent) 15%, transparent)",
                   }}
                 >
-                  <FileText size={22} color="var(--cyan)" />
+                  <FileText size={22} color="var(--accent)" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-2">
-                    <span className="display text-lg font-bold">{e.title}</span>
+                    <span className="text-lg font-bold">{e.title}</span>
                     {last ? (
                       <span className="badge badge-green">
                         <CheckCircle size={10} />

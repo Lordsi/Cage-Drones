@@ -79,23 +79,23 @@ export default async function PortalGradesPage() {
     <div>
       <div className="mb-8">
         <div
-          className="font-display mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
+          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
           style={{ color: "var(--muted)" }}
         >
           Record
         </div>
-        <h1 className="display text-3xl font-extrabold">Grades & results</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Grades & results</h1>
         <p className="mt-2 text-sm" style={{ color: "var(--muted2)" }}>
           Submitted exams and graded coursework from your enrolled courses.
         </p>
       </div>
 
       <section className="mb-10">
-        <h2 className="display mb-4 text-lg font-bold">Exams</h2>
+        <h2 className="mb-4 text-lg font-bold">Exams</h2>
         {examRows.length === 0 ? (
           <p className="text-sm" style={{ color: "var(--muted2)" }}>
             No submitted exam attempts yet. Finish an exam from{" "}
-            <Link href="/portal/exams" className="underline" style={{ color: "var(--cyan)" }}>
+            <Link href="/portal/exams" className="underline" style={{ color: "var(--accent)" }}>
               My exams
             </Link>
             .
@@ -108,7 +108,7 @@ export default async function PortalGradesPage() {
               return (
                 <li
                   key={row.id}
-                  className="card flex flex-wrap items-center justify-between gap-4 rounded-2xl px-6 py-5"
+                  className="card flex flex-wrap items-center justify-between gap-4 rounded-xl px-6 py-5"
                 >
                   <div>
                     <div className="font-semibold">{ex?.title ?? "Exam"}</div>
@@ -137,7 +137,7 @@ export default async function PortalGradesPage() {
       </section>
 
       <section>
-        <h2 className="display mb-4 text-lg font-bold">Assignments</h2>
+        <h2 className="mb-4 text-lg font-bold">Assignments</h2>
         {(assignments ?? []).length === 0 ? (
           <p className="text-sm" style={{ color: "var(--muted2)" }}>
             No assignments in your courses.
@@ -155,7 +155,7 @@ export default async function PortalGradesPage() {
               return (
                 <li
                   key={a.id}
-                  className="card flex flex-wrap items-center justify-between gap-4 rounded-2xl px-6 py-5"
+                  className="card flex flex-wrap items-center justify-between gap-4 rounded-xl px-6 py-5"
                 >
                   <div>
                     <div className="font-semibold">{a.title}</div>

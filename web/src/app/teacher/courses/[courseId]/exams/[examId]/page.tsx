@@ -34,12 +34,12 @@ export default async function TeacherExamEditorPage({
       <Link
         href={`/teacher/courses/${courseId}`}
         className="mb-6 inline-block text-sm"
-        style={{ color: "var(--cyan)" }}
+        style={{ color: "var(--accent)" }}
       >
         ← Course
       </Link>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="display text-2xl font-extrabold">{exam.title as string}</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{exam.title as string}</h1>
         <div className="flex gap-2">
           {(exam.published as boolean) ? (
             <form action={setExamPublishedForm}>
@@ -66,8 +66,8 @@ export default async function TeacherExamEditorPage({
         Duration {exam.duration_minutes as number} min · Pass {exam.pass_percent as number}%
       </p>
 
-      <section className="card mb-8 rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Questions</h2>
+      <section className="card mb-8 rounded-xl p-6">
+        <h2 className="mb-4 text-lg font-semibold">Questions</h2>
         <ol className="mb-6 list-decimal space-y-3 pl-5 text-sm" style={{ color: "var(--muted2)" }}>
           {(questions ?? []).map((q) => (
             <li key={q.id as string} className="pl-1">
@@ -79,7 +79,7 @@ export default async function TeacherExamEditorPage({
           ))}
         </ol>
 
-        <h3 className="display mb-3 text-sm font-bold">Add MCQ</h3>
+        <h3 className="mb-3 text-sm font-semibold">Add MCQ</h3>
         <form action={addExamQuestion} className="flex flex-col gap-2">
           <input type="hidden" name="exam_id" value={examId} />
           <input type="hidden" name="course_id" value={courseId} />

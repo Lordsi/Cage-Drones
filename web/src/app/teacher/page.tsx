@@ -74,7 +74,7 @@ export default async function TeacherHomePage() {
 
   return (
     <div>
-      <h1 className="display text-2xl font-extrabold">Teaching Dashboard</h1>
+      <h1 className="text-2xl font-bold tracking-tight">Teaching Dashboard</h1>
       <p className="mt-1 text-sm" style={{ color: "var(--muted2)" }}>
         Overview of all your courses and activity.
       </p>

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/profile";
-import { Radar } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -27,18 +26,18 @@ export default async function AdminLayout({
       >
         <Link href="/admin" className="flex items-center gap-2">
           <div
-            className="flex h-8 w-8 items-center justify-center rounded-lg"
-            style={{ background: "var(--cyan)" }}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold"
+            style={{ background: "var(--accent)", color: "#fff" }}
           >
-            <Radar size={16} color="#000" />
+            C
           </div>
-          <span className="display text-sm font-extrabold">CAGE Admin</span>
+          <span className="text-sm font-bold">CAGE Admin</span>
         </Link>
         <div className="flex items-center gap-4">
-          <Link href="/teacher" className="text-sm underline" style={{ color: "var(--cyan)" }}>
+          <Link href="/teacher" className="text-sm" style={{ color: "var(--accent)" }}>
             Teacher portal
           </Link>
-          <Link href="/portal" className="text-sm underline" style={{ color: "var(--cyan)" }}>
+          <Link href="/portal" className="text-sm" style={{ color: "var(--accent)" }}>
             Student portal
           </Link>
         </div>

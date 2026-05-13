@@ -69,7 +69,7 @@ export default async function StudentsPage({
 
   return (
     <div>
-      <h1 className="display text-2xl font-extrabold">Students</h1>
+      <h1 className="text-2xl font-bold tracking-tight">Students</h1>
       <p className="mt-1 text-sm" style={{ color: "var(--muted2)" }}>
         {course.title as string} — {(enrollments ?? []).length} enrolled
       </p>

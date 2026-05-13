@@ -141,7 +141,7 @@ export function ExamRunner({
             <ChevronLeft size={15} /> Exit
           </button>
           <div className="h-7 w-px" style={{ background: "var(--border)" }} />
-          <span className="display text-sm font-bold">{examTitle}</span>
+          <span className="text-sm font-bold">{examTitle}</span>
         </div>
         <div className="flex items-center gap-6">
           <div className="text-center">
@@ -151,7 +151,7 @@ export function ExamRunner({
             >
               Progress
             </div>
-            <div className="display text-sm font-bold">
+            <div className="text-sm font-bold">
               {answered}/{total}
             </div>
           </div>
@@ -163,8 +163,8 @@ export function ExamRunner({
               Time left
             </div>
             <div
-              className={`display text-lg font-black ${timerDanger ? "timer-danger" : ""}`}
-              style={{ color: timerDanger ? "var(--orange)" : "var(--cyan)" }}
+              className={`text-lg font-black ${timerDanger ? "timer-danger" : ""}`}
+              style={{ color: timerDanger ? "var(--orange)" : "var(--accent)" }}
             >
               <Clock size={12} className="mr-1 inline" />
               {formatTime(timeLeft)}
@@ -182,12 +182,12 @@ export function ExamRunner({
           <div className="mx-auto max-w-[700px]">
             <div className="mb-8">
               <span
-                className="font-display text-[0.68rem] font-bold uppercase tracking-widest"
+                className="text-[0.68rem] font-bold uppercase tracking-widest"
                 style={{ color: "var(--muted)" }}
               >
                 Question {currentQ + 1} of {total}
               </span>
-              <h2 className="display mt-3 text-xl font-bold leading-relaxed">{q.prompt}</h2>
+              <h2 className="mt-3 text-xl font-bold leading-relaxed">{q.prompt}</h2>
             </div>
             <div className="grid gap-3">
               {q.choices.map((opt, i) => (
@@ -198,7 +198,7 @@ export function ExamRunner({
                   onClick={() => selectAnswer(i)}
                 >
                   <span
-                    className="display flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold"
                     style={{ background: "rgba(255,255,255,.06)" }}
                   >
                     {["A", "B", "C", "D"][i] ?? String(i + 1)}
@@ -242,7 +242,7 @@ export function ExamRunner({
           style={{ background: "var(--surface)", borderColor: "var(--border)" }}
         >
           <div
-            className="display mb-4 text-[0.78rem] font-bold uppercase tracking-widest"
+            className="mb-4 text-[0.78rem] font-bold uppercase tracking-widest"
             style={{ color: "var(--muted)" }}
           >
             Questions

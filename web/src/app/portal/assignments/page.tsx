@@ -49,12 +49,12 @@ export default async function PortalAssignmentsPage() {
     <div>
       <div className="mb-8">
         <div
-          className="font-display mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
+          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
           style={{ color: "var(--muted)" }}
         >
           Coursework
         </div>
-        <h1 className="display text-3xl font-extrabold">Assignments</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Assignments</h1>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -91,17 +91,17 @@ export default async function PortalAssignmentsPage() {
             return (
               <div
                 key={a.id}
-                className="card rounded-2xl px-6 py-5"
+                className="card rounded-xl px-6 py-5"
               >
                 <div className="flex flex-wrap items-center gap-4">
                   <div
                     className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border"
                     style={{
-                      background: "rgba(155,126,245,.1)",
-                      borderColor: "rgba(155,126,245,.2)",
+                      background: "color-mix(in srgb, var(--accent) 10%, transparent)",
+                      borderColor: "color-mix(in srgb, var(--accent) 20%, transparent)",
                     }}
                   >
-                    <BookOpen size={18} color="var(--purple)" />
+                    <BookOpen size={18} color="var(--accent)" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -117,7 +117,7 @@ export default async function PortalAssignmentsPage() {
                   </div>
                   {sub?.grade ? (
                     <div
-                      className="display text-2xl font-black"
+                      className="text-2xl font-black"
                       style={{ color: "var(--green)" }}
                     >
                       {sub.grade}
