@@ -32,11 +32,11 @@ export default async function TeacherExamEditorPage({
   return (
     <div>
       <Link
-        href={`/teacher/courses/${courseId}`}
+        href={`/teacher/courses/${courseId}/exams`}
         className="mb-6 inline-block text-sm"
         style={{ color: "var(--accent)" }}
       >
-        ← Course
+        ← All exams
       </Link>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-bold tracking-tight">{exam.title as string}</h1>
