@@ -1,124 +1,146 @@
 "use client";
 
-import { Suspense, useRef, useEffect, useState, useCallback } from "react";
+import { Suspense, useRef, useState, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, useFBX, ContactShadows } from "@react-three/drei";
+import {
+  OrbitControls,
+  useGLTF,
+  ContactShadows,
+} from "@react-three/drei";
 import * as THREE from "three";
 
-const GOLD = new THREE.Color("#c9a227");
-const BLACK = new THREE.Color("#0a0a0a");
-
 function DroneModel({ hovered }: { hovered: boolean }) {
-  const fbx = useFBX("/models/drone.fbx");
+  const { scene } = useGLTF("/models/drone.glb");
   const groupRef = useRef<THREE.Group>(null);
   const clock = useRef(0);
+  const tiltTarget = useRef({ x: 0, z: 0 });
+  const currentTilt = useRef({ x: 0, z: 0 });
 
   useEffect(() => {
-    fbx.traverse((child) => {
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 3 / maxDim;
+    scene.scale.setScalar(scale);
+
+    const center = box.getCenter(new THREE.Vector3());
+    scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+
+    scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        const name = mesh.name.toLowerCase();
-
-        const isAccent =
-          name.includes("propel") ||
-          name.includes("blade") ||
-          name.includes("rotor") ||
-          name.includes("motor") ||
-          name.includes("arm") ||
-          name.includes("leg") ||
-          name.includes("land") ||
-          name.includes("ring") ||
-          name.includes("light") ||
-          name.includes("trim") ||
-          name.includes("detail");
-
-        mesh.material = new THREE.MeshPhysicalMaterial({
-          color: isAccent ? GOLD : BLACK,
-          metalness: isAccent ? 0.9 : 0.5,
-          roughness: isAccent ? 0.2 : 0.5,
-          clearcoat: isAccent ? 0 : 0.3,
-          clearcoatRoughness: 0.4,
-        });
-
         mesh.castShadow = true;
         mesh.receiveShadow = true;
       }
     });
+  }, [scene]);
 
-    const box = new THREE.Box3().setFromObject(fbx);
-    const size = box.getSize(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = 2.8 / maxDim;
-    fbx.scale.setScalar(scale);
-
-    const center = box.getCenter(new THREE.Vector3());
-    fbx.position.set(
-      -center.x * scale,
-      -center.y * scale,
-      -center.z * scale
-    );
-  }, [fbx]);
-
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!groupRef.current) return;
     clock.current += delta;
 
-    const rotSpeed = hovered ? 0.6 : 0.25;
+    const rotSpeed = hovered ? 0.5 : 0.2;
     groupRef.current.rotation.y += delta * rotSpeed;
 
-    const floatAmp = hovered ? 0.12 : 0.06;
-    const floatSpeed = hovered ? 2.5 : 1.5;
-    groupRef.current.position.y =
-      Math.sin(clock.current * floatSpeed) * floatAmp;
+    const floatAmp = hovered ? 0.15 : 0.06;
+    const floatFreq = hovered ? 2.5 : 1.4;
+    groupRef.current.position.y = Math.sin(clock.current * floatFreq) * floatAmp;
+
+    if (hovered) {
+      const mx = (state.mouse.x * Math.PI) / 16;
+      const mz = (state.mouse.y * Math.PI) / 16;
+      tiltTarget.current = { x: -mz, z: mx };
+    } else {
+      tiltTarget.current = { x: 0, z: 0 };
+    }
+
+    currentTilt.current.x = THREE.MathUtils.lerp(
+      currentTilt.current.x,
+      tiltTarget.current.x,
+      0.04
+    );
+    currentTilt.current.z = THREE.MathUtils.lerp(
+      currentTilt.current.z,
+      tiltTarget.current.z,
+      0.04
+    );
+    groupRef.current.rotation.x = currentTilt.current.x;
+    groupRef.current.rotation.z = currentTilt.current.z;
   });
 
   return (
     <group ref={groupRef}>
-      <primitive object={fbx} />
+      <primitive object={scene} />
     </group>
   );
 }
 
-function GoldRimLight({ hovered }: { hovered: boolean }) {
-  const ref = useRef<THREE.SpotLight>(null);
+function Lights({ hovered }: { hovered: boolean }) {
+  const keyRef = useRef<THREE.SpotLight>(null);
+  const rimRef = useRef<THREE.SpotLight>(null);
 
   useFrame(() => {
-    if (ref.current) {
-      ref.current.intensity = THREE.MathUtils.lerp(
-        ref.current.intensity,
-        hovered ? 2.0 : 1.2,
+    if (keyRef.current) {
+      keyRef.current.intensity = THREE.MathUtils.lerp(
+        keyRef.current.intensity,
+        hovered ? 2.2 : 1.2,
+        0.05
+      );
+    }
+    if (rimRef.current) {
+      rimRef.current.intensity = THREE.MathUtils.lerp(
+        rimRef.current.intensity,
+        hovered ? 1.0 : 0.4,
         0.05
       );
     }
   });
 
   return (
-    <spotLight
-      ref={ref}
-      position={[5, 8, 5]}
-      intensity={1.2}
-      angle={0.5}
-      penumbra={0.8}
-      color="#c9a227"
-      castShadow
-    />
+    <>
+      <ambientLight intensity={0.4} />
+      <spotLight
+        ref={keyRef}
+        position={[5, 8, 5]}
+        intensity={1.2}
+        angle={0.5}
+        penumbra={0.8}
+        color="#c9a227"
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+      />
+      <spotLight
+        ref={rimRef}
+        position={[-5, 4, -4]}
+        intensity={0.4}
+        angle={0.6}
+        penumbra={1}
+        color="#6699ff"
+      />
+      <directionalLight position={[0, 6, 2]} intensity={0.5} color="#fff8ee" />
+      <pointLight position={[3, -1, 3]} intensity={0.2} color="#c9a227" />
+    </>
   );
 }
 
 function Loader() {
   const ref = useRef<THREE.Mesh>(null);
   useFrame((_, delta) => {
-    if (ref.current) ref.current.rotation.y += delta * 2;
+    if (ref.current) {
+      ref.current.rotation.y += delta * 2;
+      ref.current.rotation.x += delta * 0.5;
+    }
   });
   return (
     <mesh ref={ref}>
-      <octahedronGeometry args={[0.3, 0]} />
+      <octahedronGeometry args={[0.35, 0]} />
       <meshStandardMaterial color="#c9a227" wireframe />
     </mesh>
   );
 }
 
-function Scene({ hovered }: { hovered: boolean }) {
+function SceneContent({ hovered }: { hovered: boolean }) {
   const { gl } = useThree();
 
   useEffect(() => {
@@ -127,35 +149,26 @@ function Scene({ hovered }: { hovered: boolean }) {
 
   return (
     <>
-      <ambientLight intensity={0.35} />
-      <GoldRimLight hovered={hovered} />
-      <spotLight
-        position={[-4, 3, -3]}
-        intensity={0.5}
-        angle={0.6}
-        penumbra={1}
-        color="#4488ff"
-      />
-      <directionalLight position={[0, 5, 0]} intensity={0.4} color="#fff5e0" />
+      <Lights hovered={hovered} />
 
       <Suspense fallback={<Loader />}>
         <DroneModel hovered={hovered} />
       </Suspense>
 
       <ContactShadows
-        position={[0, -1.2, 0]}
-        opacity={0.35}
-        scale={8}
+        position={[0, -1.3, 0]}
+        opacity={0.3}
+        scale={10}
         blur={2.5}
-        far={4}
+        far={5}
       />
 
       <OrbitControls
         enableZoom={false}
         enablePan={false}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 2.2}
-        rotateSpeed={0.5}
+        minPolarAngle={Math.PI / 5}
+        maxPolarAngle={Math.PI / 2.1}
+        rotateSpeed={0.6}
         dampingFactor={0.08}
         enableDamping
       />
@@ -174,15 +187,20 @@ export function DroneViewer() {
       className="drone-canvas-wrap"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onTouchStart={onEnter}
+      onTouchEnd={onLeave}
     >
       <Canvas
-        camera={{ position: [4, 2.5, 4], fov: 40 }}
-        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [4.5, 2.5, 4.5], fov: 38 }}
+        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent" }}
         dpr={[1, 2]}
+        shadows
       >
-        <Scene hovered={hovered} />
+        <SceneContent hovered={hovered} />
       </Canvas>
     </div>
   );
 }
+
+useGLTF.preload("/models/drone.glb");
