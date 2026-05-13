@@ -147,7 +147,7 @@ export default async function AdminHomePage() {
                   <div className="flex items-center gap-3">
                     <div
                       className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
-                      style={{ background: "var(--accent)", color: "#0a0a0a" }}
+                      style={{ background: "var(--accent)", color: "#fff" }}
                     >
                       {((u.display_name as string) ?? "?").slice(0, 1).toUpperCase()}
                     </div>

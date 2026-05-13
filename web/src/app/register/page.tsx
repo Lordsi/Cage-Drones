@@ -50,7 +50,7 @@ export default function RegisterPage() {
       style={{ background: "var(--deep)" }}
     >
       <Link href="/" className="mb-10 flex items-center gap-2">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold" style={{ background: "var(--accent)", color: "#0a0a0a" }}>C</div>
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold" style={{ background: "var(--accent)", color: "#fff" }}>C</div>
         <span className="text-xl font-bold">
           CAGE<span style={{ color: "var(--accent)" }}> Portal</span>
         </span>

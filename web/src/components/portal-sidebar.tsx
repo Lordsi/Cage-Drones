@@ -55,7 +55,7 @@ export function PortalSidebar({
       style={{ background: "var(--surface)", borderColor: "var(--border)" }}
     >
       <div className="mb-8 flex items-center gap-2 px-1">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold" style={{ background: "var(--accent)", color: "#0a0a0a" }}>C</div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold" style={{ background: "var(--accent)", color: "#fff" }}>C</div>
         <div>
           <div className="text-sm font-bold leading-tight">CAGE Portal</div>
         </div>
@@ -103,7 +103,7 @@ export function PortalSidebar({
         <div className="mb-2 flex items-center gap-3 px-1">
           <div
             className="flex h-[34px] w-[34px] items-center justify-center rounded-full text-sm font-bold"
-            style={{ background: "var(--accent)", color: "#0a0a0a" }}
+            style={{ background: "var(--accent)", color: "#fff" }}
           >
             {displayName.slice(0, 1).toUpperCase()}
           </div>

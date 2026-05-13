@@ -105,7 +105,7 @@ function Lights({ hovered }: { hovered: boolean }) {
         intensity={1.2}
         angle={0.5}
         penumbra={0.8}
-        color="#c9a227"
+        color="#00adef"
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
@@ -119,7 +119,7 @@ function Lights({ hovered }: { hovered: boolean }) {
         color="#6699ff"
       />
       <directionalLight position={[0, 6, 2]} intensity={0.5} color="#fff8ee" />
-      <pointLight position={[3, -1, 3]} intensity={0.2} color="#c9a227" />
+      <pointLight position={[3, -1, 3]} intensity={0.2} color="#00adef" />
     </>
   );
 }
@@ -135,7 +135,7 @@ function Loader() {
   return (
     <mesh ref={ref}>
       <octahedronGeometry args={[0.35, 0]} />
-      <meshStandardMaterial color="#c9a227" wireframe />
+      <meshStandardMaterial color="#00adef" wireframe />
     </mesh>
   );
 }
