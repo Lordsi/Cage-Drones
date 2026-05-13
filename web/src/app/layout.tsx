@@ -3,9 +3,9 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CAGE Drones & Data | Malawi Drone & Geospatial",
+  title: "CAGE Drones & Data | Malawi's Leading Drone & Geospatial Solutions",
   description:
-    "Aerial surveys, precision agriculture, RPL pilot licensing, advanced training, and geospatial intelligence — built for Malawi.",
+    "High-precision aerial mapping, crop intelligence, drone spraying, RPL pilot licensing, and geospatial analytics — in collaboration with TACE at LUANAR.",
 };
 
 const themeInit = `

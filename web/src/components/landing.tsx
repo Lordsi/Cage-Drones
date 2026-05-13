@@ -1,497 +1,374 @@
 import Link from "next/link";
 import {
-  Map,
-  Zap,
-  Users,
-  Sprout,
-  Award,
-  GraduationCap,
-  Database,
-  Radar,
-  TrendingUp,
-  Eye,
-  ChevronRight,
   Menu,
   X,
+  ArrowRight,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const NAV = [
   { label: "Services", href: "#services" },
-  { label: "Why us", href: "#why" },
-  { label: "Clients", href: "#clients" },
+  { label: "Experience", href: "#experience" },
+  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
 const SERVICES = [
   {
-    icon: Map,
-    title: "Aerial mapping",
-    desc: "Orthomosaics, 3D models, DSM & DTM at engineering-grade accuracy.",
+    title: "Aerial Mapping & Surveys",
+    desc: "High-accuracy orthomosaics, 3D models, DSM/DTM, contour maps, and CAD/GIS-ready datasets using RTK-enabled platforms and LiDAR payloads.",
   },
   {
-    icon: Sprout,
-    title: "Precision agriculture",
-    desc: "NDVI/NDRE/NDWI crop health mapping and autonomous drone spraying.",
+    title: "Precision Agriculture",
+    desc: "NDVI, NDRE, and NDWI crop health analysis plus drone-based spraying of fertilizers, herbicides, and pesticides using the DJI Agras T50.",
   },
   {
-    icon: Award,
-    title: "Pilot licensing (RPL)",
-    desc: "MCAA-compliant Remote Pilot Licenses in partnership with SH Aviation.",
+    title: "Remote Pilot Licensing",
+    desc: "MCAA-compliant RPL training — air law, meteorology, navigation, flight planning, and practical operations. In partnership with SH Aviation.",
   },
   {
-    icon: GraduationCap,
-    title: "Advanced training",
-    desc: "EVLOS/BVLOS, RTK/PPK workflows, Pix4D & DJI Terra field courses.",
+    title: "Advanced Training",
+    desc: "Industry-specific courses: EVLOS/BVLOS operations, RTK/PPK workflows, multispectral & thermal analysis, Pix4D and DJI Terra data processing.",
   },
   {
-    icon: Zap,
-    title: "STEM education",
-    desc: "Hands-on coding and drone fundamentals for young Malawian learners.",
+    title: "STEM Education",
+    desc: "Hands-on programs introducing young learners to coding fundamentals, drone safety, flight control, and real-world UAV applications.",
   },
   {
-    icon: Database,
     title: "GeoPortal",
-    desc: "National geospatial data platform — centralized, secure & coming soon.",
+    desc: "A national-level geospatial data platform with secure, role-based access integrating drone-collected data for evidence-based decisions. Coming soon.",
   },
 ];
 
-const WHY = [
+const EXPERIENCE = [
   {
-    title: "Precision",
-    desc: "Engineering-grade accuracy aligned with global standards.",
-    icon: Radar,
+    client: "Illovo Sugar Malawi",
+    scope: "RPL Training & DJI M350 RTK Familiarization",
+    detail: "17 staff trained for Remote Pilot Licenses. Hands-on DJI Matrice 350 RTK training at Nchalo and Dwangwa estates — land mapping, crop scouting, terrain modeling.",
   },
   {
-    title: "Cost-effective",
-    desc: "Reduce fieldwork and labor costs through data-driven operations.",
-    icon: TrendingUp,
+    client: "UNICEF Malawi",
+    scope: "Flood Resilience Mapping — Rukuru River",
+    detail: "~19,700 hectares of high-resolution aerial mapping. 5 cm orthomosaics, DSM/DTM generation, and GIS-integrated flood modeling support.",
   },
   {
-    title: "Expertise",
-    desc: "Certified pilots, GIS analysts, engineers, and scientists.",
-    icon: Users,
+    client: "SMEC",
+    scope: "Lower Domasi Dam Feasibility Study",
+    detail: "~1,207 hectares surveyed using DJI M300 RTK + LiDAR. Deliverables: 4.56 cm orthomosaics, digital elevation models, 0.5m contour mapping.",
   },
   {
-    title: "Safety",
-    desc: "Remote capture in hazardous or hard-to-reach environments.",
-    icon: Eye,
+    client: "ESCOM Malawi",
+    scope: "Drone Training & Utility Mapping",
+    detail: "48 engineers across a 3-week RPL program and 1-week advanced mapping course. LiDAR corridor modeling, thermal applications, RTK data integration.",
   },
   {
-    title: "Speed",
-    desc: "Fast turnaround with scalable, high-efficiency drone fleets.",
-    icon: Zap,
+    client: "Waterboard — Southern Regions",
+    scope: "Thermal Leak Detection Training",
+    detail: "Specialized drone training for Blantyre and Southern Region Waterboards using thermal drones to detect water leakages in infrastructure.",
+  },
+  {
+    client: "Paramount Holdings / Salima Sugar",
+    scope: "Precision Aerial Spraying",
+    detail: "Estate-scale precision spraying of urea fertilizer on sugarcane using the DJI Agras T50. Accurate application rates and uniform coverage.",
   },
 ];
 
 const CLIENTS = [
-  "UNICEF",
-  "World Bank",
-  "ESCOM",
-  "Illovo Sugar",
-  "SH Aviation",
-  "Swoop Aero",
-  "TACE",
-  "MRA",
-  "Malawi Govt",
-  "LUANAR",
-  "ARISE",
-  "GLOBHE",
-  "Twilio",
-  "TG Enterprises",
-  "Wellcome Programme",
-  "PRIDE",
+  "Illovo Sugar", "UNICEF", "ESCOM", "SMEC", "LUANAR", "TACE",
+  "VEI Netherlands", "Paramount Holdings", "Salima Sugar Factory",
+  "Waterboard MW", "SH Aviation", "World Bank", "Swoop Aero",
+  "MRA", "Malawi Govt", "ARISE", "GLOBHE", "Wellcome Programme",
 ];
 
 const STATS = [
-  { value: "120+", label: "Surveys completed" },
-  { value: "50,000+", label: "Hectares mapped" },
+  { value: "120+", label: "Surveys" },
+  { value: "50k+", label: "Hectares mapped" },
   { value: "80+", label: "Pilots trained" },
-  { value: "20+", label: "Enterprise clients" },
+  { value: "20+", label: "Clients" },
 ] as const;
+
+const TEAM = [
+  "Ndapile Mkuwu",
+  "Comfort Mwenje",
+  "Ian Mtika",
+  "Alexander Dc Mtambo",
+  "Mayamiko Ndala",
+];
+
+const TECH = [
+  "DJI Matrice 300 RTK", "DJI Mavic 3 Multispectral", "DJI Mavic 3 Enterprise",
+  "DJI Mavic 3 Thermal", "DJI Agras T50", "Zenmuse L1 LiDAR",
+  "Pix4Dmapper", "Pix4Dfields", "DJI Terra", "QGIS", "AutoCAD",
+];
 
 export function Landing() {
   return (
-    <div
-      className="min-h-screen overflow-x-hidden text-[var(--text)]"
-      style={{ background: "var(--deep)" }}
-    >
-      <header
-        className="sticky top-0 z-[100] border-b border-[var(--border)] backdrop-blur-xl"
-        style={{ background: "var(--header-bg)" }}
-      >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          <a href="#" className="flex shrink-0 items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl shadow-[0_6px_24px_var(--accent-glow)]"
-              style={{ background: "var(--accent)" }}
-            >
-              <Radar size={22} className="text-[#0a0a0a]" aria-hidden />
-            </div>
-            <div className="leading-tight">
-              <span className="display block text-lg font-semibold tracking-tight sm:text-xl">
-                CAGE<span className="text-[var(--accent)]"> Drones</span>
-              </span>
-              <span className="hidden text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--muted)] sm:block">
-                &amp; Data
-              </span>
-            </div>
+    <div className="landing">
+      {/* ── Header ── */}
+      <header className="landing-header">
+        <div className="landing-container landing-header-inner">
+          <a href="#" className="landing-logo">
+            <span className="landing-logo-mark">C</span>
+            <span className="landing-logo-text">
+              CAGE <span className="accent">Drones & Data</span>
+            </span>
           </a>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          <nav className="landing-nav-desktop" aria-label="Primary">
             {NAV.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-[var(--muted2)] transition-colors hover:bg-[color-mix(in_srgb,var(--text)_6%,transparent)] hover:text-[var(--text)]"
-              >
+              <a key={item.href} href={item.href} className="landing-nav-link">
                 {item.label}
               </a>
             ))}
             <ThemeToggle />
-            <Link
-              href="/register"
-              className="ml-2 inline-flex items-center rounded-xl border border-[var(--border)] px-4 py-2.5 text-sm font-medium text-[var(--muted2)] transition-colors hover-accent-dim hover:text-[var(--text)]"
-            >
-              Register
-            </Link>
-            <Link
-              href="/login"
-              className="btn-primary ml-2 inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm"
-            >
+            <Link href="/login" className="landing-nav-signin">
               Sign in
-              <ChevronRight size={16} aria-hidden />
             </Link>
           </nav>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="landing-nav-mobile">
             <ThemeToggle />
-            <Link
-              href="/register"
-              className="rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--muted2)]"
-            >
-              Register
-            </Link>
-            <Link
-              href="/login"
-              className="btn-primary rounded-lg px-3 py-2 text-xs font-semibold"
-            >
+            <Link href="/login" className="landing-nav-signin">
               Sign in
             </Link>
-            <details className="landing-mobile-nav relative">
-              <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--muted2)] transition-colors hover-accent-dim hover:text-[var(--text)] [&::-webkit-details-marker]:hidden">
+            <details className="landing-mobile-nav">
+              <summary className="landing-menu-btn">
                 <Menu size={20} className="landing-nav-menu" aria-hidden />
                 <X size={20} className="landing-nav-close" aria-hidden />
                 <span className="sr-only">Menu</span>
               </summary>
-              <div
-                className="absolute right-0 top-full z-50 mt-2 w-[min(100vw-2rem,280px)] rounded-xl border border-[var(--border)] p-2 shadow-2xl"
-                style={{ background: "var(--surface)" }}
-              >
+              <div className="landing-mobile-dropdown">
                 {NAV.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="block rounded-lg px-4 py-3 text-sm font-medium text-[var(--muted2)] hover:bg-[color-mix(in_srgb,var(--text)_6%,transparent)] hover:text-[var(--text)]"
-                  >
+                  <a key={item.href} href={item.href} className="landing-mobile-link">
                     {item.label}
                   </a>
                 ))}
+                <Link href="/register" className="landing-mobile-link">
+                  Register
+                </Link>
               </div>
             </details>
           </div>
         </div>
       </header>
 
-      <section
-        className="mesh-hero relative isolate flex min-h-[min(92vh,880px)] flex-col justify-center overflow-hidden px-4 pb-20 pt-12 sm:px-6 sm:pt-16 lg:pb-28"
-        aria-labelledby="hero-heading"
-      >
-        <div
-          className="landing-glow-orb -right-20 top-1/4 h-[380px] w-[380px] opacity-[0.35] sm:right-0"
-          style={{ background: "var(--accent-glow)" }}
-          aria-hidden
-        />
-        <div
-          className="landing-glow-orb -left-32 bottom-0 h-[280px] w-[280px] opacity-25"
-          style={{ background: "color-mix(in srgb, var(--accent) 40%, transparent)" }}
-          aria-hidden
-        />
-
-        <div className="relative mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[1fr_minmax(0,420px)] lg:items-center lg:gap-16">
-          <div>
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--accent)_35%,var(--border))] bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] px-4 py-1.5 font-body text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-              Malawi&apos;s drone &amp; geospatial partner
-            </p>
-            <h1
-              id="hero-heading"
-              className="display mb-6 max-w-[20ch] text-4xl font-semibold leading-[1.12] tracking-tight sm:max-w-none sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem]"
+      {/* ── Hero ── */}
+      <section className="landing-hero" aria-labelledby="hero-heading">
+        <div className="landing-container">
+          <p className="landing-eyebrow">Precision Drone Solutions — Malawi</p>
+          <h1 id="hero-heading" className="landing-h1">
+            Aerial intelligence<br />
+            from sky to insight
+          </h1>
+          <p className="landing-hero-sub">
+            High-precision mapping, crop intelligence, and professional drone services
+            for agriculture, infrastructure, and environmental monitoring. In technical
+            collaboration with{" "}
+            <a
+              href="https://www.luanar.ac.mw/tace/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="landing-inline-link"
             >
-              Fly smarter.{" "}
-              <span className="text-gradient-accent">Map better.</span>
-              <br />
-              Grow faster.
-            </h1>
-            <p className="mb-10 max-w-xl text-base leading-relaxed text-[var(--muted2)] sm:text-lg">
-              End-to-end aerial surveys, precision agriculture, pilot licensing, and
-              geospatial intelligence — built for Malawi, scaled for southern Africa.
-            </p>
-            <div className="flex flex-wrap gap-3 sm:gap-4">
-              <a
-                href="#contact"
-                className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base shadow-[0_8px_28px_var(--accent-glow)]"
-              >
-                Get a quote
-                <ChevronRight size={18} aria-hidden />
-              </a>
-              <Link
-                href="/login"
-                className="btn-outline inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base"
-              >
-                Sign in
-              </Link>
-            </div>
+              TACE at LUANAR
+            </a>.
+          </p>
+          <div className="landing-hero-actions">
+            <a href="#contact" className="landing-btn-primary">
+              Get a quote <ArrowRight size={16} aria-hidden />
+            </a>
+            <Link href="/register" className="landing-btn-secondary">
+              Create account
+            </Link>
           </div>
 
-          <div className="relative lg:justify-self-end">
-            <div
-              className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 sm:p-8"
-              style={{
-                boxShadow:
-                  "0 24px 64px rgba(0,0,0,.12), inset 0 1px 0 color-mix(in srgb, var(--text) 6%, transparent)",
-              }}
-            >
-              <div
-                className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full blur-3xl"
-                style={{ background: "color-mix(in srgb, var(--accent) 18%, transparent)" }}
-                aria-hidden
-              />
-              <p className="relative mb-6 font-body text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-                Impact at a glance
-              </p>
-              <dl className="relative grid grid-cols-2 gap-5 sm:gap-6">
-                {STATS.map((s) => (
-                  <div
-                    key={s.label}
-                    className="rounded-xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_88%,var(--accent)_12%)] px-4 py-4 sm:px-5 sm:py-5"
-                  >
-                    <dt className="sr-only">{s.label}</dt>
-                    <dd className="display text-2xl font-semibold text-[var(--accent)] sm:text-3xl">
-                      {s.value}
-                    </dd>
-                    <dd className="mt-1 text-xs font-medium leading-snug text-[var(--muted2)] sm:text-sm">
-                      {s.label}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="relative mt-6 border-t border-[var(--border)] pt-6 text-sm leading-relaxed text-[var(--muted2)]">
-                From humanitarian mapping to commercial pipelines — one team for capture,
-                processing, and insight.
-              </p>
-            </div>
+          <dl className="landing-stats">
+            {STATS.map((s) => (
+              <div key={s.label} className="landing-stat">
+                <dd className="landing-stat-value">{s.value}</dd>
+                <dt className="landing-stat-label">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ── Services ── */}
+      <section id="services" className="landing-section">
+        <div className="landing-container">
+          <p className="landing-eyebrow">Services</p>
+          <h2 className="landing-h2">What we do</h2>
+          <div className="landing-services-grid">
+            {SERVICES.map((s, i) => (
+              <div key={s.title} className="landing-service">
+                <span className="landing-service-num">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="landing-service-title">{s.title}</h3>
+                <p className="landing-service-desc">{s.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section
-        id="services"
-        className="scroll-mt-20 border-t border-[var(--border)] px-4 py-20 sm:px-6 sm:py-28"
-        style={{
-          background:
-            "linear-gradient(180deg, var(--deep) 0%, rgba(11,18,35,.5) 50%, var(--deep) 100%)",
-        }}
-      >
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-14 max-w-2xl">
-            <p className="mb-3 font-body text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-              What we do
-            </p>
-            <h2 className="display text-3xl font-semibold tracking-tight sm:text-4xl">
-              Services across the full aerial stack
-            </h2>
-            <p className="mt-4 text-[var(--muted2)]">
-              Survey-grade capture, agronomic analytics, regulated training, and platforms
-              — coordinated under one roof.
-            </p>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            {SERVICES.map((s) => (
-              <article key={s.title} className="card-service rounded-2xl p-6 sm:p-7">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--accent)_28%,var(--border))] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]">
-                  <s.icon size={22} className="text-[var(--accent)]" strokeWidth={1.5} aria-hidden />
+      {/* ── Experience ── */}
+      <section id="experience" className="landing-section landing-section-alt">
+        <div className="landing-container">
+          <p className="landing-eyebrow">Track record</p>
+          <h2 className="landing-h2">Selected projects</h2>
+          <div className="landing-experience-list">
+            {EXPERIENCE.map((e) => (
+              <article key={e.scope} className="landing-exp-item">
+                <div className="landing-exp-left">
+                  <span className="landing-exp-client">{e.client}</span>
+                  <h3 className="landing-exp-scope">{e.scope}</h3>
                 </div>
-                <h3 className="display mb-2 text-lg font-semibold">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--muted2)]">{s.desc}</p>
+                <p className="landing-exp-detail">{e.detail}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section
-        id="why"
-        className="scroll-mt-20 border-t border-[var(--border)] px-4 py-20 sm:px-6 sm:py-28"
-        style={{ background: "var(--surface)" }}
-      >
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-14 text-center">
-            <p className="mb-3 font-body text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-              Why CAGE
-            </p>
-            <h2 className="display text-3xl font-semibold tracking-tight sm:text-4xl">
-              Built for real-world operations
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-[var(--muted2)]">
-              We combine aviation discipline, GIS rigor, and local context so your projects
-              land on time and on spec.
-            </p>
-          </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {WHY.map((w) => (
-              <li
-                key={w.title}
-                className="flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 text-center transition-colors hover-accent-dim"
-              >
-                <div
-                  className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--accent)_22%,var(--border))] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]"
-                  aria-hidden
-                >
-                  <w.icon size={22} className="text-[var(--accent)]" strokeWidth={1.5} />
-                </div>
-                <span className="display text-base font-semibold">{w.title}</span>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--muted2)]">{w.desc}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section
-        id="clients"
-        className="scroll-mt-20 border-y border-[var(--border)] px-4 py-16 sm:px-6 sm:py-20"
-        style={{ background: "var(--deep)" }}
-      >
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-10 text-center">
-            <p className="font-body text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-              Trusted by
-            </p>
-            <h2 className="display mt-2 text-xl font-semibold text-[var(--text)] sm:text-2xl">
-              Institutions &amp; enterprises across the region
-            </h2>
-          </div>
-          <ul className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
-            {CLIENTS.map((name) => (
-              <li key={name}>
-                <span className="inline-flex rounded-lg border border-[var(--border)] bg-[var(--card)] px-3.5 py-2 font-body text-[11px] font-medium uppercase tracking-wider text-[var(--muted2)] sm:text-xs">
-                  {name}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section
-        id="contact"
-        className="scroll-mt-20 relative overflow-hidden px-4 py-20 sm:px-6 sm:py-24"
-      >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_100%,var(--accent-glow),transparent)]"
-          aria-hidden
-        />
-        <div className="relative mx-auto max-w-2xl text-center">
-          <h2 className="display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Ready to take flight?
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-[var(--muted2)]">
-            Whether you need aerial surveys, precision ag data, or drone training — CAGE
-            delivers from sky to screen.
+      {/* ── Technology ── */}
+      <section className="landing-section">
+        <div className="landing-container">
+          <p className="landing-eyebrow">Technology</p>
+          <h2 className="landing-h2">Platforms & tools</h2>
+          <p className="landing-body" style={{ maxWidth: "42rem" }}>
+            We deploy a curated portfolio of aerial platforms, sensors, and analytical
+            software — selected for reliability, scalability, and compliance with
+            professional operational standards.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3 sm:gap-4">
+          <div className="landing-tech-list">
+            {TECH.map((t) => (
+              <span key={t} className="landing-tech-tag">{t}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── About / Why / Team ── */}
+      <section id="about" className="landing-section landing-section-alt">
+        <div className="landing-container">
+          <div className="landing-about-grid">
+            <div>
+              <p className="landing-eyebrow">About</p>
+              <h2 className="landing-h2">Why CAGE</h2>
+              <div className="landing-about-points">
+                <div>
+                  <h4 className="landing-point-title">Precision</h4>
+                  <p className="landing-point-desc">Engineering-grade accuracy aligned with global surveying standards.</p>
+                </div>
+                <div>
+                  <h4 className="landing-point-title">Cost-effective</h4>
+                  <p className="landing-point-desc">Reduced fieldwork and labor costs through efficient, data-driven operations.</p>
+                </div>
+                <div>
+                  <h4 className="landing-point-title">Expertise</h4>
+                  <p className="landing-point-desc">Certified pilots, GIS analysts, engineers, agronomists, and accredited RPL instructors.</p>
+                </div>
+                <div>
+                  <h4 className="landing-point-title">Safety</h4>
+                  <p className="landing-point-desc">Remote data capture in hazardous or hard-to-reach environments, minimizing risk.</p>
+                </div>
+                <div>
+                  <h4 className="landing-point-title">Speed</h4>
+                  <p className="landing-point-desc">Fast turnaround with scalable, high-efficiency drone fleet deployments.</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p className="landing-eyebrow">Vision</p>
+              <p className="landing-body">
+                To become southern Africa&apos;s leading drone implementation partner — known
+                for regulatory excellence, hands-on training, and scalable innovation from
+                enterprise to education.
+              </p>
+
+              <p className="landing-eyebrow" style={{ marginTop: "2.5rem" }}>Mission</p>
+              <p className="landing-body">
+                To equip Malawi&apos;s public and private sectors with the tools, knowledge,
+                and operational structure needed to deploy drone technology safely,
+                profitably, and at scale.
+              </p>
+
+              <p className="landing-eyebrow" style={{ marginTop: "2.5rem" }}>Team</p>
+              <ul className="landing-team-list">
+                {TEAM.map((name) => (
+                  <li key={name} className="landing-team-name">{name}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Clients ── */}
+      <section className="landing-section">
+        <div className="landing-container">
+          <p className="landing-eyebrow">Clients</p>
+          <h2 className="landing-h2">Trusted by</h2>
+          <div className="landing-clients-wrap">
+            {CLIENTS.map((name) => (
+              <span key={name} className="landing-client-name">{name}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact CTA ── */}
+      <section id="contact" className="landing-section landing-section-alt">
+        <div className="landing-container landing-contact">
+          <h2 className="landing-h2">Ready to take flight?</h2>
+          <p className="landing-body" style={{ maxWidth: "36rem" }}>
+            Whether you need aerial surveys, precision agriculture data, or drone
+            training — share your sector and timeline and we&apos;ll connect you with
+            the right team.
+          </p>
+          <div className="landing-hero-actions">
             <a
               href="https://www.cagemw.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary inline-flex items-center gap-2 rounded-xl px-8 py-3.5"
+              className="landing-btn-primary"
             >
-              Contact via website
-              <ChevronRight size={18} aria-hidden />
+              Contact via website <ArrowRight size={16} aria-hidden />
             </a>
-            <Link href="/login" className="btn-outline inline-flex rounded-xl px-8 py-3.5">
+            <Link href="/login" className="landing-btn-secondary">
               Sign in
             </Link>
           </div>
-          <p className="mt-6 text-sm text-[var(--muted)]">
-            Share your sector and timeline on the main site — we&apos;ll connect you with
-            the right team.
-          </p>
         </div>
       </section>
 
-      <footer
-        className="border-t border-[var(--border)] px-4 py-12 sm:px-6"
-        style={{ background: "var(--surface)" }}
-      >
-        <div className="mx-auto grid max-w-6xl gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2">
-              <div
-                className="flex h-9 w-9 items-center justify-center rounded-lg"
-                style={{ background: "var(--accent)" }}
-              >
-                <Radar size={18} className="text-[#0a0a0a]" aria-hidden />
-              </div>
-              <span className="display text-lg font-semibold">CAGE Drones &amp; Data</span>
-            </div>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted2)]">
-              Aerial intelligence and training from Malawi — surveys, agriculture, licensing,
-              and education.
+      {/* ── Footer ── */}
+      <footer className="landing-footer">
+        <div className="landing-container landing-footer-inner">
+          <div className="landing-footer-left">
+            <span className="landing-footer-brand">CAGE Drones & Data</span>
+            <p className="landing-footer-desc">
+              Malawi&apos;s leading drone and geospatial solutions provider. Operating
+              in full compliance with the Malawi Civil Aviation Authority.
             </p>
           </div>
-          <div>
-            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-widest text-[var(--muted)]">
-              Navigate
-            </p>
-            <ul className="space-y-2 text-sm text-[var(--muted2)]">
-              {NAV.map((item) => (
-                <li key={item.href}>
-                  <a href={item.href} className="transition-colors hover:text-[var(--accent)]">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-              <li>
-                <Link href="/register" className="transition-colors hover:text-[var(--accent)]">
-                  Register
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="transition-colors hover:text-[var(--accent)]">
-                  Sign in
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-widest text-[var(--muted)]">
-              Online
-            </p>
-            <p className="text-sm text-[var(--muted2)]">
-              <a
-                href="https://www.cagemw.com"
-                className="text-[var(--text)] underline-offset-4 transition-colors hover:text-[var(--accent)] hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                www.cagemw.com
-              </a>
-            </p>
-          </div>
-        </div>
-        <div className="mx-auto mt-10 flex max-w-6xl flex-col items-start justify-between gap-4 border-t border-[var(--border)] pt-8 text-sm text-[var(--muted)] sm:flex-row sm:items-center">
-          <span>© {new Date().getFullYear()} CAGE MW. All rights reserved.</span>
+          <nav className="landing-footer-nav">
+            {NAV.map((item) => (
+              <a key={item.href} href={item.href}>{item.label}</a>
+            ))}
+            <Link href="/register">Register</Link>
+            <Link href="/login">Sign in</Link>
+            <a
+              href="https://www.cagemw.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              cagemw.com
+            </a>
+          </nav>
+          <p className="landing-footer-copy">
+            © {new Date().getFullYear()} CAGE MW. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
