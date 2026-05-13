@@ -137,15 +137,15 @@ body {
   gap: 0.25rem;
 }
 
-@media (min-width: 768px) {
-  .landing-nav-desktop { display: flex; }
-  .landing-nav-mobile { display: none; }
-}
-
 .landing-nav-mobile {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .landing-nav-desktop { display: flex; }
+  .landing-nav-mobile { display: none !important; }
 }
 
 .landing-nav-link {
