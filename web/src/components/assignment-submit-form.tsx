@@ -1,16 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ensureSubmissionRow, finalizeSubmission } from "@/app/actions/assignments";
 
 export function AssignmentSubmitForm({
   assignmentId,
   userId,
+  resubmit,
 }: {
   assignmentId: string;
   userId: string;
+  resubmit?: boolean;
 }) {
+  const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -33,8 +37,9 @@ export function AssignmentSubmitForm({
         .upload(path, file, { upsert: true });
       if (upErr) throw upErr;
       await finalizeSubmission(assignmentId, path);
-      setMsg("Submitted.");
+      setMsg(resubmit ? "Resubmitted!" : "Submitted!");
       e.currentTarget.reset();
+      router.refresh();
     } catch (err: unknown) {
       setMsg(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -56,7 +61,11 @@ export function AssignmentSubmitForm({
         disabled={busy}
         className="btn-primary rounded-lg px-4 py-2 text-xs disabled:opacity-60"
       >
-        {busy ? "Uploading…" : "Submit"}
+        {busy
+          ? "Uploading…"
+          : resubmit
+            ? "Resubmit"
+            : "Submit"}
       </button>
       {msg ? (
         <span className="text-xs" style={{ color: "var(--muted2)" }}>

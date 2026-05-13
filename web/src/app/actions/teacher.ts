@@ -103,6 +103,46 @@ export async function enrollStudent(formData: FormData) {
   });
   if (error) throw new Error(error.message);
   revalidatePath(`/teacher/courses/${courseId}`);
+  revalidatePath(`/teacher/courses/${courseId}/students`);
+}
+
+export async function enrollStudentByEmail(formData: FormData) {
+  const { supabase } = await requireStaff();
+  const courseId = String(formData.get("course_id") ?? "");
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  if (!courseId || !email) throw new Error("Course and email required");
+
+  const { data: userId, error: lookupErr } = await supabase.rpc("lookup_user_by_email", {
+    p_email: email,
+  });
+  if (lookupErr) throw new Error(lookupErr.message);
+  if (!userId) throw new Error(`No user found with email: ${email}`);
+
+  const { error } = await supabase.from("enrollments").insert({
+    course_id: courseId,
+    user_id: userId,
+  });
+  if (error) {
+    if (error.code === "23505") throw new Error("Student is already enrolled");
+    throw new Error(error.message);
+  }
+  revalidatePath(`/teacher/courses/${courseId}`);
+  revalidatePath(`/teacher/courses/${courseId}/students`);
+}
+
+export async function unenrollStudent(formData: FormData) {
+  const { supabase } = await requireStaff();
+  const courseId = String(formData.get("course_id") ?? "");
+  const userId = String(formData.get("user_id") ?? "");
+  if (!courseId || !userId) throw new Error("Missing fields");
+  const { error } = await supabase
+    .from("enrollments")
+    .delete()
+    .eq("course_id", courseId)
+    .eq("user_id", userId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/teacher/courses/${courseId}`);
+  revalidatePath(`/teacher/courses/${courseId}/students`);
 }
 
 export async function createAssignment(formData: FormData) {
@@ -121,6 +161,7 @@ export async function createAssignment(formData: FormData) {
   });
   if (error) throw new Error(error.message);
   revalidatePath(`/teacher/courses/${courseId}`);
+  revalidatePath(`/teacher/courses/${courseId}/assignments`);
   revalidatePath("/portal/assignments");
 }
 
@@ -144,6 +185,19 @@ export async function createResource(formData: FormData) {
   });
   if (error) throw new Error(error.message);
   revalidatePath(`/teacher/courses/${courseId}`);
+  revalidatePath(`/teacher/courses/${courseId}/resources`);
+  revalidatePath("/portal/resources");
+}
+
+export async function deleteResource(formData: FormData) {
+  const { supabase } = await requireStaff();
+  const resourceId = String(formData.get("resource_id") ?? "");
+  const courseId = String(formData.get("course_id") ?? "");
+  if (!resourceId) throw new Error("Missing resource ID");
+  const { error } = await supabase.from("resources").delete().eq("id", resourceId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/teacher/courses/${courseId}`);
+  revalidatePath(`/teacher/courses/${courseId}/resources`);
   revalidatePath("/portal/resources");
 }
 

@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import {
-  createAssignment,
-  createResource,
-  createExam,
-  enrollStudent,
-  createAnnouncement,
-} from "@/app/actions/teacher";
-import { gradeSubmission } from "@/app/actions/assignments";
+import { createExam, createAnnouncement } from "@/app/actions/teacher";
 
 export default async function TeacherCoursePage({
   params,
@@ -17,6 +10,7 @@ export default async function TeacherCoursePage({
 }) {
   const { courseId } = await params;
   const supabase = await createClient();
+
   const { data: course, error } = await supabase
     .from("courses")
     .select("id, title")
@@ -24,27 +18,51 @@ export default async function TeacherCoursePage({
     .single();
   if (error || !course) notFound();
 
+  const { count: enrolledCount } = await supabase
+    .from("enrollments")
+    .select("*", { count: "exact", head: true })
+    .eq("course_id", courseId);
+
   const { data: exams } = await supabase
     .from("exams")
-    .select("id, title, published, duration_minutes")
+    .select("id, title, published")
     .eq("course_id", courseId)
     .order("created_at", { ascending: false });
 
-  const { data: enrollments } = await supabase
-    .from("enrollments")
-    .select("user_id, profiles ( display_name )")
-    .eq("course_id", courseId);
+  const publishedExamCount = (exams ?? []).filter(
+    (e) => e.published as boolean,
+  ).length;
 
   const { data: assignments } = await supabase
     .from("assignments")
-    .select("id, title, due_at")
-    .eq("course_id", courseId)
-    .order("due_at", { ascending: true });
-
-  const { data: resources } = await supabase
-    .from("resources")
-    .select("id, title, resource_type, storage_path, external_url")
+    .select("id")
     .eq("course_id", courseId);
+  const assignmentIds = (assignments ?? []).map((a) => a.id as string);
+
+  const { data: submissions } = assignmentIds.length
+    ? await supabase
+        .from("assignment_submissions")
+        .select("status")
+        .in("assignment_id", assignmentIds)
+    : { data: [] as { status: unknown }[] };
+
+  const pendingCount = (submissions ?? []).filter(
+    (s) => (s.status as string) === "submitted",
+  ).length;
+
+  const examIds = (exams ?? []).map((e) => e.id as string);
+  const { data: attempts } = examIds.length
+    ? await supabase
+        .from("exam_attempts")
+        .select("score_percent")
+        .in("exam_id", examIds)
+        .not("submitted_at", "is", null)
+    : { data: [] as { score_percent: unknown }[] };
+  const scores = (attempts ?? []).map((a) => a.score_percent as number);
+  const avgScore =
+    scores.length > 0
+      ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+      : null;
 
   const { data: announcements } = await supabase
     .from("announcements")
@@ -52,61 +70,185 @@ export default async function TeacherCoursePage({
     .eq("course_id", courseId)
     .order("pinned", { ascending: false })
     .order("created_at", { ascending: false })
-    .limit(25);
+    .limit(10);
 
-  const assignmentIds = (assignments ?? []).map((a) => a.id as string);
-  const { data: submissions } = assignmentIds.length
-    ? await supabase
-        .from("assignment_submissions")
-        .select("id, assignment_id, user_id, status, grade, file_path")
-        .in("assignment_id", assignmentIds)
-    : { data: [] as Record<string, unknown>[] };
-
-  const titleByAssignment = new Map(
-    (assignments ?? []).map((a) => [a.id as string, a.title as string]),
-  );
+  const quickLinks = [
+    { href: `/teacher/courses/${courseId}/students`, label: "Students" },
+    { href: `/teacher/courses/${courseId}/assignments`, label: "Assignments" },
+    { href: `/teacher/courses/${courseId}/gradebook`, label: "Gradebook" },
+    { href: `/teacher/courses/${courseId}/resources`, label: "Resources" },
+  ];
 
   return (
     <div>
-      <Link href="/teacher" className="mb-6 inline-block text-sm" style={{ color: "var(--cyan)" }}>
-        ← All courses
-      </Link>
-      <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="display text-2xl font-extrabold">{course.title}</h1>
-        <Link
-          href={`/teacher/courses/${courseId}/gradebook`}
-          className="btn-outline rounded-lg px-4 py-2 text-sm"
-        >
-          Gradebook
-        </Link>
+      <h1 className="display text-2xl font-extrabold">{course.title as string}</h1>
+      <p className="mt-1 text-sm" style={{ color: "var(--muted2)" }}>
+        Course overview and quick actions
+      </p>
+
+      {/* Stats */}
+      <div
+        className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border sm:grid-cols-4"
+        style={{ borderColor: "var(--border)" }}
+      >
+        {[
+          { label: "Students", value: enrolledCount ?? 0 },
+          { label: "Avg. score", value: avgScore != null ? `${avgScore}%` : "—" },
+          { label: "Pending submissions", value: pendingCount },
+          { label: "Published exams", value: publishedExamCount },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="px-4 py-3"
+            style={{ background: "var(--surface)" }}
+          >
+            <div
+              className="text-[0.6rem] font-semibold uppercase tracking-widest"
+              style={{ color: "var(--muted)" }}
+            >
+              {stat.label}
+            </div>
+            <div className="mt-1 text-lg font-bold">{stat.value}</div>
+          </div>
+        ))}
       </div>
 
-      <section className="card mb-8 rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Announcements</h2>
-        <p className="mb-4 text-xs" style={{ color: "var(--muted2)" }}>
-          Shown on the student portal dashboard (like a school bulletin).
-        </p>
-        <ul className="mb-6 max-h-48 space-y-2 overflow-y-auto text-sm" style={{ color: "var(--muted2)" }}>
-          {(announcements ?? []).map((n) => (
-            <li key={n.id as string} className="border-b pb-2" style={{ borderColor: "var(--border)" }}>
-              {(n.pinned as boolean) ? <span className="badge badge-orange mr-2">Pinned</span> : null}
-              <span className="font-medium text-[var(--text)]">{n.title as string}</span>
-              <span className="ml-2 text-xs">
-                {new Date(n.created_at as string).toLocaleString()}
+      {/* Quick links */}
+      <div className="mt-6 flex flex-wrap gap-2">
+        {quickLinks.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            style={{
+              borderColor: "var(--border)",
+              background: "var(--surface)",
+            }}
+          >
+            {l.label}
+          </Link>
+        ))}
+      </div>
+
+      {/* Exams */}
+      <section className="mt-10 border-t pt-8" style={{ borderColor: "var(--border)" }}>
+        <h2
+          className="text-[0.65rem] font-semibold uppercase tracking-widest"
+          style={{ color: "var(--muted)" }}
+        >
+          Exams
+        </h2>
+        <ul className="mt-3 space-y-2 text-sm">
+          {(exams ?? []).map((ex) => (
+            <li key={ex.id as string} className="flex items-center gap-3">
+              <Link
+                href={`/teacher/courses/${courseId}/exams/${ex.id as string}`}
+                className="font-medium hover:text-[var(--accent)]"
+              >
+                {ex.title as string}
+              </Link>
+              <span
+                className={`badge ${(ex.published as boolean) ? "badge-green" : "badge-orange"}`}
+              >
+                {(ex.published as boolean) ? "Published" : "Draft"}
               </span>
-              {n.body ? (
-                <div className="mt-1 whitespace-pre-wrap text-xs">{n.body as string}</div>
-              ) : null}
             </li>
           ))}
         </ul>
-        <form action={createAnnouncement} className="flex flex-col gap-2 border-t pt-4" style={{ borderColor: "var(--border)" }}>
+        <form action={createExam} className="mt-4 flex flex-wrap items-end gap-2">
+          <input type="hidden" name="course_id" value={courseId} />
+          <input
+            name="title"
+            required
+            placeholder="New exam title"
+            className="flex-1 rounded-md border px-3 py-2 text-sm"
+            style={{
+              background: "var(--surface)",
+              borderColor: "var(--border)",
+              color: "var(--text)",
+            }}
+          />
+          <input
+            name="duration_minutes"
+            type="number"
+            min={1}
+            defaultValue={30}
+            className="w-20 rounded-md border px-3 py-2 text-sm"
+            style={{
+              background: "var(--surface)",
+              borderColor: "var(--border)",
+              color: "var(--text)",
+            }}
+            title="Duration (min)"
+          />
+          <input
+            name="pass_percent"
+            type="number"
+            min={0}
+            max={100}
+            defaultValue={70}
+            className="w-20 rounded-md border px-3 py-2 text-sm"
+            style={{
+              background: "var(--surface)",
+              borderColor: "var(--border)",
+              color: "var(--text)",
+            }}
+            title="Pass %"
+          />
+          <button
+            type="submit"
+            className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+          >
+            Create exam
+          </button>
+        </form>
+      </section>
+
+      {/* Announcements */}
+      <section className="mt-10 border-t pt-8" style={{ borderColor: "var(--border)" }}>
+        <h2
+          className="text-[0.65rem] font-semibold uppercase tracking-widest"
+          style={{ color: "var(--muted)" }}
+        >
+          Announcements
+        </h2>
+        <ul className="mt-3 max-h-60 space-y-3 overflow-y-auto text-sm">
+          {(announcements ?? []).map((n) => (
+            <li
+              key={n.id as string}
+              className="border-b pb-3"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <div className="flex items-center gap-2">
+                {(n.pinned as boolean) && (
+                  <span className="badge badge-orange">Pinned</span>
+                )}
+                <span className="font-medium">{n.title as string}</span>
+                <span className="text-xs" style={{ color: "var(--muted)" }}>
+                  {new Date(n.created_at as string).toLocaleDateString()}
+                </span>
+              </div>
+              {n.body && (
+                <p
+                  className="mt-1 whitespace-pre-wrap text-xs"
+                  style={{ color: "var(--muted2)" }}
+                >
+                  {n.body as string}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+        <form
+          action={createAnnouncement}
+          className="mt-4 flex flex-col gap-2"
+        >
           <input type="hidden" name="course_id" value={courseId} />
           <input
             name="title"
             required
             placeholder="Headline"
-            className="rounded-lg border px-3 py-2 text-sm"
+            className="rounded-md border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
               borderColor: "var(--border)",
@@ -115,305 +257,31 @@ export default async function TeacherCoursePage({
           />
           <textarea
             name="body"
-            placeholder="Message to students"
-            rows={3}
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <label className="flex items-center gap-2 text-sm" style={{ color: "var(--muted2)" }}>
-            <input type="checkbox" name="pinned" />
-            Pin to top
-          </label>
-          <button type="submit" className="btn-primary w-fit rounded-lg px-4 py-2 text-sm">
-            Post announcement
-          </button>
-        </form>
-      </section>
-
-      <section className="card mb-8 rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Enroll student</h2>
-        <p className="mb-3 text-xs" style={{ color: "var(--muted2)" }}>
-          Paste the student&apos;s Supabase Auth user UUID (from Authentication → Users in the
-          Supabase dashboard).
-        </p>
-        <form action={enrollStudent} className="flex flex-wrap gap-2">
-          <input type="hidden" name="course_id" value={courseId} />
-          <input
-            name="user_id"
-            required
-            placeholder="Student UUID"
-            className="min-w-[280px] flex-1 rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <button type="submit" className="btn-primary rounded-lg px-4 py-2 text-sm">
-            Enroll
-          </button>
-        </form>
-        <ul className="mt-4 space-y-1 text-sm" style={{ color: "var(--muted2)" }}>
-          {(enrollments ?? []).map((e) => {
-            const raw = e.profiles as unknown;
-            const p = (Array.isArray(raw) ? raw[0] : raw) as {
-              display_name: string;
-            } | null;
-            return (
-              <li key={e.user_id as string}>
-                {p?.display_name ?? "Student"} · <code className="text-xs">{e.user_id as string}</code>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-
-      <section className="card mb-8 rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Exams</h2>
-        <ul className="mb-4 space-y-2">
-          {(exams ?? []).map((ex) => (
-            <li key={ex.id}>
-              <Link
-                href={`/teacher/courses/${courseId}/exams/${ex.id}`}
-                className="text-sm underline"
-                style={{ color: "var(--cyan)" }}
-              >
-                {ex.title as string}
-              </Link>
-              <span className="ml-2 text-xs" style={{ color: "var(--muted)" }}>
-                {(ex.published as boolean) ? "published" : "draft"} · {ex.duration_minutes as number} min
-              </span>
-            </li>
-          ))}
-        </ul>
-        <form action={createExam} className="flex flex-col gap-2 border-t pt-4" style={{ borderColor: "var(--border)" }}>
-          <input type="hidden" name="course_id" value={courseId} />
-          <input
-            name="title"
-            required
-            placeholder="New exam title"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <div className="flex gap-2">
-            <input
-              name="duration_minutes"
-              type="number"
-              min={1}
-              defaultValue={30}
-              className="w-28 rounded-lg border px-3 py-2 text-sm"
-              style={{
-                background: "var(--surface)",
-                borderColor: "var(--border)",
-                color: "var(--text)",
-              }}
-            />
-            <input
-              name="pass_percent"
-              type="number"
-              min={0}
-              max={100}
-              defaultValue={70}
-              className="w-28 rounded-lg border px-3 py-2 text-sm"
-              style={{
-                background: "var(--surface)",
-                borderColor: "var(--border)",
-                color: "var(--text)",
-              }}
-            />
-          </div>
-          <button type="submit" className="btn-primary w-fit rounded-lg px-4 py-2 text-sm">
-            Create exam & edit questions
-          </button>
-        </form>
-      </section>
-
-      <section className="card mb-8 rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Assignments</h2>
-        <ul className="mb-4 text-sm" style={{ color: "var(--muted2)" }}>
-          {(assignments ?? []).map((a) => (
-            <li key={a.id}>
-              {a.title as string}
-              {a.due_at ? ` · due ${new Date(a.due_at as string).toLocaleString()}` : ""}
-            </li>
-          ))}
-        </ul>
-        <form action={createAssignment} className="flex flex-col gap-2">
-          <input type="hidden" name="course_id" value={courseId} />
-          <input
-            name="title"
-            required
-            placeholder="Assignment title"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <textarea
-            name="instructions"
-            placeholder="Instructions"
+            placeholder="Message body (optional)"
             rows={2}
-            className="rounded-lg border px-3 py-2 text-sm"
+            className="rounded-md border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
               borderColor: "var(--border)",
               color: "var(--text)",
             }}
           />
-          <input
-            name="due_at"
-            type="datetime-local"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <button type="submit" className="btn-primary w-fit rounded-lg px-4 py-2 text-sm">
-            Add assignment
-          </button>
+          <div className="flex items-center gap-4">
+            <label
+              className="flex items-center gap-2 text-sm"
+              style={{ color: "var(--muted2)" }}
+            >
+              <input type="checkbox" name="pinned" />
+              Pin to top
+            </label>
+            <button
+              type="submit"
+              className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+            >
+              Post
+            </button>
+          </div>
         </form>
-      </section>
-
-      <section className="card mb-8 rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Resources</h2>
-        <ul className="mb-4 text-sm" style={{ color: "var(--muted2)" }}>
-          {(resources ?? []).map((r) => (
-            <li key={r.id}>
-              {r.title as string} · {(r.resource_type as string).toUpperCase()}
-              {r.storage_path ? ` · ${r.storage_path as string}` : ""}
-            </li>
-          ))}
-        </ul>
-        <form action={createResource} className="flex flex-col gap-2">
-          <input type="hidden" name="course_id" value={courseId} />
-          <input
-            name="title"
-            required
-            placeholder="Resource title"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <select
-            name="resource_type"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          >
-            <option value="pdf">PDF</option>
-            <option value="video">Video</option>
-            <option value="link">Link</option>
-          </select>
-          <input
-            name="storage_path"
-            placeholder="Storage path in course-resources bucket (e.g. course-id/file.pdf)"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <input
-            name="external_url"
-            placeholder="Or external URL"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <input
-            name="meta"
-            placeholder="Meta (e.g. file size)"
-            className="rounded-lg border px-3 py-2 text-sm"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <button type="submit" className="btn-primary w-fit rounded-lg px-4 py-2 text-sm">
-            Add resource
-          </button>
-        </form>
-      </section>
-
-      <section className="card rounded-2xl p-6">
-        <h2 className="display mb-4 text-lg font-bold">Submissions</h2>
-        <div className="space-y-4">
-          {(submissions ?? []).length === 0 ? (
-            <p className="text-sm" style={{ color: "var(--muted2)" }}>
-              No submissions yet.
-            </p>
-          ) : (
-            (submissions ?? []).map((s) => {
-              const title =
-                titleByAssignment.get(s.assignment_id as string) ?? "Assignment";
-              return (
-                <div
-                  key={s.id as string}
-                  className="border-b pb-4 text-sm"
-                  style={{ borderColor: "var(--border)" }}
-                >
-                  <div className="font-medium">{title}</div>
-                  <div className="text-xs" style={{ color: "var(--muted)" }}>
-                    {(s.status as string) ?? ""} · {(s.file_path as string) ?? "—"}
-                  </div>
-                  {(s.status as string) === "submitted" ? (
-                    <form action={gradeSubmission} className="mt-2 flex flex-wrap gap-2">
-                      <input type="hidden" name="submission_id" value={s.id as string} />
-                      <input type="hidden" name="assignment_id" value={s.assignment_id as string} />
-                      <input type="hidden" name="course_id" value={courseId} />
-                      <input
-                        name="grade"
-                        placeholder="Grade (e.g. A)"
-                        className="w-24 rounded border px-2 py-1 text-xs"
-                        style={{
-                          background: "var(--surface)",
-                          borderColor: "var(--border)",
-                          color: "var(--text)",
-                        }}
-                      />
-                      <input
-                        name="feedback"
-                        placeholder="Feedback"
-                        className="min-w-[200px] flex-1 rounded border px-2 py-1 text-xs"
-                        style={{
-                          background: "var(--surface)",
-                          borderColor: "var(--border)",
-                          color: "var(--text)",
-                        }}
-                      />
-                      <button type="submit" className="btn-primary rounded px-3 py-1 text-xs">
-                        Grade
-                      </button>
-                    </form>
-                  ) : null}
-                </div>
-              );
-            })
-          )}
-        </div>
       </section>
     </div>
   );

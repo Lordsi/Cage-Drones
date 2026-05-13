@@ -25,11 +25,12 @@ export default async function ExamAttemptPage({
 
   const { data: exam } = await supabase
     .from("exams")
-    .select("title")
+    .select("title, pass_percent")
     .eq("id", attempt.exam_id as string)
     .single();
 
   const title = (exam?.title as string) ?? "Exam";
+  const passPercent = (exam?.pass_percent as number) ?? 70;
 
   if (attempt.submitted_at) {
     const { data: review, error: revErr } = await supabase.rpc("rpc_student_exam_review", {
@@ -47,6 +48,7 @@ export default async function ExamAttemptPage({
       <ExamReview
         examTitle={title}
         score={(attempt.score_percent as number) ?? 0}
+        passPercent={passPercent}
         rows={rows}
       />
     );

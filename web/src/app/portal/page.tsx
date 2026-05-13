@@ -250,20 +250,21 @@ export default async function PortalDashboardPage() {
           <h2 className="display mb-4 text-lg font-bold">My courses</h2>
           {(enrollments ?? []).length === 0 ? (
             <p className="text-sm" style={{ color: "var(--muted2)" }}>
-              You are not enrolled in any course yet. Ask your instructor to add your account ID to
-              a course.
+              You are not enrolled in any course yet. Ask your instructor to
+              enroll you using your email address.
             </p>
           ) : (
             <ul className="space-y-3">
               {(enrollments ?? []).map((e) => {
                 const raw = e.courses as unknown;
                 const c = (Array.isArray(raw) ? raw[0] : raw) as {
+                  id: string;
                   title: string;
                 } | null;
                 return (
                   <li
                     key={e.course_id}
-                    className="rounded-lg border px-4 py-3 text-sm font-medium"
+                    className="rounded-lg border px-4 py-3 text-sm font-medium transition-colors hover:border-[var(--cyan)]"
                     style={{ borderColor: "var(--border)" }}
                   >
                     {c?.title ?? "Course"}
