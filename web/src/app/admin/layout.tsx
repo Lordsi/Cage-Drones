@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Home } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/profile";
 
@@ -34,6 +35,16 @@ export default async function AdminLayout({
           <span className="truncate text-sm font-bold">CAGE Admin</span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4">
+          <Link
+            href="/"
+            className="flex items-center gap-1 text-xs sm:text-sm"
+            style={{ color: "var(--muted2)" }}
+            title="Back to site"
+          >
+            <Home size={14} aria-hidden />
+            <span className="hidden sm:inline">Back to site</span>
+            <span className="sm:hidden">Site</span>
+          </Link>
           <Link
             href="/teacher"
             className="text-xs sm:text-sm"

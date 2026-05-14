@@ -14,6 +14,7 @@ import {
   Shield,
   Menu,
   X,
+  ExternalLink,
 } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import type { UserRole } from "@/lib/profile";
@@ -171,6 +172,13 @@ export function TeacherSidebar({
       </div>
 
       <div className="border-t p-3" style={{ borderColor: "var(--border)" }}>
+        <Link
+          href="/"
+          className="mb-2 flex items-center gap-2 rounded-md px-3 py-1.5 text-sm text-[var(--muted2)] transition-colors hover:text-[var(--text)]"
+        >
+          <ExternalLink size={14} />
+          Back to site
+        </Link>
         <div className="mb-2 flex items-center gap-2 px-1">
           <div
             className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"

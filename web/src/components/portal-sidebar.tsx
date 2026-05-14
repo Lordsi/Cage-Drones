@@ -14,6 +14,7 @@ import {
   School,
   Menu,
   X,
+  ExternalLink,
 } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import type { UserRole } from "@/lib/profile";
@@ -121,6 +122,11 @@ export function PortalSidebar({
       </nav>
 
       <div className="mt-auto">
+        <div className="divider my-3" />
+        <Link href="/" className="sb-link">
+          <ExternalLink size={16} />
+          <span className="text-sm">Back to site</span>
+        </Link>
         <div className="divider my-3" />
         <div className="mb-2 flex items-center gap-3 px-1">
           <div
