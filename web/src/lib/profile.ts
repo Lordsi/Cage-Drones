@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 export type UserRole = "student" | "instructor" | "admin";
 
@@ -25,6 +25,26 @@ export async function getProfile(
 
 export function isStaff(role: UserRole) {
   return role === "instructor" || role === "admin";
+}
+
+/**
+ * For students only: confirms the user is still on the allow-list. Staff
+ * (instructor/admin) bypass and always return true. Returns false if the
+ * user has no email on file or the lookup fails.
+ */
+export async function isStudentStillAllowed(
+  supabase: SupabaseClient,
+  user: User,
+  role: UserRole,
+): Promise<boolean> {
+  if (role !== "student") return true;
+  const email = user.email?.trim().toLowerCase() ?? "";
+  if (!email) return false;
+  const { data, error } = await supabase.rpc("email_is_allowlisted", {
+    p_email: email,
+  });
+  if (error) return false;
+  return data === true;
 }
 
 /** Default landing path after sign-in by app role */

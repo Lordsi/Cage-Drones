@@ -10,6 +10,7 @@ import {
   Shield,
   School,
   UserPlus,
+  ListChecks,
 } from "lucide-react";
 
 export default async function AdminHomePage() {
@@ -22,6 +23,7 @@ export default async function AdminHomePage() {
     { count: assignmentCount },
     { count: enrollmentCount },
     { count: resourceCount },
+    { count: allowlistCount },
     { data: roleCounts },
     { data: recentUsers },
   ] = await Promise.all([
@@ -31,6 +33,7 @@ export default async function AdminHomePage() {
     supabase.from("assignments").select("*", { count: "exact", head: true }),
     supabase.from("enrollments").select("*", { count: "exact", head: true }),
     supabase.from("resources").select("*", { count: "exact", head: true }),
+    supabase.from("student_allowlist").select("*", { count: "exact", head: true }),
     supabase
       .from("profiles")
       .select("role")
@@ -51,6 +54,7 @@ export default async function AdminHomePage() {
 
   const stats = [
     { label: "Total users", value: userCount ?? 0, icon: Users },
+    { label: "Allow-listed", value: allowlistCount ?? 0, icon: ListChecks },
     { label: "Courses", value: courseCount ?? 0, icon: BookOpen },
     { label: "Exams", value: examCount ?? 0, icon: FileText },
     { label: "Assignments", value: assignmentCount ?? 0, icon: GraduationCap },
@@ -70,7 +74,7 @@ export default async function AdminHomePage() {
       </div>
 
       {/* Stats grid */}
-      <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
         {stats.map((s) => (
           <div
             key={s.label}
@@ -190,6 +194,22 @@ export default async function AdminHomePage() {
               <div className="text-sm font-semibold">Manage users & roles</div>
               <div className="text-xs" style={{ color: "var(--muted2)" }}>
                 Assign student, teacher, or admin roles
+              </div>
+            </div>
+            <ArrowRight size={16} style={{ color: "var(--muted)" }} className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
+
+          <Link
+            href="/admin/allowlist"
+            className="card group flex items-center gap-4 rounded-xl px-5 py-4 transition"
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--yellow) 10%, transparent)" }}>
+              <ListChecks size={18} style={{ color: "var(--yellow)" }} />
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-semibold">Student allow-list</div>
+              <div className="text-xs" style={{ color: "var(--muted2)" }}>
+                Control which emails can register or stay signed in as students
               </div>
             </div>
             <ArrowRight size={16} style={{ color: "var(--muted)" }} className="transition-transform group-hover:translate-x-0.5" />
