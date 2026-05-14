@@ -3,9 +3,17 @@ import {
   Menu,
   X,
   ArrowRight,
+  LayoutDashboard,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { DroneScene } from "@/components/drone-scene";
+import { signOut } from "@/app/actions/auth";
+
+export type LandingAuth = {
+  displayName: string;
+  roleLabel: string;
+  dashboardHref: string;
+};
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -102,7 +110,7 @@ const TECH = [
   "Pix4Dmapper", "Pix4Dfields", "DJI Terra", "QGIS", "AutoCAD",
 ];
 
-export function Landing() {
+export function Landing({ auth = null }: { auth?: LandingAuth | null }) {
   return (
     <div className="landing">
       {/* ── Header ── */}
@@ -122,16 +130,37 @@ export function Landing() {
               </a>
             ))}
             <ThemeToggle />
-            <Link href="/login" className="landing-nav-signin">
-              Sign in
-            </Link>
+            {auth ? (
+              <>
+                <form action={signOut} className="landing-nav-signout-form">
+                  <button type="submit" className="landing-nav-link landing-nav-signout">
+                    Sign out
+                  </button>
+                </form>
+                <Link href={auth.dashboardHref} className="landing-nav-signin">
+                  <LayoutDashboard size={14} aria-hidden />
+                  <span>Dashboard</span>
+                </Link>
+              </>
+            ) : (
+              <Link href="/login" className="landing-nav-signin">
+                Sign in
+              </Link>
+            )}
           </nav>
 
           <div className="landing-nav-mobile">
             <ThemeToggle />
-            <Link href="/login" className="landing-nav-signin">
-              Sign in
-            </Link>
+            {auth ? (
+              <Link href={auth.dashboardHref} className="landing-nav-signin">
+                <LayoutDashboard size={14} aria-hidden />
+                <span>Dashboard</span>
+              </Link>
+            ) : (
+              <Link href="/login" className="landing-nav-signin">
+                Sign in
+              </Link>
+            )}
             <details className="landing-mobile-nav">
               <summary className="landing-menu-btn">
                 <Menu size={20} className="landing-nav-menu" aria-hidden />
@@ -144,9 +173,26 @@ export function Landing() {
                     {item.label}
                   </a>
                 ))}
-                <Link href="/register" className="landing-mobile-link">
-                  Register
-                </Link>
+                {auth ? (
+                  <>
+                    <Link href={auth.dashboardHref} className="landing-mobile-link">
+                      Go to dashboard
+                    </Link>
+                    <form action={signOut}>
+                      <button
+                        type="submit"
+                        className="landing-mobile-link"
+                        style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer" }}
+                      >
+                        Sign out
+                      </button>
+                    </form>
+                  </>
+                ) : (
+                  <Link href="/register" className="landing-mobile-link">
+                    Register
+                  </Link>
+                )}
               </div>
             </details>
           </div>
@@ -180,10 +226,24 @@ export function Landing() {
                 <a href="#contact" className="landing-btn-primary">
                   Get a quote <ArrowRight size={16} aria-hidden />
                 </a>
-                <Link href="/register" className="landing-btn-secondary">
-                  Create account
-                </Link>
+                {auth ? (
+                  <Link href={auth.dashboardHref} className="landing-btn-secondary">
+                    Go to dashboard <ArrowRight size={16} aria-hidden />
+                  </Link>
+                ) : (
+                  <Link href="/register" className="landing-btn-secondary">
+                    Create account
+                  </Link>
+                )}
               </div>
+              {auth ? (
+                <p
+                  className="landing-body"
+                  style={{ marginTop: "1.25rem", fontSize: "0.85rem" }}
+                >
+                  Signed in as <strong>{auth.displayName}</strong> · {auth.roleLabel}
+                </p>
+              ) : null}
             </div>
 
             <div className="landing-hero-model">
@@ -344,9 +404,15 @@ export function Landing() {
             >
               Contact via website <ArrowRight size={16} aria-hidden />
             </a>
-            <Link href="/login" className="landing-btn-secondary">
-              Sign in
-            </Link>
+            {auth ? (
+              <Link href={auth.dashboardHref} className="landing-btn-secondary">
+                Go to dashboard <ArrowRight size={16} aria-hidden />
+              </Link>
+            ) : (
+              <Link href="/login" className="landing-btn-secondary">
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       </section>
@@ -365,8 +431,14 @@ export function Landing() {
             {NAV.map((item) => (
               <a key={item.href} href={item.href}>{item.label}</a>
             ))}
-            <Link href="/register">Register</Link>
-            <Link href="/login">Sign in</Link>
+            {auth ? (
+              <Link href={auth.dashboardHref}>Dashboard</Link>
+            ) : (
+              <>
+                <Link href="/register">Register</Link>
+                <Link href="/login">Sign in</Link>
+              </>
+            )}
             <a
               href="https://www.cagemw.com"
               target="_blank"
