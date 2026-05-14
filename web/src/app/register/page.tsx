@@ -28,7 +28,14 @@ export default function RegisterPage() {
     });
     if (error) {
       setStatus("error");
-      setMessage(error.message);
+      const raw = error.message ?? "";
+      if (/email_not_allowlisted/i.test(raw) || /not allow/i.test(raw)) {
+        setMessage(
+          "This email is not on the student allow-list. Ask your administrator to add it before registering.",
+        );
+      } else {
+        setMessage(raw || "Could not create account.");
+      }
       return;
     }
     if (data.session) {
@@ -58,8 +65,9 @@ export default function RegisterPage() {
       <div className="card w-full max-w-md rounded-xl p-8">
         <h1 className="mb-2 text-2xl font-bold">Create account</h1>
         <p className="mb-6 text-sm" style={{ color: "var(--muted2)" }}>
-          New accounts are <strong>students</strong> by default. An admin can change your role to Teacher
-          or Admin in Administration → Users.
+          New accounts are <strong>students</strong> by default and your email must be on the
+          student allow-list — ask an administrator to add it before registering. Roles can be
+          upgraded later in Administration → Users.
         </p>
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <input

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getProfile } from "@/lib/profile";
+import { getProfile, isStudentStillAllowed } from "@/lib/profile";
 import { PortalSidebar } from "@/components/portal-sidebar";
 
 export default async function PortalLayout({
@@ -19,6 +19,11 @@ export default async function PortalLayout({
 
   if (profile.role === "instructor") {
     redirect("/teacher");
+  }
+
+  if (!(await isStudentStillAllowed(supabase, user, profile.role))) {
+    await supabase.auth.signOut();
+    redirect("/login?denied=allowlist");
   }
 
   return (

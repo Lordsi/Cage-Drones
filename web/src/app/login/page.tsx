@@ -1,12 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { homePathForRole, type UserRole } from "@/lib/profile";
 
-export default function LoginPage() {
+function DeniedBanner() {
+  const params = useSearchParams();
+  const denied = params.get("denied");
+  if (denied !== "allowlist") return null;
+  return (
+    <div
+      className="mb-6 rounded-lg border px-4 py-3 text-sm"
+      style={{
+        background: "color-mix(in srgb, var(--orange) 12%, transparent)",
+        borderColor: "color-mix(in srgb, var(--orange) 40%, transparent)",
+        color: "var(--orange)",
+      }}
+      role="alert"
+    >
+      <strong>Access revoked.</strong> Your email is no longer on the student
+      allow-list, so we&apos;ve signed you out. Please contact an administrator
+      if you believe this is a mistake.
+    </div>
+  );
+}
+
+function LoginInner() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,6 +66,7 @@ export default function LoginPage() {
         </span>
       </Link>
       <div className="card w-full max-w-md rounded-xl p-8">
+        <DeniedBanner />
         <h1 className="mb-2 text-2xl font-bold">Sign in</h1>
         <p className="mb-6 text-sm" style={{ color: "var(--muted2)" }}>
           Use your email and password. Admins land on Administration; teachers on the Teacher portal;
@@ -106,5 +128,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginInner />
+    </Suspense>
   );
 }
