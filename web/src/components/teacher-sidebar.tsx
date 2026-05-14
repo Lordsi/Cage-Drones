@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -11,6 +12,8 @@ import {
   FileText,
   LogOut,
   Shield,
+  Menu,
+  X,
 } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import type { UserRole } from "@/lib/profile";
@@ -38,6 +41,20 @@ export function TeacherSidebar({
   role: UserRole;
 }) {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
 
   const courseMatch = pathname.match(/^\/teacher\/courses\/([^/]+)/);
   const activeCourseId = courseMatch?.[1] ?? null;
@@ -45,11 +62,8 @@ export function TeacherSidebar({
     ? courses.find((c) => c.id === activeCourseId)
     : null;
 
-  return (
-    <aside
-      className="sticky top-0 flex h-screen w-[220px] shrink-0 flex-col border-r"
-      style={{ background: "var(--surface)", borderColor: "var(--border)" }}
-    >
+  const content = (
+    <>
       <div className="p-4 pb-2">
         <Link
           href="/teacher"
@@ -178,6 +192,71 @@ export function TeacherSidebar({
           </button>
         </form>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      <header
+        className="sticky top-0 z-40 flex h-14 items-center justify-between border-b px-4 md:hidden"
+        style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+      >
+        <Link href="/teacher" className="flex items-center gap-2">
+          <div
+            className="flex h-7 w-7 items-center justify-center rounded-md text-xs font-bold"
+            style={{ background: "var(--accent)", color: "#fff" }}
+          >
+            C
+          </div>
+          <span className="text-sm font-bold">CAGE Teacher</span>
+        </Link>
+        <button
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded={open}
+          onClick={() => setOpen(true)}
+          className="flex h-9 w-9 items-center justify-center rounded-md"
+          style={{ color: "var(--muted2)" }}
+        >
+          <Menu size={20} />
+        </button>
+      </header>
+
+      {/* Desktop sidebar */}
+      <aside
+        className="sticky top-0 hidden h-screen w-[220px] shrink-0 flex-col border-r md:flex"
+        style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+      >
+        {content}
+      </aside>
+
+      {/* Mobile drawer */}
+      {open ? (
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={() => setOpen(false)}
+            className="absolute inset-0 h-full w-full bg-black/60"
+          />
+          <aside
+            className="absolute inset-y-0 left-0 flex h-full w-[82%] max-w-[300px] flex-col border-r"
+            style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+          >
+            <button
+              type="button"
+              aria-label="Close navigation menu"
+              onClick={() => setOpen(false)}
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-md"
+              style={{ color: "var(--muted2)" }}
+            >
+              <X size={20} />
+            </button>
+            {content}
+          </aside>
+        </div>
+      ) : null}
+    </>
   );
 }
