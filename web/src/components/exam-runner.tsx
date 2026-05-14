@@ -127,43 +127,44 @@ export function ExamRunner({
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "var(--deep)" }}>
       <header
-        className="sticky top-0 z-50 flex h-[60px] items-center justify-between border-b px-8"
+        className="sticky top-0 z-50 flex h-[60px] items-center justify-between gap-3 border-b px-3 sm:px-8"
         style={{ background: "var(--surface)", borderColor: "var(--border)" }}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-4">
           <button
             type="button"
-            className="btn-ghost rounded-md px-3 py-1 text-xs"
+            className="btn-ghost shrink-0 rounded-md px-2 py-1 text-xs sm:px-3"
             onClick={() => {
               if (confirm("Leave exam? Your progress is saved.")) router.push("/portal/exams");
             }}
           >
-            <ChevronLeft size={15} /> Exit
+            <ChevronLeft size={15} />
+            <span className="hidden sm:inline">Exit</span>
           </button>
-          <div className="h-7 w-px" style={{ background: "var(--border)" }} />
-          <span className="text-sm font-bold">{examTitle}</span>
+          <div className="hidden h-7 w-px sm:block" style={{ background: "var(--border)" }} />
+          <span className="truncate text-xs font-bold sm:text-sm">{examTitle}</span>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex shrink-0 items-center gap-3 sm:gap-6">
           <div className="text-center">
             <div
-              className="text-[0.68rem] uppercase tracking-widest"
+              className="hidden text-[0.68rem] uppercase tracking-widest sm:block"
               style={{ color: "var(--muted)" }}
             >
               Progress
             </div>
-            <div className="text-sm font-bold">
+            <div className="text-xs font-bold sm:text-sm">
               {answered}/{total}
             </div>
           </div>
           <div className="text-center">
             <div
-              className="text-[0.68rem] uppercase tracking-widest"
+              className="hidden text-[0.68rem] uppercase tracking-widest sm:block"
               style={{ color: "var(--muted)" }}
             >
               Time left
             </div>
             <div
-              className={`text-lg font-black ${timerDanger ? "timer-danger" : ""}`}
+              className={`text-sm font-black sm:text-lg ${timerDanger ? "timer-danger" : ""}`}
               style={{ color: timerDanger ? "var(--orange)" : "var(--accent)" }}
             >
               <Clock size={12} className="mr-1 inline" />
@@ -178,7 +179,7 @@ export function ExamRunner({
       </div>
 
       <div className="flex flex-1 flex-col md:flex-row">
-        <div className="flex-1 overflow-y-auto p-10">
+        <div className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
           <div className="mx-auto max-w-[700px]">
             <div className="mb-8">
               <span
@@ -238,7 +239,7 @@ export function ExamRunner({
         </div>
 
         <aside
-          className="w-full border-t p-6 md:w-[280px] md:border-l md:border-t-0"
+          className="w-full shrink-0 border-t p-4 sm:p-6 md:w-[280px] md:border-l md:border-t-0"
           style={{ background: "var(--surface)", borderColor: "var(--border)" }}
         >
           <div
@@ -247,7 +248,7 @@ export function ExamRunner({
           >
             Questions
           </div>
-          <div className="mb-6 grid grid-cols-5 gap-1.5">
+          <div className="mb-6 grid grid-cols-8 gap-1.5 sm:grid-cols-10 md:grid-cols-5">
             {sorted.map((_, i) => (
               <button key={i} type="button" className={getQClass(i)} onClick={() => setCurrentQ(i)}>
                 {i + 1}

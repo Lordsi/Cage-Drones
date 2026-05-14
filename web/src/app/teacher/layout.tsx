@@ -22,7 +22,10 @@ export default async function TeacherLayout({
     .order("created_at", { ascending: false });
 
   return (
-    <div className="flex min-h-screen" style={{ background: "var(--deep)" }}>
+    <div
+      className="flex min-h-screen flex-col md:flex-row"
+      style={{ background: "var(--deep)" }}
+    >
       <TeacherSidebar
         courses={(courses ?? []).map((c) => ({
           id: c.id as string,
@@ -31,8 +34,10 @@ export default async function TeacherLayout({
         displayName={profile.display_name}
         role={profile.role}
       />
-      <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-5xl px-8 py-10">{children}</div>
+      <main className="min-w-0 flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 md:px-8 md:py-10">
+          {children}
+        </div>
       </main>
     </div>
   );
