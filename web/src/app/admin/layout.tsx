@@ -37,6 +37,9 @@ export default async function AdminLayout({
             <Link href="/admin/users" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
               Users
             </Link>
+            <Link href="/admin/inquiries" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
+              Inquiries
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-3">

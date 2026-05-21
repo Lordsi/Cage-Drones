@@ -127,11 +127,11 @@ body {
   font-weight: 600;
   font-size: 0.85rem;
   letter-spacing: -0.01em;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .landing-logo-text .accent {
-  color: #94a3b8;
+  color: var(--muted);
   font-weight: 400;
 }
 
@@ -426,7 +426,7 @@ body {
 }
 
 .landing-section-alt {
-  background: var(--surface);
+  background: color-mix(in srgb, var(--accent) 2%, var(--deep));
 }
 
 .landing-h2 {
@@ -461,8 +461,9 @@ body {
 
 .landing-service {
   padding: 2rem;
-  background: #ffffff;
+  background: var(--card);
   border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
   border-radius: 8px;
   transition: border-color 0.2s;
   display: flex;
@@ -471,6 +472,7 @@ body {
 }
 .landing-service:hover {
   border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .landing-service:nth-child(1) { grid-column: span 7; }
@@ -494,7 +496,7 @@ body {
 .landing-service-desc {
   font-size: 0.95rem;
   line-height: 1.65;
-  color: var(--muted);
+  color: var(--muted2);
 }
 
 .landing-service-enroll {
@@ -679,21 +681,22 @@ body {
 
 /* Technical elements */
 .technical-border {
-  border: 1px solid #E2E8F0;
+  border: 1px solid var(--border);
 }
 
 .landing-schedule-card {
-  background: #ffffff;
+  background: var(--card);
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--border);
   margin-top: 2rem;
+  box-shadow: var(--card-shadow);
 }
 
 .landing-schedule-header {
   padding: 1rem 1.5rem;
-  background: #f2f3ff;
-  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--accent) 4%, var(--surface));
+  border-bottom: 2px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -743,8 +746,8 @@ body {
 .landing-footer {
   padding: 3rem 0;
   margin-top: 2rem;
-  background: #283044;
-  color: #e2e8f0;
+  background: var(--nav-dark);
+  color: var(--muted);
 }
 
 .landing-footer-inner {
@@ -772,13 +775,13 @@ body {
 .landing-footer-brand {
   font-weight: 800;
   font-size: 1.5rem;
-  color: #ffffff;
+  color: var(--text);
 }
 
 .landing-footer-desc {
   font-size: 0.88rem;
   line-height: 1.6;
-  color: #94a3b8;
+  color: var(--muted);
   margin-top: 0.5rem;
   max-width: 22rem;
 }
@@ -792,11 +795,11 @@ body {
 .landing-footer-nav a {
   font-size: 0.88rem;
   font-weight: 500;
-  color: #94a3b8;
+  color: var(--muted);
   text-decoration: none;
   transition: color 0.2s;
 }
-.landing-footer-nav a:hover { color: #ffffff; }
+.landing-footer-nav a:hover { color: var(--text); }
 .landing-footer-nav a.highlight {
   color: var(--accent);
   font-weight: 700;
@@ -804,7 +807,7 @@ body {
 
 .landing-footer-copy {
   font-size: 0.82rem;
-  color: #94a3b8;
+  color: var(--muted);
   text-align: center;
 }
 
@@ -875,12 +878,9 @@ body {
 }
 
 .prog-track {
-  background: #f1f5f9;
+  background: color-mix(in srgb, var(--text) 8%, transparent);
   border-radius: 4px;
   overflow: hidden;
-}
-html[data-theme="dark"] .prog-track {
-  background: color-mix(in srgb, var(--text) 10%, transparent);
 }
 .prog-fill {
   height: 100%;

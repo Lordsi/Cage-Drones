@@ -1,9 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   Menu,
   X,
-  ArrowRight,
   Shield,
   Map,
   GraduationCap,
@@ -14,13 +12,15 @@ import {
   Wrench,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LocationMap } from "@/components/location-map";
+import { EnrollmentForm } from "@/components/enrollment-form";
 
 const NAV = [
   { label: "Services", href: "#services" },
   { label: "Training", href: "#training", active: true },
   { label: "Fleet", href: "#technology" },
   { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "#enroll-form" },
 ] as const;
 
 const SERVICES = [
@@ -264,9 +264,9 @@ export function Landing({ auth }: LandingProps) {
                   </div>
                 </div>
               </div>
-              <button className="landing-service-enroll primary">
+              <a href="#enroll-form?course=repl" className="landing-service-enroll primary">
                 Enroll Now — {SERVICES[0].price}
-              </button>
+              </a>
             </div>
 
             {/* Course 2: Mapping — 5 col */}
@@ -291,9 +291,9 @@ export function Landing({ auth }: LandingProps) {
                   </div>
                 </div>
               </div>
-              <button className="landing-service-enroll outline">
+              <a href="#enroll-form?course=mapping" className="landing-service-enroll outline">
                 Enroll Now — {SERVICES[1].price}
-              </button>
+              </a>
             </div>
 
             {/* Course 3: Advanced Inspection — full width */}
@@ -323,9 +323,9 @@ export function Landing({ auth }: LandingProps) {
                     <div className="landing-service-meta mb-1">Program Fee</div>
                     <div className="landing-price-display">{SERVICES[2].price}</div>
                   </div>
-                  <button className="landing-service-enroll dark w-full md:w-auto" style={{ padding: "1rem 3rem" }}>
+                  <a href="#enroll-form?course=inspection" className="landing-service-enroll dark w-full md:w-auto" style={{ padding: "1rem 3rem" }}>
                     Secure Enrollment
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -342,7 +342,7 @@ export function Landing({ auth }: LandingProps) {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead style={{ background: "#f2f3ff" }}>
+                <thead style={{ background: "var(--surface)" }}>
                   <tr style={{ borderBottom: "1px solid var(--border)" }}>
                     <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Course ID</th>
                     <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Certification</th>
@@ -363,8 +363,8 @@ export function Landing({ auth }: LandingProps) {
                         <span
                           className="px-2 py-1 rounded text-xs font-bold uppercase"
                           style={{
-                            background: row.status === "open" ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, #ba1a1a 10%, transparent)",
-                            color: row.status === "open" ? "var(--accent)" : "#ba1a1a",
+                            background: row.status === "open" ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, var(--red) 10%, transparent)",
+                            color: row.status === "open" ? "var(--accent)" : "var(--red)",
                           }}
                         >
                           {row.status === "open" ? "Open" : "Waitlist"}
@@ -475,82 +475,40 @@ export function Landing({ auth }: LandingProps) {
       </section>
 
       {/* ── Contact / Initiate Mission Support ── */}
-      <section id="contact" className="landing-section landing-section-alt">
+      <section id="enroll-form" className="landing-section landing-section-alt">
         <div className="landing-container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Contact Form */}
-            <div className="lg:col-span-7 p-8 rounded-lg" style={{ background: "#ffffff", border: "1px solid var(--border)" }}>
-              <p className="landing-eyebrow">Initiate Mission Support</p>
-              <h2 className="landing-h2">Ready to take flight?</h2>
-              <p className="landing-body mb-6">
-                Connect with our flight operations experts and certified instructors.
-              </p>
-              <form className="space-y-6" action="#">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Full Name</label>
-                    <input className="w-full h-12 px-4 border rounded outline-none transition-all" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="John Doe" type="text" />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Work Email</label>
-                    <input className="w-full h-12 px-4 border rounded outline-none transition-all" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="j.doe@enterprise.com" type="email" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Company / Agency</label>
-                    <input className="w-full h-12 px-4 border rounded outline-none transition-all" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="Aerospace Dynamics" type="text" />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Service Interest</label>
-                    <select className="w-full h-12 px-4 border rounded outline-none transition-all appearance-none" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
-                      <option disabled value="">Select a primary interest</option>
-                      <option value="enterprise-fleet">Enterprise Fleet Solutions</option>
-                      <option value="pilot-certification">Pilot Certification Training</option>
-                      <option value="surveillance-ops">Surveillance & Inspection Ops</option>
-                      <option value="custom-integration">Custom Payload Integration</option>
-                      <option value="maintenance">Maintenance & Fleet Support</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Inquiry Details</label>
-                  <textarea className="w-full px-4 py-3 border rounded outline-none transition-all resize-none" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="Please describe your mission requirements or training objectives..." rows={5} />
-                </div>
-                <button className="landing-btn-primary" type="submit">
-                  Transmit Inquiry <ArrowRight size={14} aria-hidden />
-                </button>
-              </form>
+            <div className="lg:col-span-7 p-8 rounded-lg" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+              <EnrollmentForm />
             </div>
 
             {/* Information Sidebar */}
             <aside className="lg:col-span-5 space-y-6">
               {/* Map Card */}
-              <div className="rounded-lg overflow-hidden" style={{ background: "#ffffff", border: "1px solid var(--border)" }}>
-                <div className="h-64 w-full overflow-hidden">
-                  <Image
-                    src="/images/map-hq.jpg"
-                    alt="Headquarters Location"
-                    width={600}
-                    height={300}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              <div className="rounded-lg overflow-hidden" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+                <LocationMap />
                 <div className="p-6">
                   <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--text)" }}>Global Operations HQ</h3>
                   <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
                     Lilongwe, Malawi<br />
                     Area 47 Sector 2
                   </p>
-                  <div className="flex items-center gap-2" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.75rem", fontWeight: 500 }}>
+                  <a
+                    href="https://www.google.com/maps?q=-13.9626,33.7741"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                    style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.75rem", fontWeight: 500 }}
+                  >
                     <MapPin size={14} />
                     <span>GET DIRECTIONS</span>
-                  </div>
+                  </a>
                 </div>
               </div>
 
               {/* Contact Methods */}
-              <div className="rounded-lg p-6 space-y-6" style={{ background: "#ffffff", border: "1px solid var(--border)" }}>
+              <div className="rounded-lg p-6 space-y-6" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
                     <Shield size={20} style={{ color: "var(--accent)" }} />
@@ -573,10 +531,10 @@ export function Landing({ auth }: LandingProps) {
               </div>
 
               {/* Training Center Highlight */}
-              <div className="rounded-lg p-6 relative overflow-hidden" style={{ background: "#283044", color: "#ffffff" }}>
+              <div className="rounded-lg p-6 relative overflow-hidden" style={{ background: "var(--nav-dark)", color: "var(--text)" }}>
                 <div className="relative z-10">
                   <h4 className="text-lg font-semibold mb-2">Technical Training</h4>
-                  <p className="text-sm mb-4" style={{ color: "#94a3b8" }}>
+                  <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
                     Our specialized training facility is open for private academy sessions and corporate certifications.
                   </p>
                   <Link href="/login" className="landing-btn-primary" style={{ display: "inline-flex" }}>

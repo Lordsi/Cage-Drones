@@ -11,6 +11,7 @@ import {
   School,
   UserPlus,
   CheckCircle2,
+  Inbox,
 } from "lucide-react";
 
 export default async function AdminHomePage() {
@@ -199,6 +200,22 @@ export default async function AdminHomePage() {
           Quick Actions
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Link
+            href="/admin/inquiries"
+            className="card group flex items-center gap-4 p-5 transition"
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--orange) 10%, transparent)" }}>
+              <Inbox size={18} style={{ color: "var(--orange)" }} strokeWidth={1.5} />
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>Enrollment Inquiries</div>
+              <div className="text-xs" style={{ color: "var(--muted)" }}>
+                Review and action enrollment applications
+              </div>
+            </div>
+            <ArrowRight size={16} style={{ color: "var(--muted)" }} className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
+
           <Link
             href="/admin/users"
             className="card group flex items-center gap-4 p-5 transition"
