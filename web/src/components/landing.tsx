@@ -14,6 +14,7 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocationMap } from "@/components/location-map";
 import { EnrollmentForm } from "@/components/enrollment-form";
+import { EnrollButton } from "@/components/enroll-button";
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -264,9 +265,9 @@ export function Landing({ auth }: LandingProps) {
                   </div>
                 </div>
               </div>
-              <a href="#enroll-form?course=repl" className="landing-service-enroll primary">
+              <EnrollButton course="repl" className="landing-service-enroll primary">
                 Enroll Now — {SERVICES[0].price}
-              </a>
+              </EnrollButton>
             </div>
 
             {/* Course 2: Mapping — 5 col */}
@@ -291,9 +292,9 @@ export function Landing({ auth }: LandingProps) {
                   </div>
                 </div>
               </div>
-              <a href="#enroll-form?course=mapping" className="landing-service-enroll outline">
+              <EnrollButton course="mapping" className="landing-service-enroll outline">
                 Enroll Now — {SERVICES[1].price}
-              </a>
+              </EnrollButton>
             </div>
 
             {/* Course 3: Advanced Inspection — full width */}
@@ -323,9 +324,9 @@ export function Landing({ auth }: LandingProps) {
                     <div className="landing-service-meta mb-1">Program Fee</div>
                     <div className="landing-price-display">{SERVICES[2].price}</div>
                   </div>
-                  <a href="#enroll-form?course=inspection" className="landing-service-enroll dark w-full md:w-auto" style={{ padding: "1rem 3rem" }}>
+                  <EnrollButton course="inspection" className="landing-service-enroll dark w-full md:w-auto" style={{ padding: "1rem 3rem" }}>
                     Secure Enrollment
-                  </a>
+                  </EnrollButton>
                 </div>
               </div>
             </div>

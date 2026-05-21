@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/profile";
-import { Bell } from "lucide-react";
+import { Bell, Home } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -43,6 +43,9 @@ export default async function AdminLayout({
           </nav>
         </div>
         <div className="flex items-center gap-3">
+          <Link href="/" className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }} title="Back to Home">
+            <Home size={18} strokeWidth={1.5} />
+          </Link>
           <button className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }}>
             <Bell size={18} strokeWidth={1.5} />
           </button>

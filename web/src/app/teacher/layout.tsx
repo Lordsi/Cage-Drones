@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getProfile, isStaff } from "@/lib/profile";
 import { TeacherSidebar } from "@/components/teacher-sidebar";
 import Link from "next/link";
-import { Bell } from "lucide-react";
+import { Bell, Home } from "lucide-react";
 
 export default async function TeacherLayout({
   children,
@@ -44,6 +44,9 @@ export default async function TeacherLayout({
             <Link href="/admin" className="text-sm font-medium" style={{ color: "var(--muted2)" }}>Admin</Link>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/" className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }} title="Back to Home">
+              <Home size={17} strokeWidth={1.5} />
+            </Link>
             <button className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }}>
               <Bell size={17} strokeWidth={1.5} />
             </button>

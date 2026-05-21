@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/profile";
 import { PortalSidebar } from "@/components/portal-sidebar";
-import { Bell } from "lucide-react";
+import Link from "next/link";
+import { Bell, Home } from "lucide-react";
 
 export default async function PortalLayout({
   children,
@@ -31,6 +32,9 @@ export default async function PortalLayout({
           style={{ background: "var(--surface)", borderColor: "var(--border)" }}
         >
           <div className="flex items-center gap-3">
+            <Link href="/" className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }} title="Back to Home">
+              <Home size={17} strokeWidth={1.5} />
+            </Link>
             <button className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }}>
               <Bell size={17} strokeWidth={1.5} />
             </button>
