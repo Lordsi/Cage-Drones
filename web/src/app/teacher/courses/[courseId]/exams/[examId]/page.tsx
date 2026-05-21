@@ -46,7 +46,7 @@ export default async function TeacherExamEditorPage({
               <input type="hidden" name="exam_id" value={examId} />
               <input type="hidden" name="course_id" value={courseId} />
               <input type="hidden" name="published" value="false" />
-              <button type="submit" className="btn-ghost rounded-lg px-4 py-2 text-sm">
+              <button type="submit" className="btn-ghost rounded px-4 py-2 text-sm">
                 Unpublish
               </button>
             </form>
@@ -55,7 +55,7 @@ export default async function TeacherExamEditorPage({
               <input type="hidden" name="exam_id" value={examId} />
               <input type="hidden" name="course_id" value={courseId} />
               <input type="hidden" name="published" value="true" />
-              <button type="submit" className="btn-primary rounded-lg px-4 py-2 text-sm">
+              <button type="submit" className="btn-primary rounded px-4 py-2 text-sm">
                 Publish
               </button>
             </form>
@@ -66,7 +66,7 @@ export default async function TeacherExamEditorPage({
         Duration {exam.duration_minutes as number} min · Pass {exam.pass_percent as number}%
       </p>
 
-      <section className="card mb-8 rounded-xl p-6">
+      <section className="card mb-8 rounded-lg p-6">
         <h2 className="mb-4 text-lg font-semibold">Questions</h2>
         <ol className="mb-6 list-decimal space-y-3 pl-5 text-sm" style={{ color: "var(--muted2)" }}>
           {(questions ?? []).map((q) => (
@@ -79,7 +79,12 @@ export default async function TeacherExamEditorPage({
           ))}
         </ol>
 
-        <h3 className="mb-3 text-sm font-semibold">Add MCQ</h3>
+        <h3
+          className="mb-3 font-semibold uppercase tracking-widest"
+          style={{ fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
+        >
+          Add MCQ
+        </h3>
         <form action={addExamQuestion} className="flex flex-col gap-2">
           <input type="hidden" name="exam_id" value={examId} />
           <input type="hidden" name="course_id" value={courseId} />
@@ -89,10 +94,10 @@ export default async function TeacherExamEditorPage({
             required
             placeholder="Question text"
             rows={2}
-            className="rounded-lg border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -101,10 +106,10 @@ export default async function TeacherExamEditorPage({
             required
             placeholder={'One choice per line, e.g.\nOption A\nOption B\nOption C'}
             rows={4}
-            className="rounded-lg border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -113,17 +118,17 @@ export default async function TeacherExamEditorPage({
             type="number"
             min={0}
             defaultValue={0}
-            className="w-32 rounded-lg border px-3 py-2 text-sm"
+            className="w-32 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
           <p className="text-xs" style={{ color: "var(--muted)" }}>
             Correct index is 0-based (0 = first line).
           </p>
-          <button type="submit" className="btn-primary w-fit rounded-lg px-4 py-2 text-sm">
+          <button type="submit" className="btn-primary w-fit rounded px-4 py-2 text-sm">
             Add question
           </button>
         </form>

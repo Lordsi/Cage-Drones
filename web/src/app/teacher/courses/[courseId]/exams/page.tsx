@@ -47,8 +47,11 @@ export default async function TeacherExamsPage({
       </p>
 
       {/* Create exam form */}
-      <form action={createExam} className="card mt-8 rounded-xl p-6">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--muted)" }}>
+      <form action={createExam} className="card mt-8 rounded-lg p-6">
+        <h2
+          className="mb-4 font-semibold uppercase tracking-wide"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
+        >
           Create new exam
         </h2>
         <input type="hidden" name="course_id" value={courseId} />
@@ -57,10 +60,10 @@ export default async function TeacherExamsPage({
             name="title"
             required
             placeholder="Exam title"
-            className="flex-1 rounded-lg border px-3 py-2 text-sm"
+            className="flex-1 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
               minWidth: "200px",
             }}
@@ -70,10 +73,10 @@ export default async function TeacherExamsPage({
             type="number"
             min={1}
             defaultValue={30}
-            className="w-24 rounded-lg border px-3 py-2 text-sm"
+            className="w-24 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
             placeholder="Min"
@@ -84,15 +87,15 @@ export default async function TeacherExamsPage({
             min={0}
             max={100}
             defaultValue={70}
-            className="w-24 rounded-lg border px-3 py-2 text-sm"
+            className="w-24 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
             placeholder="Pass %"
           />
-          <button type="submit" className="btn-primary rounded-lg px-4 py-2 text-sm">
+          <button type="submit" className="btn-primary rounded px-4 py-2 text-sm">
             <Plus size={14} />
             Create
           </button>
@@ -116,7 +119,7 @@ export default async function TeacherExamsPage({
               <Link
                 key={exam.id as string}
                 href={`/teacher/courses/${courseId}/exams/${exam.id}`}
-                className="card group flex items-center gap-4 rounded-xl px-5 py-4 transition"
+                className="card group flex items-center gap-4 rounded-lg px-5 py-4 transition"
               >
                 <div
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"

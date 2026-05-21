@@ -1,43 +1,56 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Menu,
   X,
   ArrowRight,
+  Shield,
+  Map,
+  GraduationCap,
+  Clock,
+  BarChart3,
+  Calendar,
+  MapPin,
+  Wrench,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { DroneScene } from "@/components/drone-scene";
 
 const NAV = [
   { label: "Services", href: "#services" },
-  { label: "Experience", href: "#experience" },
+  { label: "Training", href: "#training", active: true },
+  { label: "Fleet", href: "#technology" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
 const SERVICES = [
   {
-    title: "Aerial Mapping & Surveys",
-    desc: "High-accuracy orthomosaics, 3D models, DSM/DTM, contour maps, and CAD/GIS-ready datasets using RTK-enabled platforms and LiDAR payloads.",
+    title: "Remote Pilot License (RePL)",
+    desc: "The foundational certification required for commercial drone operations. Covers air law, flight theory, and practical flight assessment to CASA standards.",
+    icon: GraduationCap,
+    level: "Entry Level",
+    duration: "5 Days",
+    difficulty: "Beginner",
+    price: "$1,950",
+    layout: "primary" as const,
   },
   {
-    title: "Precision Agriculture",
-    desc: "NDVI, NDRE, and NDWI crop health analysis plus drone-based spraying of fertilizers, herbicides, and pesticides using the DJI Agras T50.",
+    title: "Specialized Mapping",
+    desc: "Advanced photogrammetry and LiDAR data acquisition techniques for high-precision surveying and digital twin creation.",
+    icon: Map,
+    level: "Specialist",
+    duration: "3 Days",
+    difficulty: "Intermediate",
+    price: "$1,400",
+    layout: "outline" as const,
   },
   {
-    title: "Remote Pilot Licensing",
-    desc: "MCAA-compliant RPL training — air law, meteorology, navigation, flight planning, and practical operations. In partnership with SH Aviation.",
-  },
-  {
-    title: "Advanced Training",
-    desc: "Industry-specific courses: EVLOS/BVLOS operations, RTK/PPK workflows, multispectral & thermal analysis, Pix4D and DJI Terra data processing.",
-  },
-  {
-    title: "STEM Education",
-    desc: "Hands-on programs introducing young learners to coding fundamentals, drone safety, flight control, and real-world UAV applications.",
-  },
-  {
-    title: "GeoPortal",
-    desc: "A national-level geospatial data platform with secure, role-based access integrating drone-collected data for evidence-based decisions. Coming soon.",
+    title: "Advanced Inspection Training",
+    desc: "Master the complexities of critical infrastructure inspection. Training includes thermal imaging, structural analysis, and close-proximity flight in high-interference environments (Bridges, Turbines, Cell Towers).",
+    icon: Wrench,
+    level: "Advanced",
+    price: "$2,850",
+    layout: "dark" as const,
   },
 ];
 
@@ -45,47 +58,46 @@ const EXPERIENCE = [
   {
     client: "Illovo Sugar Malawi",
     scope: "RPL Training & DJI M350 RTK Familiarization",
-    detail: "17 staff trained for Remote Pilot Licenses. Hands-on DJI Matrice 350 RTK training at Nchalo and Dwangwa estates — land mapping, crop scouting, terrain modeling.",
+    detail: "17 staff trained for Remote Pilot Licenses. Hands-on DJI Matrice 350 RTK training at Nchalo and Dwangwa estates.",
   },
   {
     client: "UNICEF Malawi",
     scope: "Flood Resilience Mapping — Rukuru River",
-    detail: "~19,700 hectares of high-resolution aerial mapping. 5 cm orthomosaics, DSM/DTM generation, and GIS-integrated flood modeling support.",
+    detail: "~19,700 hectares of high-resolution aerial mapping. 5 cm orthomosaics, DSM/DTM generation, and GIS-integrated flood modeling.",
   },
   {
     client: "SMEC",
     scope: "Lower Domasi Dam Feasibility Study",
-    detail: "~1,207 hectares surveyed using DJI M300 RTK + LiDAR. Deliverables: 4.56 cm orthomosaics, digital elevation models, 0.5m contour mapping.",
+    detail: "~1,207 hectares surveyed using DJI M300 RTK + LiDAR. Deliverables: 4.56 cm orthomosaics, digital elevation models.",
   },
   {
     client: "ESCOM Malawi",
     scope: "Drone Training & Utility Mapping",
-    detail: "48 engineers across a 3-week RPL program and 1-week advanced mapping course. LiDAR corridor modeling, thermal applications, RTK data integration.",
+    detail: "48 engineers across a 3-week RPL program and 1-week advanced mapping course. LiDAR corridor modeling, thermal applications.",
   },
   {
     client: "Waterboard — Southern Regions",
     scope: "Thermal Leak Detection Training",
-    detail: "Specialized drone training for Blantyre and Southern Region Waterboards using thermal drones to detect water leakages in infrastructure.",
+    detail: "Specialized drone training for Blantyre and Southern Region Waterboards using thermal drones to detect water leakages.",
   },
   {
     client: "Paramount Holdings / Salima Sugar",
     scope: "Precision Aerial Spraying",
-    detail: "Estate-scale precision spraying of urea fertilizer on sugarcane using the DJI Agras T50. Accurate application rates and uniform coverage.",
+    detail: "Estate-scale precision spraying of urea fertilizer on sugarcane using the DJI Agras T50.",
   },
 ];
 
-const CLIENTS = [
-  "Illovo Sugar", "UNICEF", "ESCOM", "SMEC", "LUANAR", "TACE",
-  "VEI Netherlands", "Paramount Holdings", "Salima Sugar Factory",
-  "Waterboard MW", "SH Aviation", "World Bank", "Swoop Aero",
-  "MRA", "Malawi Govt", "ARISE", "GLOBHE", "Wellcome Programme",
+const SCHEDULE = [
+  { id: "REPL-2410", cert: "RePL Multi-Rotor (<7kg)", location: "Sydney Training Center", date: "Oct 14–18", status: "open" as const },
+  { id: "MAP-2411", cert: "Specialized Mapping", location: "Brisbane Field Site", date: "Nov 02–04", status: "waitlist" as const },
+  { id: "INS-2411", cert: "Advanced Inspection", location: "Melbourne HQ", date: "Nov 15–19", status: "open" as const },
 ];
 
 const STATS = [
-  { value: "120+", label: "Surveys" },
+  { value: "120+", label: "Surveys completed" },
   { value: "50k+", label: "Hectares mapped" },
   { value: "80+", label: "Pilots trained" },
-  { value: "20+", label: "Clients" },
+  { value: "20+", label: "Enterprise clients" },
 ] as const;
 
 const TEAM = [
@@ -105,32 +117,36 @@ const TECH = [
 export function Landing() {
   return (
     <div className="landing">
-      {/* ── Header ── */}
+      {/* ── Top Navigation ── */}
       <header className="landing-header">
         <div className="landing-container landing-header-inner">
-          <a href="#" className="landing-logo">
-            <span className="landing-logo-mark">C</span>
-            <span className="landing-logo-text">
-              CAGE <span className="accent">Drones & Data</span>
-            </span>
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="#" className="landing-logo">
+              <span className="landing-logo-mark">CAGE</span>
+            </a>
+          </div>
 
           <nav className="landing-nav-desktop" aria-label="Primary">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="landing-nav-link">
+              <a
+                key={item.href}
+                href={item.href}
+                className="landing-nav-link"
+                data-active={"active" in item && item.active ? "true" : undefined}
+              >
                 {item.label}
               </a>
             ))}
             <ThemeToggle />
             <Link href="/login" className="landing-nav-signin">
-              Sign in
+              Launch Portal
             </Link>
           </nav>
 
           <div className="landing-nav-mobile">
             <ThemeToggle />
             <Link href="/login" className="landing-nav-signin">
-              Sign in
+              Portal
             </Link>
             <details className="landing-mobile-nav">
               <summary className="landing-menu-btn">
@@ -153,42 +169,36 @@ export function Landing() {
         </div>
       </header>
 
-      {/* ── Hero ── */}
+      {/* ── Hero Section ── */}
       <section className="landing-hero" aria-labelledby="hero-heading">
         <div className="landing-container">
-          <div className="landing-hero-grid">
+          <div className="landing-hero-card">
             <div className="landing-hero-text">
-              <p className="landing-eyebrow">Precision Drone Solutions — Malawi</p>
+              <p className="landing-eyebrow">Aviation Excellence</p>
               <h1 id="hero-heading" className="landing-h1">
-                Aerial intelligence<br />
-                from sky to insight
+                Precision-Driven Drone Training
               </h1>
               <p className="landing-hero-sub">
-                High-precision mapping, crop intelligence, and professional drone services
-                for agriculture, infrastructure, and environmental monitoring. In technical
-                collaboration with{" "}
-                <a
-                  href="https://www.luanar.ac.mw/tace/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="landing-inline-link"
-                >
-                  TACE at LUANAR
-                </a>.
+                Elevate your operational capabilities with CAGE&apos;s industry-leading
+                certification programs. From foundational licensing to specialized
+                industrial inspection.
               </p>
               <div className="landing-hero-actions">
-                <a href="#contact" className="landing-btn-primary">
-                  Get a quote <ArrowRight size={16} aria-hidden />
+                <a href="#training" className="landing-btn-primary">
+                  View Schedule
                 </a>
                 <Link href="/register" className="landing-btn-secondary">
-                  Create account
+                  Course Guide
                 </Link>
               </div>
             </div>
 
-            <div className="landing-hero-model">
-              <DroneScene />
-            </div>
+            <div
+              className="landing-hero-image"
+              style={{ backgroundImage: "url(/images/hero-training.jpg)" }}
+              role="img"
+              aria-label="Professional drone pilot instructor guiding a student in an outdoor training environment"
+            />
           </div>
 
           <dl className="landing-stats">
@@ -202,27 +212,162 @@ export function Landing() {
         </div>
       </section>
 
-      {/* ── Services ── */}
+      {/* ── Certification Programs (Bento) ── */}
       <section id="services" className="landing-section">
         <div className="landing-container">
-          <p className="landing-eyebrow">Services</p>
-          <h2 className="landing-h2">What we do</h2>
+          <div className="flex items-end justify-between mb-4">
+            <div>
+              <h2 className="landing-h2" style={{ marginBottom: "0.25rem" }}>Certification Programs</h2>
+              <p className="landing-body">Select a specialized pathway to professional mastery.</p>
+            </div>
+          </div>
           <div className="landing-services-grid">
-            {SERVICES.map((s, i) => (
-              <div key={s.title} className="landing-service">
-                <span className="landing-service-num">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="landing-service-title">{s.title}</h3>
-                <p className="landing-service-desc">{s.desc}</p>
+            {/* Course 1: RePL — 7 col */}
+            <div className="landing-service">
+              <div>
+                <div className="mb-6 flex justify-between items-start">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 8%, transparent)" }}>
+                    <GraduationCap size={24} style={{ color: "var(--accent)" }} strokeWidth={1.5} />
+                  </div>
+                  <span className="badge badge-cyan">{SERVICES[0].level}</span>
+                </div>
+                <h3 className="landing-service-title">{SERVICES[0].title}</h3>
+                <p className="landing-service-desc mb-6">{SERVICES[0].desc}</p>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="landing-service-meta">
+                    <Clock size={16} className="landing-service-meta-icon" />
+                    <span>{SERVICES[0].duration}</span>
+                  </div>
+                  <div className="landing-service-meta">
+                    <BarChart3 size={16} className="landing-service-meta-icon" />
+                    <span>{SERVICES[0].difficulty}</span>
+                  </div>
+                </div>
               </div>
-            ))}
+              <button className="landing-service-enroll primary">
+                Enroll Now — {SERVICES[0].price}
+              </button>
+            </div>
+
+            {/* Course 2: Mapping — 5 col */}
+            <div className="landing-service">
+              <div>
+                <div className="mb-6 flex justify-between items-start">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 8%, transparent)" }}>
+                    <Map size={24} style={{ color: "var(--accent)" }} strokeWidth={1.5} />
+                  </div>
+                  <span className="badge badge-cyan">{SERVICES[1].level}</span>
+                </div>
+                <h3 className="landing-service-title">{SERVICES[1].title}</h3>
+                <p className="landing-service-desc mb-6">{SERVICES[1].desc}</p>
+                <div className="space-y-3 mb-8">
+                  <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: "var(--border)" }}>
+                    <span style={{ color: "var(--muted)" }}>Duration</span>
+                    <span className="landing-service-meta">{SERVICES[1].duration}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: "var(--border)" }}>
+                    <span style={{ color: "var(--muted)" }}>Difficulty</span>
+                    <span className="landing-service-meta">{SERVICES[1].difficulty}</span>
+                  </div>
+                </div>
+              </div>
+              <button className="landing-service-enroll outline">
+                Enroll Now — {SERVICES[1].price}
+              </button>
+            </div>
+
+            {/* Course 3: Advanced Inspection — full width */}
+            <div className="landing-service">
+              <div className="landing-bento-full">
+                <div className="flex flex-col justify-center">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 8%, transparent)" }}>
+                      <Wrench size={24} style={{ color: "var(--accent)" }} strokeWidth={1.5} />
+                    </div>
+                    <h3 className="landing-service-title" style={{ margin: 0 }}>{SERVICES[2].title}</h3>
+                  </div>
+                  <p className="landing-service-desc mb-6">{SERVICES[2].desc}</p>
+                  <div className="flex flex-wrap gap-4">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ background: "var(--surface)" }}>
+                      <Calendar size={16} style={{ color: "var(--accent)" }} />
+                      <span className="landing-service-meta">Oct 24, 2024</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ background: "var(--surface)" }}>
+                      <MapPin size={16} style={{ color: "var(--accent)" }} />
+                      <span className="landing-service-meta">Headquarters</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center items-start md:items-end">
+                  <div className="md:text-right mb-6">
+                    <div className="landing-service-meta mb-1">Program Fee</div>
+                    <div className="landing-price-display">{SERVICES[2].price}</div>
+                  </div>
+                  <button className="landing-service-enroll dark w-full md:w-auto" style={{ padding: "1rem 3rem" }}>
+                    Secure Enrollment
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Experience ── */}
-      <section id="experience" className="landing-section landing-section-alt">
+      {/* ── Training Schedule Table ── */}
+      <section id="training" className="landing-section landing-section-alt">
         <div className="landing-container">
-          <p className="landing-eyebrow">Track record</p>
+          <div className="landing-schedule-card">
+            <div className="landing-schedule-header">
+              <h3 className="landing-h2" style={{ margin: 0 }}>Training Schedule</h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead style={{ background: "#f2f3ff" }}>
+                  <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Course ID</th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Certification</th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Location</th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Date</th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Status</th>
+                    <th className="px-6 py-4"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {SCHEDULE.map((row) => (
+                    <tr key={row.id} className="group transition-colors" style={{ borderBottom: "1px solid var(--border)" }}>
+                      <td className="px-6 py-4 font-medium" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.82rem" }}>{row.id}</td>
+                      <td className="px-6 py-4 font-bold" style={{ color: "var(--text)" }}>{row.cert}</td>
+                      <td className="px-6 py-4" style={{ color: "var(--muted)" }}>{row.location}</td>
+                      <td className="px-6 py-4" style={{ color: "var(--muted)" }}>{row.date}</td>
+                      <td className="px-6 py-4">
+                        <span
+                          className="px-2 py-1 rounded text-xs font-bold uppercase"
+                          style={{
+                            background: row.status === "open" ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, #ba1a1a 10%, transparent)",
+                            color: row.status === "open" ? "var(--accent)" : "#ba1a1a",
+                          }}
+                        >
+                          {row.status === "open" ? "Open" : "Waitlist"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button className="text-sm font-semibold uppercase opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent)" }}>
+                          Details
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Experience / Track Record ── */}
+      <section id="experience" className="landing-section">
+        <div className="landing-container">
+          <p className="landing-eyebrow">Track Record</p>
           <h2 className="landing-h2">Selected projects</h2>
           <div className="landing-experience-list">
             {EXPERIENCE.map((e) => (
@@ -238,8 +383,8 @@ export function Landing() {
         </div>
       </section>
 
-      {/* ── Technology ── */}
-      <section className="landing-section">
+      {/* ── Technology / Fleet ── */}
+      <section id="technology" className="landing-section landing-section-alt">
         <div className="landing-container">
           <p className="landing-eyebrow">Technology</p>
           <h2 className="landing-h2">Platforms & tools</h2>
@@ -256,8 +401,8 @@ export function Landing() {
         </div>
       </section>
 
-      {/* ── About / Why / Team ── */}
-      <section id="about" className="landing-section landing-section-alt">
+      {/* ── About ── */}
+      <section id="about" className="landing-section">
         <div className="landing-container">
           <div className="landing-about-grid">
             <div>
@@ -280,10 +425,6 @@ export function Landing() {
                   <h4 className="landing-point-title">Safety</h4>
                   <p className="landing-point-desc">Remote data capture in hazardous or hard-to-reach environments, minimizing risk.</p>
                 </div>
-                <div>
-                  <h4 className="landing-point-title">Speed</h4>
-                  <p className="landing-point-desc">Fast turnaround with scalable, high-efficiency drone fleet deployments.</p>
-                </div>
               </div>
             </div>
 
@@ -295,14 +436,14 @@ export function Landing() {
                 enterprise to education.
               </p>
 
-              <p className="landing-eyebrow" style={{ marginTop: "2.5rem" }}>Mission</p>
+              <p className="landing-eyebrow" style={{ marginTop: "2rem" }}>Mission</p>
               <p className="landing-body">
                 To equip Malawi&apos;s public and private sectors with the tools, knowledge,
                 and operational structure needed to deploy drone technology safely,
                 profitably, and at scale.
               </p>
 
-              <p className="landing-eyebrow" style={{ marginTop: "2.5rem" }}>Team</p>
+              <p className="landing-eyebrow" style={{ marginTop: "2rem" }}>Team</p>
               <ul className="landing-team-list">
                 {TEAM.map((name) => (
                   <li key={name} className="landing-team-name">{name}</li>
@@ -313,40 +454,117 @@ export function Landing() {
         </div>
       </section>
 
-      {/* ── Clients ── */}
-      <section className="landing-section">
-        <div className="landing-container">
-          <p className="landing-eyebrow">Clients</p>
-          <h2 className="landing-h2">Trusted by</h2>
-          <div className="landing-clients-wrap">
-            {CLIENTS.map((name) => (
-              <span key={name} className="landing-client-name">{name}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Contact CTA ── */}
+      {/* ── Contact / Initiate Mission Support ── */}
       <section id="contact" className="landing-section landing-section-alt">
-        <div className="landing-container landing-contact">
-          <h2 className="landing-h2">Ready to take flight?</h2>
-          <p className="landing-body" style={{ maxWidth: "36rem" }}>
-            Whether you need aerial surveys, precision agriculture data, or drone
-            training — share your sector and timeline and we&apos;ll connect you with
-            the right team.
-          </p>
-          <div className="landing-hero-actions">
-            <a
-              href="https://www.cagemw.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-btn-primary"
-            >
-              Contact via website <ArrowRight size={16} aria-hidden />
-            </a>
-            <Link href="/login" className="landing-btn-secondary">
-              Sign in
-            </Link>
+        <div className="landing-container">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Contact Form */}
+            <div className="lg:col-span-7 p-8 rounded-lg" style={{ background: "#ffffff", border: "1px solid var(--border)" }}>
+              <p className="landing-eyebrow">Initiate Mission Support</p>
+              <h2 className="landing-h2">Ready to take flight?</h2>
+              <p className="landing-body mb-6">
+                Connect with our flight operations experts and certified instructors.
+              </p>
+              <form className="space-y-6" action="#">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Full Name</label>
+                    <input className="w-full h-12 px-4 border rounded outline-none transition-all" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="John Doe" type="text" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Work Email</label>
+                    <input className="w-full h-12 px-4 border rounded outline-none transition-all" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="j.doe@enterprise.com" type="email" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Company / Agency</label>
+                    <input className="w-full h-12 px-4 border rounded outline-none transition-all" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="Aerospace Dynamics" type="text" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Service Interest</label>
+                    <select className="w-full h-12 px-4 border rounded outline-none transition-all appearance-none" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+                      <option disabled value="">Select a primary interest</option>
+                      <option value="enterprise-fleet">Enterprise Fleet Solutions</option>
+                      <option value="pilot-certification">Pilot Certification Training</option>
+                      <option value="surveillance-ops">Surveillance & Inspection Ops</option>
+                      <option value="custom-integration">Custom Payload Integration</option>
+                      <option value="maintenance">Maintenance & Fleet Support</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Inquiry Details</label>
+                  <textarea className="w-full px-4 py-3 border rounded outline-none transition-all resize-none" style={{ borderColor: "var(--border)", background: "var(--surface)" }} placeholder="Please describe your mission requirements or training objectives..." rows={5} />
+                </div>
+                <button className="landing-btn-primary" type="submit">
+                  Transmit Inquiry <ArrowRight size={14} aria-hidden />
+                </button>
+              </form>
+            </div>
+
+            {/* Information Sidebar */}
+            <aside className="lg:col-span-5 space-y-6">
+              {/* Map Card */}
+              <div className="rounded-lg overflow-hidden" style={{ background: "#ffffff", border: "1px solid var(--border)" }}>
+                <div className="h-64 w-full overflow-hidden">
+                  <Image
+                    src="/images/map-hq.jpg"
+                    alt="Headquarters Location"
+                    width={600}
+                    height={300}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--text)" }}>Global Operations HQ</h3>
+                  <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
+                    Lilongwe, Malawi<br />
+                    Area 47 Sector 2
+                  </p>
+                  <div className="flex items-center gap-2" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.75rem", fontWeight: 500 }}>
+                    <MapPin size={14} />
+                    <span>GET DIRECTIONS</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Methods */}
+              <div className="rounded-lg p-6 space-y-6" style={{ background: "#ffffff", border: "1px solid var(--border)" }}>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+                    <Shield size={20} style={{ color: "var(--accent)" }} />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold" style={{ color: "var(--text)" }}>Priority Support</h4>
+                    <p className="text-sm mb-1" style={{ color: "var(--muted)" }}>Direct access to our technical support team.</p>
+                    <a className="text-xs font-medium tracking-wide" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }} href="mailto:info@cagemw.com">INFO@CAGEMW.COM</a>
+                  </div>
+                </div>
+                <div className="pt-4" style={{ borderTop: "1px solid var(--border)" }}>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Flight Status</span>
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full" style={{ background: "var(--green)" }} />
+                      <span className="text-xs font-semibold" style={{ color: "var(--green)", fontFamily: "var(--font-mono)" }}>ALL SYSTEMS OPERATIONAL</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Training Center Highlight */}
+              <div className="rounded-lg p-6 relative overflow-hidden" style={{ background: "#283044", color: "#ffffff" }}>
+                <div className="relative z-10">
+                  <h4 className="text-lg font-semibold mb-2">Technical Training</h4>
+                  <p className="text-sm mb-4" style={{ color: "#94a3b8" }}>
+                    Our specialized training facility is open for private academy sessions and corporate certifications.
+                  </p>
+                  <Link href="/login" className="landing-btn-primary" style={{ display: "inline-flex" }}>
+                    View Calendar
+                  </Link>
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
       </section>
@@ -354,29 +572,24 @@ export function Landing() {
       {/* ── Footer ── */}
       <footer className="landing-footer">
         <div className="landing-container landing-footer-inner">
-          <div className="landing-footer-left">
-            <span className="landing-footer-brand">CAGE Drones & Data</span>
-            <p className="landing-footer-desc">
-              Malawi&apos;s leading drone and geospatial solutions provider. Operating
-              in full compliance with the Malawi Civil Aviation Authority.
-            </p>
+          <div className="landing-footer-top">
+            <div className="landing-footer-left">
+              <span className="landing-footer-brand">CAGE</span>
+              <p className="landing-footer-desc">
+                Pioneering professional drone services and
+                elite pilot training for industry leaders.
+              </p>
+            </div>
+            <nav className="landing-footer-nav">
+              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Safety Protocols</a>
+              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Careers</a>
+              <Link href="/login" className="highlight">Pilot Portal</Link>
+            </nav>
           </div>
-          <nav className="landing-footer-nav">
-            {NAV.map((item) => (
-              <a key={item.href} href={item.href}>{item.label}</a>
-            ))}
-            <Link href="/register">Register</Link>
-            <Link href="/login">Sign in</Link>
-            <a
-              href="https://www.cagemw.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              cagemw.com
-            </a>
-          </nav>
           <p className="landing-footer-copy">
-            © {new Date().getFullYear()} CAGE MW. All rights reserved.
+            © {new Date().getFullYear()} CAGE Drone Services & Training. All rights reserved. Precision in Flight.
           </p>
         </div>
       </footer>

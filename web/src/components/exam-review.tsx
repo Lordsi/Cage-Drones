@@ -29,7 +29,7 @@ export function ExamReview({
       className="flex min-h-screen flex-col items-center justify-center p-8"
       style={{ background: "var(--deep)" }}
     >
-      <div className="card w-full max-w-lg rounded-xl p-10 text-center">
+      <div className="card w-full max-w-lg rounded-lg p-10 text-center">
         <div
           className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
           style={{
@@ -63,7 +63,10 @@ export function ExamReview({
         </p>
 
         <div className="mt-8 max-h-80 overflow-y-auto text-left">
-          <div className="mb-3 text-sm font-bold">
+          <div
+            className="mb-3 text-[0.68rem] font-bold uppercase tracking-widest"
+            style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
+          >
             Question review
           </div>
           <ul className="space-y-2 text-sm">
@@ -134,7 +137,7 @@ export function ExamReview({
         <Link href="/portal/exams" className="mt-8 block">
           <button
             type="button"
-            className="btn-primary w-full justify-center rounded-lg py-3 text-sm"
+            className="btn-primary w-full justify-center rounded py-3 text-sm"
           >
             Back to exams
           </button>

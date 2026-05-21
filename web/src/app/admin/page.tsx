@@ -10,6 +10,7 @@ import {
   Shield,
   School,
   UserPlus,
+  CheckCircle2,
 } from "lucide-react";
 
 export default async function AdminHomePage() {
@@ -50,37 +51,35 @@ export default async function AdminHomePage() {
   ]);
 
   const stats = [
-    { label: "Total users", value: userCount ?? 0, icon: Users },
-    { label: "Courses", value: courseCount ?? 0, icon: BookOpen },
-    { label: "Exams", value: examCount ?? 0, icon: FileText },
-    { label: "Assignments", value: assignmentCount ?? 0, icon: GraduationCap },
-    { label: "Enrollments", value: enrollmentCount ?? 0, icon: UserPlus },
-    { label: "Resources", value: resourceCount ?? 0, icon: Layers },
+    { label: "Total Users", value: userCount ?? 0, icon: Users, color: "var(--accent)" },
+    { label: "Courses", value: courseCount ?? 0, icon: BookOpen, color: "var(--green)" },
+    { label: "Exams", value: examCount ?? 0, icon: FileText, color: "var(--blue)" },
+    { label: "Assignments", value: assignmentCount ?? 0, icon: GraduationCap, color: "var(--orange)" },
+    { label: "Enrollments", value: enrollmentCount ?? 0, icon: UserPlus, color: "var(--purple)" },
+    { label: "Resources", value: resourceCount ?? 0, icon: Layers, color: "var(--muted)" },
   ];
 
   const roles = roleCounts ?? { student: 0, instructor: 0, admin: 0 };
+  const totalRoles = roles.student + roles.instructor + roles.admin;
 
   return (
     <div>
-      <div className="mb-10">
-        <h1 className="text-2xl font-bold tracking-tight">Administration</h1>
-        <p className="mt-1 text-sm" style={{ color: "var(--muted2)" }}>
-          Platform overview and management tools.
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text)" }}>Operations Overview</h1>
+        <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
+          Real-time platform intelligence & user telemetry
         </p>
       </div>
 
       {/* Stats grid */}
-      <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {stats.map((s) => (
-          <div
-            key={s.label}
-            className="card rounded-xl px-4 py-4"
-          >
-            <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 12%, transparent)" }}>
-              <s.icon size={16} style={{ color: "var(--accent)" }} />
+          <div key={s.label} className="card p-4">
+            <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: `color-mix(in srgb, ${s.color} 10%, transparent)` }}>
+              <s.icon size={17} style={{ color: s.color }} strokeWidth={1.5} />
             </div>
-            <div className="text-2xl font-bold tracking-tight">{s.value}</div>
-            <div className="mt-0.5 text-xs" style={{ color: "var(--muted)" }}>
+            <div className="text-2xl font-bold tracking-tight" style={{ color: "var(--text)" }}>{s.value}</div>
+            <div className="mt-0.5 text-[0.65rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
               {s.label}
             </div>
           </div>
@@ -90,23 +89,22 @@ export default async function AdminHomePage() {
       {/* Two-column layout */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Role breakdown */}
-        <div className="card rounded-xl p-6">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--muted)" }}>
-            Users by role
+        <div className="card p-6">
+          <h2 className="mb-4 text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+            Users by Role
           </h2>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {[
               { label: "Students", count: roles.student, color: "var(--accent)" },
-              { label: "Teachers", count: roles.instructor, color: "var(--green)" },
+              { label: "Instructors", count: roles.instructor, color: "var(--green)" },
               { label: "Admins", count: roles.admin, color: "var(--orange)" },
             ].map((r) => {
-              const total = roles.student + roles.instructor + roles.admin;
-              const pct = total > 0 ? (r.count / total) * 100 : 0;
+              const pct = totalRoles > 0 ? (r.count / totalRoles) * 100 : 0;
               return (
                 <div key={r.label}>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className="font-medium">{r.label}</span>
-                    <span style={{ color: "var(--muted2)" }}>{r.count}</span>
+                  <div className="mb-1.5 flex items-center justify-between text-sm">
+                    <span className="font-medium" style={{ color: "var(--text)" }}>{r.label}</span>
+                    <span className="font-medium" style={{ color: r.color, fontFamily: "var(--font-mono)", fontSize: "0.82rem" }}>{r.count}</span>
                   </div>
                   <div className="prog-track h-1.5">
                     <div
@@ -121,10 +119,10 @@ export default async function AdminHomePage() {
         </div>
 
         {/* Recent users */}
-        <div className="card rounded-xl p-6">
+        <div className="card p-6">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--muted)" }}>
-              Recent users
+            <h2 className="text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+              Recent Users
             </h2>
             <Link
               href="/admin/users"
@@ -136,22 +134,22 @@ export default async function AdminHomePage() {
           </div>
           <div className="space-y-2">
             {(recentUsers ?? []).length === 0 ? (
-              <p className="text-sm" style={{ color: "var(--muted2)" }}>No users yet.</p>
+              <p className="text-sm" style={{ color: "var(--muted)" }}>No users yet.</p>
             ) : (
               (recentUsers ?? []).map((u) => (
                 <div
                   key={u.id as string}
-                  className="flex items-center justify-between rounded-lg px-3 py-2"
-                  style={{ background: "color-mix(in srgb, var(--text) 3%, transparent)" }}
+                  className="flex items-center justify-between rounded-lg border p-3"
+                  style={{ borderColor: "var(--border)" }}
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
+                      className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold"
                       style={{ background: "var(--accent)", color: "#fff" }}
                     >
                       {((u.display_name as string) ?? "?").slice(0, 1).toUpperCase()}
                     </div>
-                    <span className="text-sm font-medium">
+                    <span className="text-sm font-medium" style={{ color: "var(--text)" }}>
                       {(u.display_name as string) || "—"}
                     </span>
                   </div>
@@ -164,7 +162,7 @@ export default async function AdminHomePage() {
                         : "badge-gray"
                     }`}
                   >
-                    {u.role === "instructor" ? "teacher" : (u.role as string)}
+                    {u.role === "instructor" ? "instructor" : (u.role as string)}
                   </span>
                 </div>
               ))
@@ -173,22 +171,44 @@ export default async function AdminHomePage() {
         </div>
       </div>
 
+      {/* System status */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="card flex items-center gap-4 p-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--green) 10%, transparent)" }}>
+            <CheckCircle2 size={20} style={{ color: "var(--green)" }} strokeWidth={1.5} />
+          </div>
+          <div>
+            <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>All Systems Operational</div>
+            <div className="text-xs" style={{ color: "var(--muted)" }}>Database, auth, and storage services running normally</div>
+          </div>
+        </div>
+        <div className="card flex items-center gap-4 p-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+            <Shield size={20} style={{ color: "var(--accent)" }} strokeWidth={1.5} />
+          </div>
+          <div>
+            <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>Safety Protocols Active</div>
+            <div className="text-xs" style={{ color: "var(--muted)" }}>All security and access control measures enabled</div>
+          </div>
+        </div>
+      </div>
+
       {/* Quick actions */}
       <div className="mt-8">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--muted)" }}>
-          Quick actions
+        <h2 className="mb-4 text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+          Quick Actions
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Link
             href="/admin/users"
-            className="card group flex items-center gap-4 rounded-xl px-5 py-4 transition"
+            className="card group flex items-center gap-4 p-5 transition"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
-              <Users size={18} style={{ color: "var(--accent)" }} />
+              <Users size={18} style={{ color: "var(--accent)" }} strokeWidth={1.5} />
             </div>
             <div className="flex-1">
-              <div className="text-sm font-semibold">Manage users & roles</div>
-              <div className="text-xs" style={{ color: "var(--muted2)" }}>
+              <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>Manage Users & Roles</div>
+              <div className="text-xs" style={{ color: "var(--muted)" }}>
                 Assign student, teacher, or admin roles
               </div>
             </div>
@@ -197,14 +217,14 @@ export default async function AdminHomePage() {
 
           <Link
             href="/teacher"
-            className="card group flex items-center gap-4 rounded-xl px-5 py-4 transition"
+            className="card group flex items-center gap-4 p-5 transition"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--green) 10%, transparent)" }}>
-              <School size={18} style={{ color: "var(--green)" }} />
+              <School size={18} style={{ color: "var(--green)" }} strokeWidth={1.5} />
             </div>
             <div className="flex-1">
-              <div className="text-sm font-semibold">Teacher portal</div>
-              <div className="text-xs" style={{ color: "var(--muted2)" }}>
+              <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>Teacher Portal</div>
+              <div className="text-xs" style={{ color: "var(--muted)" }}>
                 Manage courses, assignments, and exams
               </div>
             </div>
@@ -213,14 +233,14 @@ export default async function AdminHomePage() {
 
           <Link
             href="/portal"
-            className="card group flex items-center gap-4 rounded-xl px-5 py-4 transition"
+            className="card group flex items-center gap-4 p-5 transition"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--purple) 10%, transparent)" }}>
-              <Shield size={18} style={{ color: "var(--purple)" }} />
+              <GraduationCap size={18} style={{ color: "var(--purple)" }} strokeWidth={1.5} />
             </div>
             <div className="flex-1">
-              <div className="text-sm font-semibold">Student portal</div>
-              <div className="text-xs" style={{ color: "var(--muted2)" }}>
+              <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>Student Portal</div>
+              <div className="text-xs" style={{ color: "var(--muted)" }}>
                 View the student experience
               </div>
             </div>

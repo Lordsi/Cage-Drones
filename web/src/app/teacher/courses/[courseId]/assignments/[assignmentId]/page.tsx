@@ -114,12 +114,12 @@ export default async function AssignmentDetailPage({
                   ? (sub.feedback as string | null)
                   : null;
 
-                const statusColor =
+                const statusBadge =
                   status === "graded"
-                    ? "var(--green)"
+                    ? "badge badge-green"
                     : status === "submitted"
-                      ? "var(--orange)"
-                      : "var(--muted)";
+                      ? "badge badge-orange"
+                      : "badge badge-gray";
 
                 return (
                   <tr
@@ -129,10 +129,7 @@ export default async function AssignmentDetailPage({
                   >
                     <td className="py-3 font-medium">{name}</td>
                     <td className="py-3">
-                      <span
-                        className="text-xs font-semibold uppercase"
-                        style={{ color: statusColor }}
-                      >
+                      <span className={statusBadge}>
                         {status}
                       </span>
                     </td>
@@ -196,7 +193,7 @@ export default async function AssignmentDetailPage({
                             className="w-16 rounded border px-2 py-1 text-xs"
                             style={{
                               background: "var(--surface)",
-                              borderColor: "var(--border)",
+                              borderColor: "var(--input-border)",
                               color: "var(--text)",
                             }}
                           />
@@ -206,7 +203,7 @@ export default async function AssignmentDetailPage({
                             className="w-28 rounded border px-2 py-1 text-xs"
                             style={{
                               background: "var(--surface)",
-                              borderColor: "var(--border)",
+                              borderColor: "var(--input-border)",
                               color: "var(--text)",
                             }}
                           />

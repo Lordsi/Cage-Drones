@@ -79,8 +79,8 @@ export default async function PortalGradesPage() {
     <div>
       <div className="mb-8">
         <div
-          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="mb-1 text-[0.68rem] font-bold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
         >
           Record
         </div>
@@ -108,7 +108,7 @@ export default async function PortalGradesPage() {
               return (
                 <li
                   key={row.id}
-                  className="card flex flex-wrap items-center justify-between gap-4 rounded-xl px-6 py-5"
+                  className="card flex flex-wrap items-center justify-between gap-4 rounded-lg px-6 py-5"
                 >
                   <div>
                     <div className="font-semibold">{ex?.title ?? "Exam"}</div>
@@ -155,7 +155,7 @@ export default async function PortalGradesPage() {
               return (
                 <li
                   key={a.id}
-                  className="card flex flex-wrap items-center justify-between gap-4 rounded-xl px-6 py-5"
+                  className="card flex flex-wrap items-center justify-between gap-4 rounded-lg px-6 py-5"
                 >
                   <div>
                     <div className="font-semibold">{a.title}</div>
@@ -172,7 +172,7 @@ export default async function PortalGradesPage() {
                     {graded && sub?.grade ? (
                       <span className="badge badge-green">{sub.grade}</span>
                     ) : sub?.status === "submitted" ? (
-                      <span className="badge badge-cyan">Submitted</span>
+                      <span className="badge badge-blue">Submitted</span>
                     ) : (
                       <span className="badge badge-orange">Not submitted</span>
                     )}

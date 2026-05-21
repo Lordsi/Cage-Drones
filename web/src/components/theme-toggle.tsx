@@ -6,7 +6,7 @@ import { useLayoutEffect, useState } from "react";
 type Theme = "dark" | "light";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useLayoutEffect(() => {
     const t = document.documentElement.getAttribute("data-theme");

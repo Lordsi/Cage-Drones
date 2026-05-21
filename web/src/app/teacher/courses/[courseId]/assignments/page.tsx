@@ -71,8 +71,8 @@ export default async function AssignmentsPage({
       >
         <input type="hidden" name="course_id" value={courseId} />
         <h2
-          className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="mb-3 font-semibold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
         >
           New assignment
         </h2>
@@ -81,10 +81,10 @@ export default async function AssignmentsPage({
             name="title"
             required
             placeholder="Assignment title"
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -92,10 +92,10 @@ export default async function AssignmentsPage({
             name="instructions"
             placeholder="Instructions (optional)"
             rows={2}
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -110,17 +110,17 @@ export default async function AssignmentsPage({
               <input
                 name="due_at"
                 type="datetime-local"
-                className="rounded-md border px-3 py-2 text-sm"
+                className="rounded border px-3 py-2 text-sm"
                 style={{
                   background: "var(--surface)",
-                  borderColor: "var(--border)",
+                  borderColor: "var(--input-border)",
                   color: "var(--text)",
                 }}
               />
             </div>
             <button
               type="submit"
-              className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+              className="btn-primary rounded px-4 py-2 text-sm font-medium"
             >
               Add assignment
             </button>

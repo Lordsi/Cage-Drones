@@ -83,8 +83,8 @@ export default async function StudentsPage({
         <input type="hidden" name="course_id" value={courseId} />
         <div className="flex-1">
           <label
-            className="mb-1 block text-[0.65rem] font-semibold uppercase tracking-widest"
-            style={{ color: "var(--muted)" }}
+            className="mb-1 block font-semibold uppercase tracking-widest"
+            style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
           >
             Enroll student by email
           </label>
@@ -93,17 +93,17 @@ export default async function StudentsPage({
             type="email"
             required
             placeholder="student@example.com"
-            className="w-full rounded-md border px-3 py-2 text-sm"
+            className="w-full rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
         </div>
         <button
           type="submit"
-          className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+          className="btn-primary rounded px-4 py-2 text-sm font-medium"
         >
           Enroll
         </button>
@@ -162,8 +162,8 @@ export default async function StudentsPage({
                     <td className="py-3">
                       <div className="font-medium">{name}</div>
                       <div
-                        className="font-mono text-xs"
-                        style={{ color: "var(--muted)" }}
+                        className="text-xs"
+                        style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
                       >
                         {uid.slice(0, 8)}…
                       </div>

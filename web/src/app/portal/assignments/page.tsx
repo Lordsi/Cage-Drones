@@ -49,8 +49,8 @@ export default async function PortalAssignmentsPage() {
     <div>
       <div className="mb-8">
         <div
-          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="mb-1 text-[0.68rem] font-bold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
         >
           Coursework
         </div>
@@ -81,7 +81,7 @@ export default async function PortalAssignmentsPage() {
               status === "graded" ? (
                 <span className="badge badge-green">Graded</span>
               ) : status === "submitted" ? (
-                <span className="badge badge-cyan">Submitted</span>
+                <span className="badge badge-blue">Submitted</span>
               ) : isLate ? (
                 <span className="badge badge-orange">Overdue</span>
               ) : (
@@ -91,11 +91,11 @@ export default async function PortalAssignmentsPage() {
             return (
               <div
                 key={a.id}
-                className="card rounded-xl px-6 py-5"
+                className="card rounded-lg px-6 py-5"
               >
                 <div className="flex flex-wrap items-center gap-4">
                   <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border"
                     style={{
                       background: "color-mix(in srgb, var(--accent) 10%, transparent)",
                       borderColor: "color-mix(in srgb, var(--accent) 20%, transparent)",

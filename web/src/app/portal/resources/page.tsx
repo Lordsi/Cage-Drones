@@ -72,8 +72,8 @@ export default async function PortalResourcesPage() {
     <div>
       <div className="mb-8">
         <div
-          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="mb-1 text-[0.68rem] font-bold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
         >
           Learning materials
         </div>
@@ -87,10 +87,10 @@ export default async function PortalResourcesPage() {
           </p>
         ) : (
           links.map((r) => (
-            <div key={r.id} className="card rounded-xl p-5">
+            <div key={r.id} className="card rounded-lg p-5">
               <div className="flex gap-3">
                 <div
-                  className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl border"
+                  className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-lg border"
                   style={{
                     background:
                       r.type === "pdf"

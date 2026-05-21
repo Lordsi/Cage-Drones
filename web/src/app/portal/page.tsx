@@ -5,10 +5,10 @@ import { getProfile } from "@/lib/profile";
 import {
   BookOpen,
   FileText,
-  AlertCircle,
-  TrendingUp,
-  Megaphone,
-  CalendarDays,
+  Clock,
+  Star,
+  CheckCircle2,
+  ChevronRight,
 } from "lucide-react";
 
 type CourseTitle = { title: string };
@@ -107,51 +107,37 @@ export default async function PortalDashboardPage() {
     }
   }
 
+  const statCards = [
+    { label: "Courses Enrolled", val: String(courseIds.length), icon: BookOpen, color: "var(--accent)" },
+    { label: "Published Exams", val: String(examsAvailable), icon: FileText, color: "var(--green)" },
+    { label: "Assignments Due", val: String(assignmentsDue), icon: Clock, color: assignmentsDue > 0 ? "var(--red)" : "var(--muted)" },
+    { label: "Test Average", val: avgScore != null ? `${avgScore}%` : "—", icon: Star, color: "var(--orange)" },
+  ];
+
   return (
     <div>
-      <div className="mb-8">
-        <div
-          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
-        >
-          Welcome back
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Hello, <span style={{ color: "var(--accent)" }}>{profile.display_name}</span>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
+          Student Telemetry
         </h1>
+        <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
+          Welcome back, {profile.display_name}. Your flight readiness is currently optimized.
+        </p>
       </div>
 
+      {/* Stat cards */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          {
-            label: "Courses enrolled",
-            val: String(courseIds.length),
-            icon: BookOpen,
-          },
-          {
-            label: "Published exams",
-            val: String(examsAvailable),
-            icon: FileText,
-          },
-          {
-            label: "Assignments due",
-            val: String(assignmentsDue),
-            icon: AlertCircle,
-          },
-          {
-            label: "Avg score",
-            val: avgScore != null ? `${avgScore}%` : "—",
-            icon: TrendingUp,
-          },
-        ].map((s) => (
-          <div key={s.label} className="card rounded-xl p-5">
+        {statCards.map((s) => (
+          <div key={s.label} className="card p-5">
             <div className="mb-3 flex items-center justify-between">
-              <span className="text-sm" style={{ color: "var(--muted2)" }}>
+              <span className="text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
                 {s.label}
               </span>
-              <s.icon size={16} color="var(--muted)" />
+              <div className="flex h-8 w-8 items-center justify-center rounded" style={{ background: `color-mix(in srgb, ${s.color} 10%, transparent)` }}>
+                <s.icon size={16} style={{ color: s.color }} strokeWidth={1.5} />
+              </div>
             </div>
-            <div className="text-3xl font-black" style={{ color: "var(--text)" }}>
+            <div className="text-2xl font-bold" style={{ color: "var(--text)" }}>
               {s.val}
             </div>
           </div>
@@ -159,51 +145,45 @@ export default async function PortalDashboardPage() {
       </div>
 
       <div className="mb-8 grid gap-6 xl:grid-cols-3">
-        <div className="card rounded-xl p-5 xl:col-span-1">
-          <div className="mb-4 flex items-center gap-2">
-            <CalendarDays size={18} color="var(--accent)" />
-            <h2 className="text-lg font-bold">Upcoming</h2>
+        {/* Upcoming sessions */}
+        <div className="card p-6 xl:col-span-1">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-bold" style={{ color: "var(--text)" }}>Upcoming Sessions</h2>
+            <Link href="/portal/assignments" className="text-sm font-medium" style={{ color: "var(--accent)" }}>
+              View Calendar <ChevronRight size={14} className="inline" />
+            </Link>
           </div>
           {upcoming.length === 0 ? (
-            <p className="text-sm" style={{ color: "var(--muted2)" }}>
-              No upcoming due dates with open work. Check{" "}
-              <Link href="/portal/exams" className="underline" style={{ color: "var(--accent)" }}>
-                exams
-              </Link>{" "}
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
+              No upcoming due dates. Check{" "}
+              <Link href="/portal/exams" className="underline" style={{ color: "var(--accent)" }}>exams</Link>{" "}
               for available tests.
             </p>
           ) : (
             <ul className="space-y-3">
               {upcoming.map((u) => (
-                <li
-                  key={u.id}
-                  className="rounded-lg border px-3 py-2 text-sm"
-                  style={{ borderColor: "var(--border)" }}
-                >
-                  <div className="font-medium">{u.title}</div>
-                  <div className="text-xs" style={{ color: "var(--muted2)" }}>
-                    {u.courseTitle} · Due {new Date(u.dueAt).toLocaleString()}
+                <li key={u.id} className="flex items-start gap-3 rounded-lg border p-3" style={{ borderColor: "var(--border)" }}>
+                  <div className="mt-0.5 h-1 w-1 shrink-0 rounded-full" style={{ background: "var(--green)", width: "3px", height: "100%", minHeight: "2rem", borderRadius: "2px" }} />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>{u.title}</div>
+                    <div className="text-xs" style={{ color: "var(--muted)" }}>
+                      {u.courseTitle}
+                    </div>
+                    <div className="mt-1 text-[0.7rem] font-medium uppercase" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+                      {new Date(u.dueAt).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+                    </div>
                   </div>
-                  <Link
-                    href="/portal/assignments"
-                    className="mt-1 inline-block text-xs underline"
-                    style={{ color: "var(--accent)" }}
-                  >
-                    Go to assignments
-                  </Link>
                 </li>
               ))}
             </ul>
           )}
         </div>
 
-        <div className="card rounded-xl p-5 xl:col-span-1">
-          <div className="mb-4 flex items-center gap-2">
-            <Megaphone size={18} color="var(--yellow)" />
-            <h2 className="text-lg font-bold">Announcements</h2>
-          </div>
+        {/* Recent activity / announcements */}
+        <div className="card p-6 xl:col-span-1">
+          <h2 className="mb-4 text-base font-bold" style={{ color: "var(--text)" }}>Recent Activity</h2>
           {(announcements ?? []).length === 0 ? (
-            <p className="text-sm" style={{ color: "var(--muted2)" }}>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
               No announcements from your instructors yet.
             </p>
           ) : (
@@ -218,23 +198,22 @@ export default async function PortalDashboardPage() {
                   courses: unknown;
                 };
                 return (
-                  <li
-                    key={a.id}
-                    className="rounded-lg border px-3 py-2 text-sm"
-                    style={{ borderColor: "var(--border)" }}
-                  >
-                    {a.pinned ? (
-                      <span className="badge badge-orange mb-1">Pinned</span>
-                    ) : null}
-                    <div className="font-semibold">{a.title}</div>
-                    <div className="text-xs" style={{ color: "var(--muted)" }}>
-                      {courseTitle(a.courses)} · {new Date(a.created_at).toLocaleDateString()}
+                  <li key={a.id} className="flex items-start gap-3">
+                    <div className="mt-1.5 h-2 w-2 shrink-0 rounded-full" style={{ background: a.pinned ? "var(--orange)" : "var(--green)" }} />
+                    <div>
+                      <div className="text-[0.68rem] font-medium uppercase" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+                        {new Date(a.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      </div>
+                      <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>{a.title}</div>
+                      <div className="text-xs" style={{ color: "var(--muted)" }}>
+                        {courseTitle(a.courses)}
+                      </div>
+                      {a.body ? (
+                        <p className="mt-1 whitespace-pre-wrap text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+                          {a.body.slice(0, 120)}{a.body.length > 120 ? "…" : ""}
+                        </p>
+                      ) : null}
                     </div>
-                    {a.body ? (
-                      <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed" style={{ color: "var(--muted2)" }}>
-                        {a.body}
-                      </p>
-                    ) : null}
                   </li>
                 );
               })}
@@ -242,15 +221,15 @@ export default async function PortalDashboardPage() {
           )}
         </div>
 
-        <div className="card rounded-xl p-5 xl:col-span-1">
-          <h2 className="mb-4 text-lg font-bold">My courses</h2>
+        {/* My courses */}
+        <div className="card p-6 xl:col-span-1">
+          <h2 className="mb-4 text-base font-bold" style={{ color: "var(--text)" }}>My Courses</h2>
           {(enrollments ?? []).length === 0 ? (
-            <p className="text-sm" style={{ color: "var(--muted2)" }}>
-              You are not enrolled in any course yet. Ask your instructor to
-              enroll you using your email address.
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
+              You are not enrolled in any course yet.
             </p>
           ) : (
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {(enrollments ?? []).map((e) => {
                 const raw = e.courses as unknown;
                 const c = (Array.isArray(raw) ? raw[0] : raw) as {
@@ -260,10 +239,13 @@ export default async function PortalDashboardPage() {
                 return (
                   <li
                     key={e.course_id}
-                    className="rounded-lg border px-4 py-3 text-sm font-medium transition-colors hover:border-[var(--accent)]"
+                    className="flex items-center gap-3 rounded-lg border p-3 text-sm transition-colors hover:border-[var(--accent)]"
                     style={{ borderColor: "var(--border)" }}
                   >
-                    {c?.title ?? "Course"}
+                    <CheckCircle2 size={16} style={{ color: "var(--green)" }} />
+                    <span className="font-medium" style={{ color: "var(--text)" }}>
+                      {c?.title ?? "Course"}
+                    </span>
                   </li>
                 );
               })}
@@ -272,22 +254,23 @@ export default async function PortalDashboardPage() {
         </div>
       </div>
 
-      <div className="card rounded-xl p-5">
-        <h2 className="mb-4 text-lg font-bold">Quick actions</h2>
+      {/* Quick actions */}
+      <div className="card p-6">
+        <h2 className="mb-4 text-base font-bold" style={{ color: "var(--text)" }}>Quick Actions</h2>
         <div className="flex flex-wrap gap-3">
           <Link href="/portal/exams">
-            <button type="button" className="btn-ghost rounded-lg px-4 py-3 text-sm">
-              Take an exam
+            <button type="button" className="btn-ghost px-4 py-2.5 text-sm" style={{ borderRadius: "4px" }}>
+              Take an Exam
             </button>
           </Link>
           <Link href="/portal/assignments">
-            <button type="button" className="btn-ghost rounded-lg px-4 py-3 text-sm">
-              View assignments
+            <button type="button" className="btn-ghost px-4 py-2.5 text-sm" style={{ borderRadius: "4px" }}>
+              View Assignments
             </button>
           </Link>
           <Link href="/portal/resources">
-            <button type="button" className="btn-ghost rounded-lg px-4 py-3 text-sm">
-              Browse resources
+            <button type="button" className="btn-ghost px-4 py-2.5 text-sm" style={{ borderRadius: "4px" }}>
+              Browse Resources
             </button>
           </Link>
         </div>

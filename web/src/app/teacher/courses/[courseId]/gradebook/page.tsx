@@ -83,7 +83,6 @@ export default async function GradebookPage({
     assignCell.set(k, g && g.length > 0 ? g : st);
   }
 
-  // Column averages for exams
   const examColAvg = new Map<string, number>();
   for (const ex of exams ?? []) {
     const eid = ex.id as string;
@@ -100,7 +99,6 @@ export default async function GradebookPage({
     }
   }
 
-  // Row averages for each student
   const rowAvg = new Map<string, number>();
   for (const r of roster ?? []) {
     const uid = r.user_id as string;
@@ -162,15 +160,15 @@ export default async function GradebookPage({
                     {ex.title as string}
                   </span>
                   <span
-                    className="mt-0.5 block text-[0.6rem] font-normal uppercase tracking-wide"
-                    style={{ color: "var(--muted)" }}
+                    className="mt-0.5 block font-normal uppercase tracking-wide"
+                    style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
                   >
                     Exam
                   </span>
                   {examColAvg.has(ex.id as string) && (
                     <span
-                      className="block text-[0.6rem] font-bold"
-                      style={{ color: "var(--accent)" }}
+                      className="block font-bold"
+                      style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
                     >
                       Avg: {examColAvg.get(ex.id as string)}%
                     </span>
@@ -186,8 +184,8 @@ export default async function GradebookPage({
                     {a.title as string}
                   </span>
                   <span
-                    className="mt-0.5 block text-[0.6rem] font-normal uppercase tracking-wide"
-                    style={{ color: "var(--muted)" }}
+                    className="mt-0.5 block font-normal uppercase tracking-wide"
+                    style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
                   >
                     HW
                   </span>
@@ -230,8 +228,8 @@ export default async function GradebookPage({
                     >
                       {prof?.display_name ?? "Student"}
                       <div
-                        className="font-mono text-[0.6rem]"
-                        style={{ color: "var(--muted)" }}
+                        className="text-[0.6rem]"
+                        style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
                       >
                         {uid.slice(0, 8)}…
                       </div>
@@ -283,7 +281,6 @@ export default async function GradebookPage({
                 );
               })
             )}
-            {/* Class average row */}
             {(roster ?? []).length > 0 && (
               <tr
                 style={{
@@ -292,10 +289,12 @@ export default async function GradebookPage({
                 }}
               >
                 <td
-                  className="sticky left-0 z-10 px-3 py-2 text-xs font-bold uppercase tracking-widest"
+                  className="sticky left-0 z-10 px-3 py-2 font-bold uppercase tracking-widest"
                   style={{
                     background: "var(--surface)",
                     color: "var(--accent)",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.68rem",
                   }}
                 >
                   Class Avg

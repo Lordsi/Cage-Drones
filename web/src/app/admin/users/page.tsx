@@ -19,13 +19,13 @@ export default async function AdminUsersPage() {
         sign-ups default to Student until you change their role here.
       </p>
 
-      <div className="overflow-x-auto rounded-xl border" style={{ borderColor: "var(--border)" }}>
+      <div className="overflow-x-auto rounded-lg border" style={{ borderColor: "var(--border)" }}>
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead style={{ background: "var(--surface)" }}>
             <tr>
-              <th className="px-4 py-3 font-semibold">Name</th>
-              <th className="px-4 py-3 font-semibold">User ID</th>
-              <th className="px-4 py-3 font-semibold">Role</th>
+              <th className="px-4 py-3 text-[0.68rem] uppercase tracking-widest" style={{ fontFamily: "var(--font-mono)", color: "var(--muted)" }}>Name</th>
+              <th className="px-4 py-3 text-[0.68rem] uppercase tracking-widest" style={{ fontFamily: "var(--font-mono)", color: "var(--muted)" }}>User ID</th>
+              <th className="px-4 py-3 text-[0.68rem] uppercase tracking-widest" style={{ fontFamily: "var(--font-mono)", color: "var(--muted)" }}>Role</th>
             </tr>
           </thead>
           <tbody>
@@ -48,7 +48,7 @@ export default async function AdminUsersPage() {
                       <select
                         name="role"
                         defaultValue={p.role}
-                        className="rounded-lg border px-3 py-2 text-sm"
+                        className="rounded border px-3 py-2 text-sm"
                         style={{
                           background: "var(--surface)",
                           borderColor: "var(--border)",
@@ -59,7 +59,7 @@ export default async function AdminUsersPage() {
                         <option value="instructor">Teacher</option>
                         <option value="admin">Admin</option>
                       </select>
-                      <button type="submit" className="btn-primary rounded-lg px-3 py-2 text-xs">
+                      <button type="submit" className="btn-primary rounded px-3 py-2 text-xs">
                         Save
                       </button>
                     </form>

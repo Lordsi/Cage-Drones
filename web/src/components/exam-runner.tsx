@@ -133,7 +133,7 @@ export function ExamRunner({
         <div className="flex items-center gap-4">
           <button
             type="button"
-            className="btn-ghost rounded-md px-3 py-1 text-xs"
+            className="btn-ghost rounded px-3 py-1 text-xs"
             onClick={() => {
               if (confirm("Leave exam? Your progress is saved.")) router.push("/portal/exams");
             }}
@@ -147,7 +147,7 @@ export function ExamRunner({
           <div className="text-center">
             <div
               className="text-[0.68rem] uppercase tracking-widest"
-              style={{ color: "var(--muted)" }}
+              style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
             >
               Progress
             </div>
@@ -158,7 +158,7 @@ export function ExamRunner({
           <div className="text-center">
             <div
               className="text-[0.68rem] uppercase tracking-widest"
-              style={{ color: "var(--muted)" }}
+              style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
             >
               Time left
             </div>
@@ -183,7 +183,7 @@ export function ExamRunner({
             <div className="mb-8">
               <span
                 className="text-[0.68rem] font-bold uppercase tracking-widest"
-                style={{ color: "var(--muted)" }}
+                style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
               >
                 Question {currentQ + 1} of {total}
               </span>
@@ -198,8 +198,8 @@ export function ExamRunner({
                   onClick={() => selectAnswer(i)}
                 >
                   <span
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold"
-                    style={{ background: "rgba(255,255,255,.06)" }}
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-xs font-bold"
+                    style={{ background: "var(--surface)" }}
                   >
                     {["A", "B", "C", "D"][i] ?? String(i + 1)}
                   </span>
@@ -210,7 +210,7 @@ export function ExamRunner({
             <div className="mt-10 flex justify-between">
               <button
                 type="button"
-                className="btn-ghost rounded-lg px-5 py-2 text-sm"
+                className="btn-ghost rounded px-5 py-2 text-sm"
                 disabled={currentQ === 0}
                 onClick={() => setCurrentQ((c) => Math.max(0, c - 1))}
               >
@@ -219,7 +219,7 @@ export function ExamRunner({
               {currentQ < total - 1 ? (
                 <button
                   type="button"
-                  className="btn-outline rounded-lg px-5 py-2 text-sm"
+                  className="btn-outline rounded px-5 py-2 text-sm"
                   onClick={() => setCurrentQ((c) => Math.min(total - 1, c + 1))}
                 >
                   Next <ChevronRight size={16} />
@@ -227,7 +227,7 @@ export function ExamRunner({
               ) : (
                 <button
                   type="button"
-                  className="btn-primary rounded-lg px-6 py-2 text-sm"
+                  className="btn-primary rounded px-6 py-2 text-sm"
                   onClick={() => void onSubmit()}
                 >
                   Submit exam <Award size={16} />
@@ -242,8 +242,8 @@ export function ExamRunner({
           style={{ background: "var(--surface)", borderColor: "var(--border)" }}
         >
           <div
-            className="mb-4 text-[0.78rem] font-bold uppercase tracking-widest"
-            style={{ color: "var(--muted)" }}
+            className="mb-4 text-[0.68rem] font-bold uppercase tracking-widest"
+            style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
           >
             Questions
           </div>
@@ -258,7 +258,7 @@ export function ExamRunner({
           {answered === total ? (
             <button
               type="button"
-              className="btn-primary flex w-full justify-center rounded-lg py-3 text-sm"
+              className="btn-primary flex w-full justify-center rounded py-3 text-sm"
               onClick={() => void onSubmit()}
             >
               Submit exam <Award size={16} />

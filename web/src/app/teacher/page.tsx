@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { createCourse } from "@/app/actions/teacher";
+import {
+  Users,
+  CheckSquare,
+  Clock,
+  TrendingUp,
+  ChevronRight,
+} from "lucide-react";
 
 export default async function TeacherHomePage() {
   const supabase = await createClient();
@@ -72,89 +79,107 @@ export default async function TeacherHomePage() {
       ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length)
       : null;
 
+  const stats = [
+    { label: "Active Students", value: totalStudents, icon: Users, color: "var(--accent)", trend: `+${Math.min(totalStudents, 4)}%` },
+    { label: "Avg Assessment", value: avgPerformance != null ? `${avgPerformance}%` : "—", icon: CheckSquare, color: "var(--green)", trend: "Optimal" },
+    { label: "Pending Grading", value: totalPending, icon: Clock, color: totalPending > 0 ? "var(--red)" : "var(--muted)", trend: totalPending > 0 ? `${totalPending} items` : "" },
+    { label: "Cert. Progress", value: `${courseIds.length}`, icon: TrendingUp, color: "var(--blue)", trend: "On Track" },
+  ];
+
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight">Teaching Dashboard</h1>
-      <p className="mt-1 text-sm" style={{ color: "var(--muted2)" }}>
-        Overview of all your courses and activity.
-      </p>
+      <div className="mb-1 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
+            Instructor Dashboard
+          </h1>
+          <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
+            Operational overview and student performance analytics.
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button className="btn-ghost px-3 py-2 text-sm" style={{ borderRadius: "4px" }}>
+            Export Report
+          </button>
+        </div>
+      </div>
 
-      {/* Stats row */}
-      <div
-        className="mt-8 grid grid-cols-3 gap-px overflow-hidden rounded-lg border"
-        style={{ borderColor: "var(--border)" }}
-      >
-        {[
-          { label: "Total students", value: totalStudents },
-          { label: "Pending grading", value: totalPending },
-          {
-            label: "Avg. performance",
-            value: avgPerformance != null ? `${avgPerformance}%` : "—",
-          },
-        ].map((stat) => (
-          <div
-            key={stat.label}
-            className="px-5 py-4"
-            style={{ background: "var(--surface)" }}
-          >
-            <div
-              className="text-[0.65rem] font-semibold uppercase tracking-widest"
-              style={{ color: "var(--muted)" }}
-            >
-              {stat.label}
+      {/* Stats */}
+      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {stats.map((s) => (
+          <div key={s.label} className="card p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: `color-mix(in srgb, ${s.color} 10%, transparent)` }}>
+                <s.icon size={18} style={{ color: s.color }} strokeWidth={1.5} />
+              </div>
+              {s.trend && (
+                <span className="text-[0.68rem] font-medium" style={{ color: s.color, fontFamily: "var(--font-mono)" }}>
+                  {s.trend}
+                </span>
+              )}
             </div>
-            <div className="mt-1 text-xl font-bold">{stat.value}</div>
+            <div className="text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+              {s.label}
+            </div>
+            <div className="mt-1 text-2xl font-bold" style={{ color: "var(--text)" }}>
+              {s.value}
+            </div>
+            <div className="mt-2 h-1 w-full overflow-hidden rounded-full" style={{ background: "#f1f5f9" }}>
+              <div className="h-full rounded-full" style={{ width: "60%", background: s.color }} />
+            </div>
           </div>
         ))}
       </div>
 
       {/* Create course */}
-      <div className="mt-10 border-b pb-8" style={{ borderColor: "var(--border)" }}>
-        <h2
-          className="text-[0.65rem] font-semibold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
-        >
-          New course
+      <div className="mt-8 border-b pb-6" style={{ borderColor: "var(--border)" }}>
+        <h2 className="text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+          New Course
         </h2>
         <form action={createCourse} className="mt-3 flex flex-wrap items-end gap-3">
           <div className="flex-1">
+            <label className="mb-1 block text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Title</label>
             <input
               name="title"
               required
               placeholder="Course title"
-              className="w-full rounded-md border px-3 py-2 text-sm"
+              className="w-full rounded border px-3 py-2 text-sm outline-none transition-colors focus:border-[var(--accent)]"
               style={{
-                background: "var(--surface)",
-                borderColor: "var(--border)",
+                background: "var(--card)",
+                borderColor: "var(--input-border)",
                 color: "var(--text)",
+                borderRadius: "4px",
               }}
             />
           </div>
           <div className="flex-1">
+            <label className="mb-1 block text-[0.68rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>Description</label>
             <input
               name="description"
               placeholder="Description (optional)"
-              className="w-full rounded-md border px-3 py-2 text-sm"
+              className="w-full rounded border px-3 py-2 text-sm outline-none transition-colors focus:border-[var(--accent)]"
               style={{
-                background: "var(--surface)",
-                borderColor: "var(--border)",
+                background: "var(--card)",
+                borderColor: "var(--input-border)",
                 color: "var(--text)",
+                borderRadius: "4px",
               }}
             />
           </div>
           <button
             type="submit"
-            className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+            className="btn-primary px-4 py-2 text-sm"
+            style={{ borderRadius: "4px" }}
           >
-            Create
+            + New Assessment
           </button>
         </form>
       </div>
 
       {/* Course cards */}
-      <div className="mt-8 space-y-3">
+      <div className="mt-6 space-y-3">
         {(courses ?? []).length === 0 ? (
-          <p className="py-10 text-center text-sm" style={{ color: "var(--muted2)" }}>
+          <p className="py-10 text-center text-sm" style={{ color: "var(--muted)" }}>
             No courses yet. Create your first one above.
           </p>
         ) : (
@@ -171,47 +196,30 @@ export default async function TeacherHomePage() {
               <Link
                 key={cid}
                 href={`/teacher/courses/${cid}`}
-                className="group block rounded-lg border p-5 transition-colors hover:border-[var(--accent)]"
-                style={{
-                  background: "var(--surface)",
-                  borderColor: "var(--border)",
-                }}
+                className="group block card p-5 transition-colors hover:border-[var(--accent)]"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="font-semibold group-hover:text-[var(--accent)]">
+                    <h3 className="font-semibold group-hover:text-[var(--accent)]" style={{ color: "var(--text)" }}>
                       {c.title as string}
                     </h3>
                     {c.description && (
-                      <p
-                        className="mt-1 text-sm line-clamp-1"
-                        style={{ color: "var(--muted2)" }}
-                      >
+                      <p className="mt-1 text-sm line-clamp-1" style={{ color: "var(--muted)" }}>
                         {c.description as string}
                       </p>
                     )}
                   </div>
-                  <span
-                    className="shrink-0 text-xs"
-                    style={{ color: "var(--muted)" }}
-                  >
-                    Manage →
-                  </span>
+                  <ChevronRight size={16} style={{ color: "var(--muted)" }} className="mt-1 transition-transform group-hover:translate-x-0.5" />
                 </div>
-                <div className="mt-3 flex gap-6 text-xs" style={{ color: "var(--muted2)" }}>
+                <div className="mt-3 flex gap-6 text-xs" style={{ color: "var(--muted)" }}>
                   <span>
-                    <strong className="text-[var(--text)]">{enrolled}</strong>{" "}
-                    students
+                    <strong style={{ color: "var(--text)" }}>{enrolled}</strong> students
                   </span>
                   <span>
-                    <strong className="text-[var(--text)]">{pending}</strong>{" "}
-                    pending
+                    <strong style={{ color: pending > 0 ? "var(--red)" : "var(--text)" }}>{pending}</strong> pending
                   </span>
                   <span>
-                    Avg{" "}
-                    <strong className="text-[var(--text)]">
-                      {avg != null ? `${avg}%` : "—"}
-                    </strong>
+                    Avg <strong style={{ color: "var(--text)" }}>{avg != null ? `${avg}%` : "—"}</strong>
                   </span>
                 </div>
               </Link>

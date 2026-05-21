@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/profile";
 import { PortalSidebar } from "@/components/portal-sidebar";
+import { Bell } from "lucide-react";
 
 export default async function PortalLayout({
   children,
@@ -24,7 +25,28 @@ export default async function PortalLayout({
   return (
     <div className="flex min-h-screen" style={{ background: "var(--deep)" }}>
       <PortalSidebar displayName={profile.display_name} role={profile.role} />
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+      <div className="flex flex-1 flex-col overflow-y-auto">
+        <header
+          className="sticky top-0 z-40 flex h-12 items-center justify-end border-b px-6"
+          style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+        >
+          <div className="flex items-center gap-3">
+            <button className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }}>
+              <Bell size={17} strokeWidth={1.5} />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="hidden text-sm font-medium sm:block" style={{ color: "var(--text)" }}>{profile.display_name}</span>
+              <div
+                className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
+                style={{ background: "var(--accent)", color: "#fff" }}
+              >
+                {profile.display_name?.slice(0, 1).toUpperCase()}
+              </div>
+            </div>
+          </div>
+        </header>
+        <main className="flex-1 p-8">{children}</main>
+      </div>
     </div>
   );
 }

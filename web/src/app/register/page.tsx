@@ -49,83 +49,104 @@ export default function RegisterPage() {
       className="flex min-h-screen flex-col items-center justify-center px-4"
       style={{ background: "var(--deep)" }}
     >
-      <Link href="/" className="mb-10 flex items-center gap-2">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold" style={{ background: "var(--accent)", color: "#fff" }}>C</div>
-        <span className="text-xl font-bold">
-          CAGE<span style={{ color: "var(--accent)" }}> Portal</span>
-        </span>
+      <Link href="/" className="mb-8 flex items-center gap-2">
+        <span className="text-xl font-bold" style={{ color: "var(--accent)" }}>CAGE</span>
+        <span className="text-xl font-medium" style={{ color: "var(--text)" }}>Portal</span>
       </Link>
-      <div className="card w-full max-w-md rounded-xl p-8">
-        <h1 className="mb-2 text-2xl font-bold">Create account</h1>
-        <p className="mb-6 text-sm" style={{ color: "var(--muted2)" }}>
-          New accounts are <strong>students</strong> by default. An admin can change your role to Teacher
-          or Admin in Administration → Users.
+
+      <div className="card w-full max-w-md p-8">
+        <h1 className="mb-1 text-xl font-bold" style={{ color: "var(--text)" }}>Create account</h1>
+        <p className="mb-6 text-sm" style={{ color: "var(--muted)" }}>
+          New accounts are <strong>students</strong> by default. An admin can change your role to
+          Instructor or Admin.
         </p>
+
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
-            autoComplete="name"
-            placeholder="Full name (optional)"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            className="rounded-lg border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-0"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <input
-            type="email"
-            required
-            autoComplete="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="rounded-lg border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-0"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
-          <input
-            type="password"
-            required
-            autoComplete="new-password"
-            minLength={6}
-            placeholder="Password (min 6 characters)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="rounded-lg border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-0"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          />
+          <div>
+            <label className="mb-1 block text-[0.7rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+              Full Name
+            </label>
+            <input
+              type="text"
+              autoComplete="name"
+              placeholder="Full name (optional)"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full rounded border px-4 py-2.5 text-sm outline-none transition-colors focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-glow)]"
+              style={{
+                background: "var(--card)",
+                borderColor: "var(--input-border)",
+                color: "var(--text)",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-[0.7rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+              Work Email
+            </label>
+            <input
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded border px-4 py-2.5 text-sm outline-none transition-colors focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-glow)]"
+              style={{
+                background: "var(--card)",
+                borderColor: "var(--input-border)",
+                color: "var(--text)",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-[0.7rem] font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+              Password
+            </label>
+            <input
+              type="password"
+              required
+              autoComplete="new-password"
+              minLength={6}
+              placeholder="Password (min 6 characters)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded border px-4 py-2.5 text-sm outline-none transition-colors focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-glow)]"
+              style={{
+                background: "var(--card)",
+                borderColor: "var(--input-border)",
+                color: "var(--text)",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
           <button
             type="submit"
             disabled={status === "loading"}
-            className="btn-primary justify-center rounded-lg py-3 text-sm disabled:opacity-60"
+            className="btn-primary justify-center py-2.5 text-sm disabled:opacity-60"
+            style={{ borderRadius: "4px" }}
           >
             {status === "loading" ? "Creating…" : "Create account"}
           </button>
         </form>
+
         {message ? (
           <p
             className="mt-4 text-center text-sm"
-            style={{ color: status === "error" ? "var(--orange)" : "var(--muted2)" }}
+            style={{ color: status === "error" ? "var(--red)" : "var(--muted)" }}
           >
             {message}
           </p>
         ) : null}
+
         <p className="mt-6 text-center text-sm" style={{ color: "var(--muted)" }}>
-          <Link href="/login" className="underline" style={{ color: "var(--accent)" }}>
+          <Link href="/login" className="font-medium underline" style={{ color: "var(--accent)" }}>
             Already have an account? Sign in
           </Link>
           {" · "}
-          <Link href="/" className="underline" style={{ color: "var(--accent)" }}>
+          <Link href="/" className="underline" style={{ color: "var(--muted2)" }}>
             Back to site
           </Link>
         </p>

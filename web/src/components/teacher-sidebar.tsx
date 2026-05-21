@@ -53,52 +53,40 @@ export function TeacherSidebar({
       <div className="p-4 pb-2">
         <Link
           href="/teacher"
-          className="flex items-center gap-2 text-sm font-semibold"
-          style={{ color: "var(--text)" }}
+          className="flex items-center gap-2"
         >
-          <div
-            className="flex h-7 w-7 items-center justify-center rounded-md text-xs font-bold"
-            style={{ background: "var(--accent)", color: "#fff" }}
-          >
-            C
-          </div>
-          <span>CAGE Teacher</span>
+          <span className="text-base font-bold" style={{ color: "var(--accent)" }}>CAGE</span>
+          <span className="text-sm font-medium" style={{ color: "var(--text)" }}>Portal</span>
         </Link>
+        <div className="mt-0.5 font-mono text-[0.6rem] font-medium uppercase tracking-widest" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+          Academic Management
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-2 py-2">
         <Link
           href="/teacher"
-          className={`mb-1 flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-            pathname === "/teacher"
-              ? "text-[var(--accent)]"
-              : "text-[var(--muted2)] hover:text-[var(--text)]"
-          }`}
-          style={
-            pathname === "/teacher"
-              ? { background: "color-mix(in srgb, var(--accent) 10%, transparent)" }
-              : undefined
-          }
+          className={`sb-link mb-0.5 ${pathname === "/teacher" ? "active" : ""}`}
         >
-          <Home size={15} />
-          All courses
+          <Home size={15} strokeWidth={1.5} />
+          <span className="text-sm">All courses</span>
         </Link>
 
         {role === "admin" && (
           <Link
             href="/admin"
-            className="mb-1 flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-[var(--muted2)] transition-colors hover:text-[var(--text)]"
+            className="sb-link mb-0.5"
           >
-            <Shield size={15} />
-            Admin
+            <Shield size={15} strokeWidth={1.5} />
+            <span className="text-sm">Admin</span>
           </Link>
         )}
 
         {activeCourse && (
           <div className="mt-3 border-t pt-3" style={{ borderColor: "var(--border)" }}>
             <p
-              className="mb-2 truncate px-3 text-[0.65rem] font-semibold uppercase tracking-widest"
-              style={{ color: "var(--muted)" }}
+              className="mb-2 truncate px-3 text-[0.6rem] font-semibold uppercase tracking-widest"
+              style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
               title={activeCourse.title}
             >
               {activeCourse.title}
@@ -111,19 +99,10 @@ export function TeacherSidebar({
                 <Link
                   key={n.href}
                   href={n.href}
-                  className={`mb-0.5 flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                    isActive
-                      ? "text-[var(--accent)]"
-                      : "text-[var(--muted2)] hover:text-[var(--text)]"
-                  }`}
-                  style={
-                    isActive
-                      ? { background: "color-mix(in srgb, var(--accent) 10%, transparent)" }
-                      : undefined
-                  }
+                  className={`sb-link mb-0.5 ${isActive ? "active" : ""}`}
                 >
-                  <n.icon size={14} />
-                  {n.label}
+                  <n.icon size={14} strokeWidth={1.5} />
+                  <span className="text-sm">{n.label}</span>
                 </Link>
               );
             })}
@@ -133,8 +112,8 @@ export function TeacherSidebar({
         {courses.length > 1 && (
           <div className="mt-3 border-t pt-3" style={{ borderColor: "var(--border)" }}>
             <p
-              className="mb-2 px-3 text-[0.65rem] font-semibold uppercase tracking-widest"
-              style={{ color: "var(--muted)" }}
+              className="mb-2 px-3 text-[0.6rem] font-semibold uppercase tracking-widest"
+              style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
             >
               Courses
             </p>
@@ -142,10 +121,10 @@ export function TeacherSidebar({
               <Link
                 key={c.id}
                 href={`/teacher/courses/${c.id}`}
-                className={`mb-0.5 block truncate rounded-md px-3 py-1.5 text-sm transition-colors ${
+                className={`mb-0.5 block truncate rounded px-3 py-1.5 text-sm transition-colors ${
                   c.id === activeCourseId
-                    ? "font-medium text-[var(--text)]"
-                    : "text-[var(--muted2)] hover:text-[var(--text)]"
+                    ? "font-medium text-[var(--accent)]"
+                    : "text-[var(--muted)] hover:text-[var(--text)]"
                 }`}
                 title={c.title}
               >
@@ -157,24 +136,25 @@ export function TeacherSidebar({
       </div>
 
       <div className="border-t p-3" style={{ borderColor: "var(--border)" }}>
-        <div className="mb-2 flex items-center gap-2 px-1">
+        <div className="mb-2 flex items-center gap-2.5 px-1">
           <div
-            className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold"
             style={{ background: "var(--accent)", color: "#fff" }}
           >
             {displayName.slice(0, 1).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <div className="truncate text-sm font-medium">{displayName}</div>
+            <div className="truncate text-sm font-medium" style={{ color: "var(--text)" }}>{displayName}</div>
           </div>
         </div>
         <form action={signOut}>
           <button
             type="submit"
-            className="flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-sm text-[var(--muted2)] transition-colors hover:text-[var(--orange)]"
+            className="sb-link w-full"
+            style={{ color: "var(--red)" }}
           >
-            <LogOut size={14} />
-            Sign out
+            <LogOut size={14} strokeWidth={1.5} />
+            <span className="text-sm">Sign out</span>
           </button>
         </form>
       </div>

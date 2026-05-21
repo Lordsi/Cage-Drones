@@ -25,7 +25,7 @@ export default async function ResourcesPage({
 
   const typeBadge: Record<string, string> = {
     pdf: "badge-orange",
-    video: "badge-cyan",
+    video: "badge-blue",
     link: "badge-green",
   };
 
@@ -44,8 +44,8 @@ export default async function ResourcesPage({
       >
         <input type="hidden" name="course_id" value={courseId} />
         <h2
-          className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="mb-3 font-semibold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
         >
           Add resource
         </h2>
@@ -55,19 +55,19 @@ export default async function ResourcesPage({
               name="title"
               required
               placeholder="Resource title"
-              className="flex-1 rounded-md border px-3 py-2 text-sm"
+              className="flex-1 rounded border px-3 py-2 text-sm"
               style={{
                 background: "var(--surface)",
-                borderColor: "var(--border)",
+                borderColor: "var(--input-border)",
                 color: "var(--text)",
               }}
             />
             <select
               name="resource_type"
-              className="rounded-md border px-3 py-2 text-sm"
+              className="rounded border px-3 py-2 text-sm"
               style={{
                 background: "var(--surface)",
-                borderColor: "var(--border)",
+                borderColor: "var(--input-border)",
                 color: "var(--text)",
               }}
             >
@@ -79,36 +79,36 @@ export default async function ResourcesPage({
           <input
             name="storage_path"
             placeholder="Storage path (e.g. course-id/file.pdf)"
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
           <input
             name="external_url"
             placeholder="Or external URL"
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
           <input
             name="meta"
             placeholder="Meta info (optional, e.g. file size)"
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
           <button
             type="submit"
-            className="btn-primary w-fit rounded-md px-4 py-2 text-sm font-medium"
+            className="btn-primary w-fit rounded px-4 py-2 text-sm font-medium"
           >
             Add resource
           </button>

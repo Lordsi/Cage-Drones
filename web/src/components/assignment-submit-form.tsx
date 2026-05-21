@@ -59,7 +59,7 @@ export function AssignmentSubmitForm({
       <button
         type="submit"
         disabled={busy}
-        className="btn-primary rounded-lg px-4 py-2 text-xs disabled:opacity-60"
+        className="btn-primary rounded px-4 py-2 text-xs disabled:opacity-60"
       >
         {busy
           ? "Uploading…"

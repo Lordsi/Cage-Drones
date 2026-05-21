@@ -103,8 +103,8 @@ export default async function TeacherCoursePage({
             style={{ background: "var(--surface)" }}
           >
             <div
-              className="text-[0.6rem] font-semibold uppercase tracking-widest"
-              style={{ color: "var(--muted)" }}
+              className="font-semibold uppercase tracking-widest"
+              style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
             >
               {stat.label}
             </div>
@@ -119,7 +119,7 @@ export default async function TeacherCoursePage({
           <Link
             key={l.href}
             href={l.href}
-            className="rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            className="rounded border px-4 py-2 text-sm font-medium transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
             style={{
               borderColor: "var(--border)",
               background: "var(--surface)",
@@ -133,8 +133,8 @@ export default async function TeacherCoursePage({
       {/* Exams */}
       <section className="mt-10 border-t pt-8" style={{ borderColor: "var(--border)" }}>
         <h2
-          className="text-[0.65rem] font-semibold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="font-semibold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
         >
           Exams
         </h2>
@@ -161,10 +161,10 @@ export default async function TeacherCoursePage({
             name="title"
             required
             placeholder="New exam title"
-            className="flex-1 rounded-md border px-3 py-2 text-sm"
+            className="flex-1 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -173,10 +173,10 @@ export default async function TeacherCoursePage({
             type="number"
             min={1}
             defaultValue={30}
-            className="w-20 rounded-md border px-3 py-2 text-sm"
+            className="w-20 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
             title="Duration (min)"
@@ -187,17 +187,17 @@ export default async function TeacherCoursePage({
             min={0}
             max={100}
             defaultValue={70}
-            className="w-20 rounded-md border px-3 py-2 text-sm"
+            className="w-20 rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
             title="Pass %"
           />
           <button
             type="submit"
-            className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+            className="btn-primary rounded px-4 py-2 text-sm font-medium"
           >
             Create exam
           </button>
@@ -207,8 +207,8 @@ export default async function TeacherCoursePage({
       {/* Announcements */}
       <section className="mt-10 border-t pt-8" style={{ borderColor: "var(--border)" }}>
         <h2
-          className="text-[0.65rem] font-semibold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="font-semibold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", fontSize: "0.68rem" }}
         >
           Announcements
         </h2>
@@ -248,10 +248,10 @@ export default async function TeacherCoursePage({
             name="title"
             required
             placeholder="Headline"
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -259,10 +259,10 @@ export default async function TeacherCoursePage({
             name="body"
             placeholder="Message body (optional)"
             rows={2}
-            className="rounded-md border px-3 py-2 text-sm"
+            className="rounded border px-3 py-2 text-sm"
             style={{
               background: "var(--surface)",
-              borderColor: "var(--border)",
+              borderColor: "var(--input-border)",
               color: "var(--text)",
             }}
           />
@@ -276,7 +276,7 @@ export default async function TeacherCoursePage({
             </label>
             <button
               type="submit"
-              className="btn-primary rounded-md px-4 py-2 text-sm font-medium"
+              className="btn-primary rounded px-4 py-2 text-sm font-medium"
             >
               Post
             </button>

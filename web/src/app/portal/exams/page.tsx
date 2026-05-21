@@ -56,8 +56,8 @@ export default async function PortalExamsPage() {
     <div>
       <div className="mb-8">
         <div
-          className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest"
-          style={{ color: "var(--muted)" }}
+          className="mb-1 text-[0.68rem] font-bold uppercase tracking-widest"
+          style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
         >
           Assessment centre
         </div>
@@ -82,10 +82,10 @@ export default async function PortalExamsPage() {
             return (
               <div
                 key={e.id}
-                className="card flex flex-wrap items-center gap-4 rounded-xl p-6"
+                className="card flex flex-wrap items-center gap-4 rounded-lg p-6"
               >
                 <div
-                  className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-xl border"
+                  className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-lg border"
                   style={{
                     background: "color-mix(in srgb, var(--accent) 8%, transparent)",
                     borderColor: "color-mix(in srgb, var(--accent) 15%, transparent)",
@@ -102,7 +102,7 @@ export default async function PortalExamsPage() {
                         Last score · {last.score}%
                       </span>
                     ) : (
-                      <span className="badge badge-cyan">Available</span>
+                      <span className="badge badge-blue">Available</span>
                     )}
                   </div>
                   <div className="text-sm" style={{ color: "var(--muted2)" }}>
@@ -112,14 +112,14 @@ export default async function PortalExamsPage() {
                 <div className="flex shrink-0 flex-wrap gap-2">
                   {openId ? (
                     <Link href={`/exam/${openId}`}>
-                      <button type="button" className="btn-primary rounded-lg px-5 py-2 text-sm">
+                      <button type="button" className="btn-primary rounded-lg px-5 py-2 text-sm" style={{ borderRadius: "4px" }}>
                         Resume
                       </button>
                     </Link>
                   ) : (
                     <form action={startExamFromForm}>
                       <input type="hidden" name="exam_id" value={e.id} />
-                      <button type="submit" className="btn-primary rounded-lg px-5 py-2 text-sm">
+                      <button type="submit" className="btn-primary rounded-lg px-5 py-2 text-sm" style={{ borderRadius: "4px" }}>
                         Start exam
                       </button>
                     </form>

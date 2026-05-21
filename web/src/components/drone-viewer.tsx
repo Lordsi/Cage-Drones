@@ -98,7 +98,7 @@ function Lights({ hovered }: { hovered: boolean }) {
 
   return (
     <>
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.6} />
       <spotLight
         ref={keyRef}
         position={[5, 8, 5]}
