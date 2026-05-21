@@ -114,7 +114,15 @@ const TECH = [
   "Pix4Dmapper", "Pix4Dfields", "DJI Terra", "QGIS", "AutoCAD",
 ];
 
-export function Landing() {
+interface LandingProps {
+  auth?: {
+    displayName: string;
+    roleLabel: string;
+    dashboardHref: string;
+  } | null;
+}
+
+export function Landing({ auth }: LandingProps) {
   return (
     <div className="landing">
       {/* ── Top Navigation ── */}
@@ -138,16 +146,28 @@ export function Landing() {
               </a>
             ))}
             <ThemeToggle />
-            <Link href="/login" className="landing-nav-signin">
-              Launch Portal
-            </Link>
+            {auth ? (
+              <Link href={auth.dashboardHref} className="landing-nav-signin">
+                {auth.displayName}
+              </Link>
+            ) : (
+              <Link href="/login" className="landing-nav-signin">
+                Launch Portal
+              </Link>
+            )}
           </nav>
 
           <div className="landing-nav-mobile">
             <ThemeToggle />
-            <Link href="/login" className="landing-nav-signin">
-              Portal
-            </Link>
+            {auth ? (
+              <Link href={auth.dashboardHref} className="landing-nav-signin">
+                Dashboard
+              </Link>
+            ) : (
+              <Link href="/login" className="landing-nav-signin">
+                Portal
+              </Link>
+            )}
             <details className="landing-mobile-nav">
               <summary className="landing-menu-btn">
                 <Menu size={20} className="landing-nav-menu" aria-hidden />
