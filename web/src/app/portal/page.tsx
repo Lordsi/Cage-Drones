@@ -150,7 +150,7 @@ export default async function PortalDashboardPage() {
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-base font-bold" style={{ color: "var(--text)" }}>Upcoming Sessions</h2>
             <Link href="/portal/assignments" className="text-sm font-medium" style={{ color: "var(--accent)" }}>
-              View Calendar <ChevronRight size={14} className="inline" />
+              View All <ChevronRight size={14} className="inline" />
             </Link>
           </div>
           {upcoming.length === 0 ? (

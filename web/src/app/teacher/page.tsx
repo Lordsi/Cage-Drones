@@ -97,11 +97,7 @@ export default async function TeacherHomePage() {
             Operational overview and student performance analytics.
           </p>
         </div>
-        <div className="flex gap-2">
-          <button className="btn-ghost px-3 py-2 text-sm" style={{ borderRadius: "4px" }}>
-            Export Report
-          </button>
-        </div>
+        <div className="flex gap-2" />
       </div>
 
       {/* Stats */}

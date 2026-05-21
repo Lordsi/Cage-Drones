@@ -46,9 +46,9 @@ export default async function AdminLayout({
           <Link href="/" className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }} title="Back to Home">
             <Home size={18} strokeWidth={1.5} />
           </Link>
-          <button className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }}>
+          <span className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)", opacity: 0.5 }} title="Notifications coming soon">
             <Bell size={18} strokeWidth={1.5} />
-          </button>
+          </span>
           <Link href="/teacher" className="text-sm font-medium" style={{ color: "var(--accent)" }}>
             Teacher
           </Link>

@@ -130,9 +130,9 @@ export function Landing({ auth }: LandingProps) {
       <header className="landing-header">
         <div className="landing-container landing-header-inner">
           <div className="flex items-center gap-2">
-            <a href="#" className="landing-logo">
+            <Link href="/" className="landing-logo">
               <span className="landing-logo-mark">CAGE</span>
-            </a>
+            </Link>
           </div>
 
           <nav className="landing-nav-desktop" aria-label="Primary">
@@ -209,7 +209,7 @@ export function Landing({ auth }: LandingProps) {
                   View Schedule
                 </a>
                 <Link href="/register" className="landing-btn-secondary">
-                  Course Guide
+                  Register Now
                 </Link>
               </div>
             </div>
@@ -372,9 +372,9 @@ export function Landing({ auth }: LandingProps) {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button className="text-sm font-semibold uppercase opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent)" }}>
-                          Details
-                        </button>
+                        <a href="#enroll-form" className="text-sm font-semibold uppercase opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent)", textDecoration: "none" }}>
+                          Enquire
+                        </a>
                       </td>
                     </tr>
                   ))}
@@ -539,7 +539,7 @@ export function Landing({ auth }: LandingProps) {
                     Our specialized training facility is open for private academy sessions and corporate certifications.
                   </p>
                   <Link href="/login" className="landing-btn-primary" style={{ display: "inline-flex" }}>
-                    View Calendar
+                    Access Portal
                   </Link>
                 </div>
               </div>

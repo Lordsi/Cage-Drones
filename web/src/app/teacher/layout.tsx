@@ -40,16 +40,20 @@ export default async function TeacherLayout({
         >
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium" style={{ color: "var(--muted)" }}>Dashboard</span>
-            <span className="text-sm" style={{ color: "var(--muted)" }}>·</span>
-            <Link href="/admin" className="text-sm font-medium" style={{ color: "var(--muted2)" }}>Admin</Link>
+            {profile.role === "admin" && (
+              <>
+                <span className="text-sm" style={{ color: "var(--muted)" }}>·</span>
+                <Link href="/admin" className="text-sm font-medium" style={{ color: "var(--muted2)" }}>Admin</Link>
+              </>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <Link href="/" className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }} title="Back to Home">
               <Home size={17} strokeWidth={1.5} />
             </Link>
-            <button className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)" }}>
+            <span className="flex h-8 w-8 items-center justify-center rounded" style={{ color: "var(--muted)", opacity: 0.5 }} title="Notifications coming soon">
               <Bell size={17} strokeWidth={1.5} />
-            </button>
+            </span>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium" style={{ color: "var(--text)" }}>{profile.display_name}</span>
               <div
