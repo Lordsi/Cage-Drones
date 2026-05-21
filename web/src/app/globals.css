@@ -180,8 +180,22 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   transition: opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 .landing-nav-signin:hover { opacity: 0.9; }
+
+.landing-nav-signout-form {
+  display: inline-flex;
+  margin: 0;
+}
+.landing-nav-signout {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
 
 .landing-menu-btn {
   display: flex;
