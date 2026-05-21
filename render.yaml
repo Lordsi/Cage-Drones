@@ -1,0 +1,16 @@
+services:
+  - type: web
+    runtime: node
+    name: cage-drones
+    rootDir: web
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    buildFilter:
+      paths:
+        - web/**
+    cacheDirectories:
+      - web/.next/cache
+      - web/node_modules
