@@ -11,6 +11,8 @@ import {
   FileText,
   LogOut,
   Shield,
+  Plane,
+  Calendar,
 } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import type { UserRole } from "@/lib/profile";
@@ -70,6 +72,30 @@ export function TeacherSidebar({
         >
           <Home size={15} strokeWidth={1.5} />
           <span className="text-sm">All courses</span>
+        </Link>
+
+        <Link
+          href="/teacher/flights"
+          className={`sb-link mb-0.5 ${pathname.startsWith("/teacher/flights") ? "active" : ""}`}
+        >
+          <Plane size={15} strokeWidth={1.5} />
+          <span className="text-sm">Flight reviews</span>
+        </Link>
+
+        <Link
+          href="/teacher/aircraft"
+          className={`sb-link mb-0.5 ${pathname.startsWith("/teacher/aircraft") ? "active" : ""}`}
+        >
+          <BookOpen size={15} strokeWidth={1.5} />
+          <span className="text-sm">Aircraft register</span>
+        </Link>
+
+        <Link
+          href="/teacher/cohorts"
+          className={`sb-link mb-0.5 ${pathname.startsWith("/teacher/cohorts") ? "active" : ""}`}
+        >
+          <Calendar size={15} strokeWidth={1.5} />
+          <span className="text-sm">Cohorts</span>
         </Link>
 
         {role === "admin" && (
