@@ -11,6 +11,8 @@ import {
   Shield,
   GraduationCap,
   School,
+  Plane,
+  Award,
 } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import type { UserRole } from "@/lib/profile";
@@ -36,6 +38,18 @@ const NAV = [
     label: "Resources",
     icon: Layers,
     match: /^\/portal\/resources/,
+  },
+  {
+    href: "/portal/flights",
+    label: "Flight logbook",
+    icon: Plane,
+    match: /^\/portal\/flights/,
+  },
+  {
+    href: "/portal/certificates",
+    label: "Certificates",
+    icon: Award,
+    match: /^\/portal\/certificates/,
   },
 ];
 

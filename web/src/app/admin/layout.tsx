@@ -40,6 +40,21 @@ export default async function AdminLayout({
             <Link href="/admin/inquiries" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
               Inquiries
             </Link>
+            <Link href="/admin/bookings" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
+              Bookings
+            </Link>
+            <Link href="/admin/quotations" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
+              Quotations
+            </Link>
+            <Link href="/admin/applications" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
+              Applications
+            </Link>
+            <Link href="/admin/reports" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
+              Reports
+            </Link>
+            <Link href="/admin/outbox" className="rounded px-3 py-1.5 text-sm font-medium" style={{ color: "var(--muted2)" }}>
+              Outbox
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-3">
@@ -63,7 +78,7 @@ export default async function AdminLayout({
           </div>
         </div>
       </header>
-      <div className="mx-auto max-w-5xl px-6 py-8">{children}</div>
+      <div className="mx-auto max-w-7xl px-6 py-8">{children}</div>
     </div>
   );
 }

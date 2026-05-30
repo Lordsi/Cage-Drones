@@ -169,7 +169,14 @@ export async function createResource(formData: FormData) {
   const { supabase, profile } = await requireStaff();
   const courseId = String(formData.get("course_id") ?? "");
   const title = String(formData.get("title") ?? "").trim();
-  const resourceType = String(formData.get("resource_type") ?? "pdf") as "pdf" | "video" | "link";
+  const resourceType = String(formData.get("resource_type") ?? "pdf") as
+    | "pdf"
+    | "video"
+    | "link"
+    | "slides"
+    | "ppt"
+    | "image"
+    | "document";
   const externalUrl = String(formData.get("external_url") ?? "").trim();
   const storagePath = String(formData.get("storage_path") ?? "").trim();
   const meta = String(formData.get("meta") ?? "").trim();

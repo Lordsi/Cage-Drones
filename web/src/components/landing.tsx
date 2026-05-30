@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocationMap } from "@/components/location-map";
-import { EnrollmentForm } from "@/components/enrollment-form";
+import { BookingForm } from "@/components/booking-form";
 import { EnrollButton } from "@/components/enroll-button";
 
 const NAV = [
@@ -88,11 +88,21 @@ const EXPERIENCE = [
   },
 ];
 
-const SCHEDULE = [
-  { id: "REPL-2410", cert: "RePL Multi-Rotor (<7kg)", location: "Sydney Training Center", date: "Oct 14–18", status: "open" as const },
-  { id: "MAP-2411", cert: "Specialized Mapping", location: "Brisbane Field Site", date: "Nov 02–04", status: "waitlist" as const },
-  { id: "INS-2411", cert: "Advanced Inspection", location: "Melbourne HQ", date: "Nov 15–19", status: "open" as const },
+const FALLBACK_SCHEDULE = [
+  { id: "REPL-2410", cert: "RePL Multi-Rotor (<7kg)", location: "Lilongwe Training Center", date: "Oct 14–18", status: "open" as const },
+  { id: "MAP-2411", cert: "Specialized Mapping", location: "Blantyre Field Site", date: "Nov 02–04", status: "waitlist" as const },
+  { id: "INS-2411", cert: "Advanced Inspection", location: "Lilongwe HQ", date: "Nov 15–19", status: "open" as const },
 ];
+
+export type LandingCohort = {
+  id: string;
+  code: string;
+  title: string;
+  location: string;
+  starts_on: string;
+  ends_on: string | null;
+  status: string;
+};
 
 const STATS = [
   { value: "120+", label: "Surveys completed" },
@@ -121,9 +131,30 @@ interface LandingProps {
     roleLabel: string;
     dashboardHref: string;
   } | null;
+  cohorts?: LandingCohort[];
 }
 
-export function Landing({ auth }: LandingProps) {
+function formatRange(start: string, end: string | null): string {
+  const s = new Date(start);
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  if (!end) return `${months[s.getMonth()]} ${s.getDate()}`;
+  const e = new Date(end);
+  if (s.getMonth() === e.getMonth())
+    return `${months[s.getMonth()]} ${s.getDate()}–${e.getDate()}`;
+  return `${months[s.getMonth()]} ${s.getDate()} – ${months[e.getMonth()]} ${e.getDate()}`;
+}
+
+export function Landing({ auth, cohorts }: LandingProps) {
+  const schedule =
+    cohorts && cohorts.length > 0
+      ? cohorts.slice(0, 8).map((c) => ({
+          id: c.code,
+          cert: c.title,
+          location: c.location || "—",
+          date: formatRange(c.starts_on, c.ends_on),
+          status: c.status === "open" ? ("open" as const) : ("waitlist" as const),
+        }))
+      : FALLBACK_SCHEDULE;
   return (
     <div className="landing">
       {/* ── Top Navigation ── */}
@@ -354,7 +385,7 @@ export function Landing({ auth }: LandingProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {SCHEDULE.map((row) => (
+                  {schedule.map((row) => (
                     <tr key={row.id} className="group transition-colors" style={{ borderBottom: "1px solid var(--border)" }}>
                       <td className="px-6 py-4 font-medium" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.82rem" }}>{row.id}</td>
                       <td className="px-6 py-4 font-bold" style={{ color: "var(--text)" }}>{row.cert}</td>
@@ -481,7 +512,18 @@ export function Landing({ auth }: LandingProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Contact Form */}
             <div className="lg:col-span-7 p-8 rounded-lg" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
-              <EnrollmentForm />
+              <BookingForm
+                cohorts={(cohorts ?? [])
+                  .filter((c) => c.status === "open" || c.status === "waitlist")
+                  .map((c) => ({
+                    id: c.id,
+                    code: c.code,
+                    title: c.title,
+                    location: c.location,
+                    starts_on: c.starts_on,
+                    status: c.status,
+                  }))}
+              />
             </div>
 
             {/* Information Sidebar */}
@@ -560,10 +602,11 @@ export function Landing({ auth }: LandingProps) {
               </p>
             </div>
             <nav className="landing-footer-nav">
-              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Safety Protocols</a>
-              <a href="https://www.cagemw.com" target="_blank" rel="noopener noreferrer">Careers</a>
+              <Link href="/legal/privacy">Privacy Policy</Link>
+              <Link href="/legal/terms">Terms of Service</Link>
+              <Link href="/legal/safety">Safety Protocols</Link>
+              <Link href="/legal/careers">Careers</Link>
+              <Link href="/verify">Verify Certificate</Link>
               <Link href="/login" className="highlight">Pilot Portal</Link>
             </nav>
           </div>

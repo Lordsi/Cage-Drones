@@ -9,13 +9,21 @@ Copy `.env.local.example` to `.env.local` and set:
 | `NEXT_PUBLIC_SUPABASE_URL` | Project URL from Supabase **Settings → API** |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `anon` `public` key |
 | `NEXT_PUBLIC_SITE_URL` | Production site origin, e.g. `https://www.cagemw.com` (used for auth redirects) |
+| `RESEND_API_KEY` | _(optional)_ Resend API key. If set, transactional emails (booking / quotation / training application notifications) are delivered inline. If not set, messages are queued in `email_outbox` and can be drained by a worker. |
+| `CAGE_ADMIN_EMAIL` | _(optional)_ Recipient for admin notifications. Defaults to `info@cagemw.com`. |
+| `CAGE_EMAIL_FROM` | _(optional)_ `From:` header used by Resend. Defaults to `CAGE <notifications@cagemw.com>`. |
 
 Do **not** expose the service role key in the browser. This app uses RLS and RPCs only.
 
 ## Supabase project
 
 1. Create a project at [supabase.com](https://supabase.com).
-2. Run SQL migrations in order from `supabase/migrations/` (Supabase SQL Editor or `supabase db push` with the CLI). Includes `announcements`, `profiles_role_guard` (only admins may change `profiles.role` via the API), portal bulletins, and instructor **Gradebook** (`/teacher/courses/[id]/gradebook`).
+2. Run SQL migrations in order from `supabase/migrations/` (Supabase SQL Editor or `supabase db push` with the CLI). Includes:
+   - core schema (`profiles`, `courses`, `enrollments`, `exams`, `assignments`, `resources`)
+   - `announcements`, `profiles_role_guard` (only admins may change `profiles.role` via the API)
+   - **flight operations** (`aircraft`, `flights`, `flight_evaluations`, `pilot_logbook_totals` view) — see `20260530120000_flight_operations.sql`
+   - **bookings / quotations / training applications / cohorts / email outbox** — see `20260530121000_bookings_and_notifications.sql`
+   - **resource view tracking and certificates of completion** — see `20260530122000_resources_progress_and_certificates.sql`
 3. **Authentication → URL configuration**
    - **Site URL**: your production URL (or `http://localhost:3000` for local dev).
    - **Redirect URLs** (optional if you only use password sign-in from the app): include  
@@ -27,11 +35,15 @@ Do **not** expose the service role key in the browser. This app uses RLS and RPC
 
 ## Roles and portals
 
-- **Student** (`student`): learning hub at `/portal` (dashboard, exams, assignments, grades, resources).
-- **Teacher** (`instructor` in the database, shown as “Teacher” in the UI): course tools at `/teacher` (courses, exams, gradebook, announcements).
-- **Admin** (`admin`): **Administration** at `/admin` (user list and role changes) plus access to `/teacher` and `/portal` from the nav.
+- **Student** (`student`): learning hub at `/portal` (dashboard, exams, assignments, grades, resources, **flight logbook**, **certificates**).
+- **Teacher** (`instructor` in the database, shown as “Teacher” in the UI): course tools at `/teacher` (courses, exams, gradebook, announcements, **flight reviews**, **aircraft register**, **cohorts**).
+- **Admin** (`admin`): **Administration** at `/admin` (dashboard, users, inquiries, **bookings**, **quotations**, **training applications**, **reports & analytics**, **email outbox**) plus access to `/teacher` and `/portal` from the nav.
 
 New sign-ups default to **Student**. Only an admin can assign Teacher or Admin (UI: **Administration → Users**, or SQL below for the first admin).
+
+## Public verification
+
+Anyone — without an account — can verify a certificate at `/verify` by entering its serial (printed on each issued certificate). The verification page hits the `rpc_verify_certificate(p_serial)` SECURITY DEFINER RPC, which only exposes name, course title, issue date, grade and revocation status.
 
 ## First admin user
 
