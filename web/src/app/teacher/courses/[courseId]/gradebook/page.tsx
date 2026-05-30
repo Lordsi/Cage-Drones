@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { issueCertificate, revokeCertificate } from "@/app/actions/certificates";
 
 type ProfileRow = { display_name: string };
 
@@ -98,6 +99,16 @@ export default async function GradebookPage({
       );
     }
   }
+
+  const { data: existingCerts } = userIds.length
+    ? await supabase
+        .from("certificates")
+        .select("id, user_id, serial, grade, revoked")
+        .eq("course_id", courseId)
+        .in("user_id", userIds)
+    : { data: [] as Record<string, unknown>[] };
+  const certByUser = new Map<string, Record<string, unknown>>();
+  for (const c of existingCerts ?? []) certByUser.set(c.user_id as string, c);
 
   const rowAvg = new Map<string, number>();
   for (const r of roster ?? []) {
@@ -331,6 +342,70 @@ export default async function GradebookPage({
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-8">
+        <h2 className="mb-3 text-[0.68rem] font-semibold uppercase tracking-widest" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+          Certificates
+        </h2>
+        {(roster ?? []).length === 0 ? (
+          <p className="text-sm" style={{ color: "var(--muted)" }}>No students enrolled.</p>
+        ) : (
+          <div className="space-y-2">
+            {(roster ?? []).map((r) => {
+              const uid = r.user_id as string;
+              const prof = oneProfile(r.profiles);
+              const avg = rowAvg.get(uid);
+              const cert = certByUser.get(uid);
+              return (
+                <div key={uid} className="card flex flex-wrap items-center justify-between gap-3 p-4">
+                  <div>
+                    <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+                      {prof?.display_name ?? "Student"}
+                    </div>
+                    <div className="text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}>
+                      {avg != null ? `Avg ${avg}%` : "No graded exams yet"}
+                      {cert ? ` · ${cert.serial as string}` : ""}
+                    </div>
+                  </div>
+                  {cert ? (
+                    cert.revoked ? (
+                      <span className="badge badge-red">revoked</span>
+                    ) : (
+                      <form action={revokeCertificate} className="flex items-center gap-2">
+                        <input type="hidden" name="id" value={cert.id as string} />
+                        <input
+                          name="reason"
+                          placeholder="Revoke reason"
+                          className="rounded border px-2 py-1 text-xs outline-none"
+                          style={{ background: "var(--card)", borderColor: "var(--input-border)", color: "var(--text)" }}
+                        />
+                        <button type="submit" className="btn-ghost px-3 py-1 text-xs" style={{ borderRadius: 4, color: "var(--red)" }}>
+                          Revoke
+                        </button>
+                      </form>
+                    )
+                  ) : (
+                    <form action={issueCertificate} className="flex flex-wrap items-center gap-2">
+                      <input type="hidden" name="course_id" value={courseId} />
+                      <input type="hidden" name="user_id" value={uid} />
+                      <input
+                        name="grade"
+                        placeholder="Grade (e.g. Pass)"
+                        defaultValue={avg != null && avg >= 70 ? "Pass" : ""}
+                        className="rounded border px-2 py-1 text-xs outline-none"
+                        style={{ background: "var(--card)", borderColor: "var(--input-border)", color: "var(--text)" }}
+                      />
+                      <button type="submit" className="btn-primary px-3 py-1 text-xs" style={{ borderRadius: 4 }}>
+                        Issue certificate
+                      </button>
+                    </form>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

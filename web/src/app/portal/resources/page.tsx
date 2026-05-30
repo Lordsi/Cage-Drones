@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Download, Play } from "lucide-react";
+import { ResourceCard } from "@/components/resource-viewer";
 
 export default async function PortalResourcesPage() {
   const supabase = await createClient();
@@ -25,14 +24,24 @@ export default async function PortalResourcesPage() {
         .order("title")
     : { data: [] as Record<string, unknown>[] };
 
-  const links: {
+  const { data: views } = await supabase
+    .from("resource_views")
+    .select("resource_id, completed_at")
+    .eq("user_id", user.id);
+
+  const viewMap = new Map(
+    (views ?? []).map((v) => [v.resource_id as string, v.completed_at as string | null]),
+  );
+
+  const cards: Array<{
     id: string;
     title: string;
     course: string;
     type: string;
     href: string;
     label: string;
-  }[] = [];
+    alreadyViewed: boolean;
+  }> = [];
 
   for (const raw of resources ?? []) {
     const r = raw as {
@@ -58,13 +67,14 @@ export default async function PortalResourcesPage() {
       href = r.external_url;
       label = r.resource_type === "video" ? "Watch" : "Open";
     }
-    links.push({
+    cards.push({
       id: r.id,
       title: r.title,
       course: r.courses?.title ?? "Course",
       type: r.resource_type,
       href,
       label,
+      alreadyViewed: viewMap.has(r.id),
     });
   }
 
@@ -77,66 +87,18 @@ export default async function PortalResourcesPage() {
         >
           Learning materials
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">Resources</h1>
+        <h1 className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
+          Resources
+        </h1>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {links.length === 0 ? (
+        {cards.length === 0 ? (
           <p className="text-sm" style={{ color: "var(--muted2)" }}>
             No resources published for your courses.
           </p>
         ) : (
-          links.map((r) => (
-            <div key={r.id} className="card rounded-lg p-5">
-              <div className="flex gap-3">
-                <div
-                  className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-lg border"
-                  style={{
-                    background:
-                      r.type === "pdf"
-                        ? "color-mix(in srgb, var(--accent) 10%, transparent)"
-                        : "color-mix(in srgb, var(--accent) 10%, transparent)",
-                    borderColor:
-                      r.type === "pdf"
-                        ? "color-mix(in srgb, var(--accent) 20%, transparent)"
-                        : "color-mix(in srgb, var(--accent) 20%, transparent)",
-                  }}
-                >
-                  {r.type === "pdf" ? (
-                    <Download size={18} color="var(--orange)" />
-                  ) : (
-                    <Play size={18} color="var(--green)" />
-                  )}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="mb-1 text-sm font-semibold leading-snug">{r.title}</div>
-                  <div className="mb-2 text-xs" style={{ color: "var(--muted2)" }}>
-                    {r.course}
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className={r.type === "pdf" ? "badge badge-orange" : "badge badge-green"}>
-                      {r.type.toUpperCase()}
-                    </span>
-                    {r.href !== "#" ? (
-                      <Link
-                        href={r.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs underline"
-                        style={{ color: "var(--accent)" }}
-                      >
-                        {r.label}
-                      </Link>
-                    ) : (
-                      <span className="text-xs" style={{ color: "var(--muted)" }}>
-                        Unavailable
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
+          cards.map((r) => <ResourceCard key={r.id} {...r} />)
         )}
       </div>
     </div>

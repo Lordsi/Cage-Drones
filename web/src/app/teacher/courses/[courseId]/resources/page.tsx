@@ -72,6 +72,10 @@ export default async function ResourcesPage({
               }}
             >
               <option value="pdf">PDF</option>
+              <option value="slides">Slides</option>
+              <option value="ppt">PowerPoint</option>
+              <option value="document">Document</option>
+              <option value="image">Image</option>
               <option value="video">Video</option>
               <option value="link">Link</option>
             </select>
