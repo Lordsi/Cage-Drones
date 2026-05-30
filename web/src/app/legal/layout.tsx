@@ -18,9 +18,9 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
           <Link href="/legal/careers">Careers</Link>
         </nav>
       </header>
-      <main className="mx-auto max-w-3xl px-6 py-12">
+      <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-12">
         <article
-          className="prose prose-slate max-w-none rounded-lg border p-8"
+          className="legal-article rounded-lg border p-5 sm:p-8"
           style={{ background: "var(--surface)", borderColor: "var(--border)", color: "var(--text)" }}
         >
           {children}

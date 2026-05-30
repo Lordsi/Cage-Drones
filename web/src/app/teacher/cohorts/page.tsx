@@ -34,13 +34,13 @@ export default async function TeacherCohortsPage() {
           <Input name="ends_on" type="date" />
           <Input name="capacity" type="number" defaultValue="12" />
           <Input name="price_display" placeholder="Price (e.g. $1,950)" />
-          <select name="status" defaultValue="open" className="cage-input" style={inputStyle}>
+          <select name="status" defaultValue="open" className="cage-input">
             <option value="open">open</option>
             <option value="waitlist">waitlist</option>
             <option value="closed">closed</option>
             <option value="cancelled">cancelled</option>
           </select>
-          <select name="course_id" defaultValue="" className="cage-input" style={inputStyle}>
+          <select name="course_id" defaultValue="" className="cage-input">
             <option value="">— Link to course (optional)</option>
             {(courses ?? []).map((c) => (
               <option key={c.id as string} value={c.id as string}>{c.title as string}</option>
@@ -104,14 +104,5 @@ function fmt(d: string): string {
 }
 
 function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className="cage-input" style={inputStyle} />;
+  return <input {...props} className="cage-input" />;
 }
-
-const inputStyle = {
-  background: "var(--card)",
-  border: "1px solid var(--input-border)",
-  borderRadius: 4,
-  padding: "0.5rem 0.75rem",
-  fontSize: "0.875rem",
-  color: "var(--text)",
-} as const;

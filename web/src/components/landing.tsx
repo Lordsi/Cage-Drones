@@ -160,11 +160,9 @@ export function Landing({ auth, cohorts }: LandingProps) {
       {/* ── Top Navigation ── */}
       <header className="landing-header">
         <div className="landing-container landing-header-inner">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="landing-logo">
-              <span className="landing-logo-mark">CAGE</span>
-            </Link>
-          </div>
+          <Link href="/" className="landing-logo">
+            <span className="landing-logo-mark">CAGE</span>
+          </Link>
 
           <nav className="landing-nav-desktop" aria-label="Primary">
             {NAV.map((item) => (
@@ -201,7 +199,7 @@ export function Landing({ auth, cohorts }: LandingProps) {
               </Link>
             )}
             <details className="landing-mobile-nav">
-              <summary className="landing-menu-btn">
+              <summary className="landing-menu-btn" aria-label="Menu">
                 <Menu size={20} className="landing-nav-menu" aria-hidden />
                 <X size={20} className="landing-nav-close" aria-hidden />
                 <span className="sr-only">Menu</span>
@@ -214,6 +212,9 @@ export function Landing({ auth, cohorts }: LandingProps) {
                 ))}
                 <Link href="/register" className="landing-mobile-link">
                   Register
+                </Link>
+                <Link href="/verify" className="landing-mobile-link">
+                  Verify Certificate
                 </Link>
               </div>
             </details>
@@ -267,11 +268,9 @@ export function Landing({ auth, cohorts }: LandingProps) {
       {/* ── Certification Programs (Bento) ── */}
       <section id="services" className="landing-section">
         <div className="landing-container">
-          <div className="flex items-end justify-between mb-4">
-            <div>
-              <h2 className="landing-h2" style={{ marginBottom: "0.25rem" }}>Certification Programs</h2>
-              <p className="landing-body">Select a specialized pathway to professional mastery.</p>
-            </div>
+          <div className="mb-5 sm:mb-6">
+            <h2 className="landing-h2" style={{ marginBottom: "0.25rem" }}>Certification Programs</h2>
+            <p className="landing-body">Select a specialized pathway to professional mastery.</p>
           </div>
           <div className="landing-services-grid">
             {/* Course 1: RePL — 7 col */}
@@ -376,34 +375,43 @@ export function Landing({ auth, cohorts }: LandingProps) {
               <table className="w-full text-left">
                 <thead style={{ background: "var(--surface)" }}>
                   <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Course ID</th>
-                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Certification</th>
-                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Location</th>
-                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Date</th>
-                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)", fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>Status</th>
-                    <th className="px-6 py-4"></th>
+                    <th className="t-label px-4 py-3 text-left sm:px-6">Course ID</th>
+                    <th className="t-label px-4 py-3 text-left sm:px-6">Certification</th>
+                    <th className="t-label px-4 py-3 text-left sm:px-6">Location</th>
+                    <th className="t-label px-4 py-3 text-left sm:px-6">Date</th>
+                    <th className="t-label px-4 py-3 text-left sm:px-6">Status</th>
+                    <th className="hidden px-4 py-3 sm:table-cell sm:px-6"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {schedule.map((row) => (
                     <tr key={row.id} className="group transition-colors" style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td className="px-6 py-4 font-medium" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.82rem" }}>{row.id}</td>
-                      <td className="px-6 py-4 font-bold" style={{ color: "var(--text)" }}>{row.cert}</td>
-                      <td className="px-6 py-4" style={{ color: "var(--muted)" }}>{row.location}</td>
-                      <td className="px-6 py-4" style={{ color: "var(--muted)" }}>{row.date}</td>
-                      <td className="px-6 py-4">
-                        <span
-                          className="px-2 py-1 rounded text-xs font-bold uppercase"
-                          style={{
-                            background: row.status === "open" ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, var(--red) 10%, transparent)",
-                            color: row.status === "open" ? "var(--accent)" : "var(--red)",
-                          }}
-                        >
+                      <td
+                        className="px-4 py-3 font-medium sm:px-6 sm:py-4"
+                        style={{ color: "var(--accent)", fontFamily: "var(--font-mono-stack)", fontSize: "var(--fs-xs)" }}
+                      >
+                        {row.id}
+                      </td>
+                      <td className="px-4 py-3 font-semibold sm:px-6 sm:py-4" style={{ color: "var(--text)" }}>
+                        {row.cert}
+                      </td>
+                      <td className="px-4 py-3 sm:px-6 sm:py-4" style={{ color: "var(--muted)", fontSize: "var(--fs-sm)" }}>
+                        {row.location}
+                      </td>
+                      <td className="px-4 py-3 sm:px-6 sm:py-4" style={{ color: "var(--muted)", fontSize: "var(--fs-sm)" }}>
+                        {row.date}
+                      </td>
+                      <td className="px-4 py-3 sm:px-6 sm:py-4">
+                        <span className={`badge ${row.status === "open" ? "badge-cyan" : "badge-red"}`}>
                           {row.status === "open" ? "Open" : "Waitlist"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-right">
-                        <a href="#enroll-form" className="text-sm font-semibold uppercase opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent)", textDecoration: "none" }}>
+                      <td className="hidden px-4 py-3 text-right sm:table-cell sm:px-6 sm:py-4">
+                        <a
+                          href="#enroll-form"
+                          className="text-xs font-semibold uppercase opacity-0 transition-opacity group-hover:opacity-100"
+                          style={{ color: "var(--accent)", textDecoration: "none", letterSpacing: "0.08em" }}
+                        >
                           Enquire
                         </a>
                       </td>
@@ -509,9 +517,9 @@ export function Landing({ auth, cohorts }: LandingProps) {
       {/* ── Contact / Initiate Mission Support ── */}
       <section id="enroll-form" className="landing-section landing-section-alt">
         <div className="landing-container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
             {/* Contact Form */}
-            <div className="lg:col-span-7 p-8 rounded-lg" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+            <div className="lg:col-span-7 rounded-lg p-5 sm:p-7 lg:p-8" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
               <BookingForm
                 cohorts={(cohorts ?? [])
                   .filter((c) => c.status === "open" || c.status === "waitlist")
@@ -527,7 +535,7 @@ export function Landing({ auth, cohorts }: LandingProps) {
             </div>
 
             {/* Information Sidebar */}
-            <aside className="lg:col-span-5 space-y-6">
+            <aside className="lg:col-span-5 space-y-4 sm:space-y-6">
               {/* Map Card */}
               <div className="rounded-lg overflow-hidden" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
                 <LocationMap />

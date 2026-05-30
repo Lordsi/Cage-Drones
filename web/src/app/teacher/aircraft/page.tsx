@@ -25,12 +25,12 @@ export default async function TeacherAircraftPage() {
           Add aircraft
         </h2>
         <form action={createAircraft} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <input name="registration" required placeholder="Registration (e.g. CAGE-001)" className="input" style={inputStyle} />
-          <input name="model" required placeholder="Model (e.g. DJI Matrice 300)" className="input" style={inputStyle} />
-          <input name="manufacturer" placeholder="Manufacturer (e.g. DJI)" className="input" style={inputStyle} />
-          <input name="serial_number" placeholder="Serial number" className="input" style={inputStyle} />
-          <input name="max_takeoff_weight_kg" type="number" step="0.01" placeholder="MTOW (kg)" className="input" style={inputStyle} />
-          <input name="notes" placeholder="Notes" className="input" style={inputStyle} />
+          <input name="registration" required placeholder="Registration (e.g. CAGE-001)" className="cage-input" />
+          <input name="model" required placeholder="Model (e.g. DJI Matrice 300)" className="cage-input" />
+          <input name="manufacturer" placeholder="Manufacturer (e.g. DJI)" className="cage-input" />
+          <input name="serial_number" placeholder="Serial number" className="cage-input" />
+          <input name="max_takeoff_weight_kg" type="number" step="0.01" placeholder="MTOW (kg)" className="cage-input" />
+          <input name="notes" placeholder="Notes" className="cage-input" />
           <div className="sm:col-span-2 lg:col-span-3 flex justify-end">
             <button type="submit" className="btn-primary px-4 py-2 text-sm" style={{ borderRadius: 4 }}>
               Register aircraft
@@ -81,12 +81,3 @@ export default async function TeacherAircraftPage() {
   );
 }
 
-const inputStyle = {
-  background: "var(--card)",
-  borderColor: "var(--input-border)",
-  color: "var(--text)",
-  border: "1px solid var(--input-border)",
-  borderRadius: 4,
-  padding: "0.5rem 0.75rem",
-  fontSize: "0.875rem",
-} as const;

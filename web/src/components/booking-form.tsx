@@ -82,7 +82,7 @@ export function BookingForm({ cohorts }: { cohorts: Cohort[] }) {
     <div>
       <p className="landing-eyebrow">Initiate Mission Support</p>
       <h2 className="landing-h2">How can we help?</h2>
-      <div role="tablist" className="mb-6 flex flex-wrap gap-2">
+      <div role="tablist" className="mb-6 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
         {(
           [
             { id: "booking" as const, label: "Book a service" },
@@ -96,14 +96,21 @@ export function BookingForm({ cohorts }: { cohorts: Cohort[] }) {
             role="tab"
             aria-selected={tab === t.id}
             onClick={() => setTab(t.id)}
-            className="px-4 py-2 text-xs font-semibold uppercase tracking-wider"
+            className="font-mono"
             style={{
-              borderRadius: 4,
+              padding: "0.7rem 1.1rem",
+              borderRadius: 6,
               background: tab === t.id ? "var(--accent)" : "transparent",
-              color: tab === t.id ? "#fff" : "var(--muted)",
+              color: tab === t.id ? "#fff" : "var(--muted2)",
               border: `1px solid ${tab === t.id ? "var(--accent)" : "var(--border)"}`,
               cursor: "pointer",
-              fontFamily: "var(--font-mono)",
+              fontFamily: "var(--font-mono-stack)",
+              fontSize: "var(--fs-2xs)",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              minHeight: 44,
+              transition: "background 0.15s ease, color 0.15s ease",
             }}
           >
             {t.label}
@@ -224,19 +231,16 @@ function Field({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-2">
-      <span
-        className="text-xs font-semibold uppercase tracking-wider"
-        style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
-      >
+    <label className="flex flex-col gap-1.5">
+      <span className="t-label">
         {label} {required ? "*" : ""}
       </span>
       <input
         name={name}
         type={type}
         required={required}
-        className="h-12 w-full rounded border px-4 outline-none transition-all"
-        style={{ borderColor: "var(--input-border)", background: "var(--surface)", color: "var(--text)" }}
+        className="cage-input"
+        style={{ minHeight: 44, fontSize: "var(--fs-base)" }}
       />
     </label>
   );
@@ -252,19 +256,16 @@ function Area({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-2">
-      <span
-        className="text-xs font-semibold uppercase tracking-wider"
-        style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
-      >
+    <label className="flex flex-col gap-1.5">
+      <span className="t-label">
         {label} {required ? "*" : ""}
       </span>
       <textarea
         name={name}
         required={required}
         rows={4}
-        className="w-full resize-none rounded border px-4 py-3 outline-none transition-all"
-        style={{ borderColor: "var(--input-border)", background: "var(--surface)", color: "var(--text)" }}
+        className="cage-input resize-none"
+        style={{ fontSize: "var(--fs-base)" }}
       />
     </label>
   );
@@ -282,18 +283,15 @@ function Select({
   options: { value: string; label: string }[];
 }) {
   return (
-    <label className="flex flex-col gap-2">
-      <span
-        className="text-xs font-semibold uppercase tracking-wider"
-        style={{ color: "var(--muted)", fontFamily: "var(--font-mono)" }}
-      >
+    <label className="flex flex-col gap-1.5">
+      <span className="t-label">
         {label} {required ? "*" : ""}
       </span>
       <select
         name={name}
         required={required}
-        className="h-12 w-full appearance-none rounded border px-4 outline-none transition-all"
-        style={{ borderColor: "var(--input-border)", background: "var(--surface)", color: "var(--text)" }}
+        className="cage-input appearance-none"
+        style={{ minHeight: 44, fontSize: "var(--fs-base)" }}
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>
