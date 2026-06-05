@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CAGE Drones — Platform Overview</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 22mm 16mm;
+    }
+
+    :root {
+      --accent: #0d9488;
+      --accent-dark: #0f766e;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --surface: #f8fafc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      color: var(--text);
+      background: #fff;
+    }
+
+    .cover {
+      page-break-after: always;
+      min-height: 250mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12mm 0;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    .cover-eyebrow {
+      font-size: 10pt;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .cover h1 {
+      font-size: 34pt;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 16px;
+      max-width: 90%;
+    }
+
+    .cover-sub {
+      font-size: 14pt;
+      color: var(--muted);
+      max-width: 85%;
+      margin-bottom: 40px;
+    }
+
+    .cover-meta {
+      margin-top: auto;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 9.5pt;
+      color: var(--muted);
+    }
+
+    .cover-meta strong { color: var(--text); }
+
+    h2 {
+      font-size: 16pt;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 28px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 11.5pt;
+      font-weight: 700;
+      color: var(--text);
+      margin: 18px 0 8px;
+      page-break-after: avoid;
+    }
+
+    p { margin-bottom: 10px; }
+
+    .lead {
+      font-size: 11pt;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    ul, ol {
+      margin: 0 0 12px 20px;
+    }
+
+    li { margin-bottom: 5px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 12px 0 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      page-break-inside: avoid;
+    }
+
+    .card h4 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+    }
+
+    .card p, .card ul {
+      font-size: 9.5pt;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card ul { margin-left: 16px; margin-top: 6px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 9.5pt;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface);
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 16px 0 20px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 14px 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      page-break-inside: avoid;
+    }
+
+    .stat-value {
+      font-size: 18pt;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 8.5pt;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      margin: 14px 0 18px;
+      page-break-inside: avoid;
+    }
+
+    .flow-step {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 9pt;
+      text-align: center;
+    }
+
+    .flow-step strong {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 9.5pt;
+      margin-bottom: 4px;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14pt;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 8pt;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 12%, white);
+      color: var(--accent-dark);
+      margin-right: 4px;
+    }
+
+    .page-break { page-break-before: always; }
+
+    .footer-note {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 8.5pt;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .highlight-box {
+      background: color-mix(in srgb, var(--accent) 8%, white);
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      margin: 14px 0;
+      border-radius: 0 8px 8px 0;
+      page-break-inside: avoid;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .program {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      page-break-inside: avoid;
+    }
+
+    .program-title {
+      font-weight: 700;
+      font-size: 10pt;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .program-meta {
+      font-size: 8.5pt;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .program-desc {
+      font-size: 9pt;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER -->
+  <section class="cover">
+    <p class="cover-eyebrow">Aviation Excellence · Malawi</p>
+    <h1>CAGE Drones Digital Platform</h1>
+    <p class="cover-sub">
+      An integrated training, operations, and business management platform for professional drone certification, flight logging, and client engagement.
+    </p>
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-value">120+</div><div class="stat-label">Surveys completed</div></div>
+      <div class="stat"><div class="stat-value">50k+</div><div class="stat-label">Hectares mapped</div></div>
+      <div class="stat"><div class="stat-value">80+</div><div class="stat-label">Pilots trained</div></div>
+      <div class="stat"><div class="stat-value">20+</div><div class="stat-label">Enterprise clients</div></div>
+    </div>
+    <div class="cover-meta">
+      <strong>Document type:</strong> Platform overview for client presentation<br />
+      <strong>Prepared:</strong> June 2026<br />
+      <strong>Organization:</strong> CAGE (cagemw.com)
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <h2>Executive Summary</h2>
+  <p class="lead">
+    CAGE Drones has built a purpose-designed digital platform that unifies public marketing, pilot training, flight operations, and back-office administration in a single secure web application.
+  </p>
+  <p>
+    The platform supports the full lifecycle of a professional drone training organisation — from the moment a prospective client discovers CAGE online, through structured classroom and field training, to certificate issuance and public verification. It is tailored to CASA-standard Remote Pilot License (RePL) programmes and specialised industrial pathways including mapping, inspection, and precision agriculture.
+  </p>
+
+  <div class="highlight-box">
+    <strong>Key value proposition:</strong> One platform replaces disconnected spreadsheets, email threads, and paper logbooks with a modern, role-based system that scales training delivery while giving administrators real-time visibility across students, flights, bookings, and business inquiries.
+  </div>
+
+  <h2>Who the Platform Serves</h2>
+  <div class="two-col">
+    <div class="card">
+      <h4>Prospective Clients & Trainees</h4>
+      <ul>
+        <li>Browse certification programmes and pricing</li>
+        <li>View live training schedules and cohort availability</li>
+        <li>Submit service bookings and quotation requests</li>
+        <li>Apply for upcoming training cohorts</li>
+        <li>Verify certificates online without an account</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Students (Pilots in Training)</h4>
+      <ul>
+        <li>Access enrolled courses and learning resources</li>
+        <li>Complete timed theory exams and assignments</li>
+        <li>Track grades, feedback, and progress</li>
+        <li>Maintain a digital flight logbook with checklists</li>
+        <li>Download certificates of completion</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Teachers (Instructors)</h4>
+      <ul>
+        <li>Create and manage courses and cohorts</li>
+        <li>Build exams, grade assignments, and run gradebooks</li>
+        <li>Review student flights and provide structured feedback</li>
+        <li>Maintain the aircraft register</li>
+        <li>Post course announcements</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Administrators</h4>
+      <ul>
+        <li>Manage users and role assignments</li>
+        <li>Process bookings, quotations, and applications</li>
+        <li>View platform-wide reports and analytics</li>
+        <li>Monitor email notifications and outbox</li>
+        <li>Oversee all training and operational data</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Platform Architecture</h2>
+  <p>
+    The application is a modern, cloud-hosted web platform built for reliability, security, and mobile access. It uses industry-standard technologies and stores all data in a secure PostgreSQL database with row-level access controls — ensuring each user sees only what they are authorised to access.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Web application</strong></td><td>Responsive Next.js application accessible from desktop and mobile browsers</td></tr>
+      <tr><td><strong>Authentication</strong></td><td>Secure email-and-password sign-in with role-based portal routing</td></tr>
+      <tr><td><strong>Database & storage</strong></td><td>Supabase (PostgreSQL) with encrypted file storage for course materials and assignment uploads</td></tr>
+      <tr><td><strong>Email notifications</strong></td><td>Automated admin alerts for bookings, applications, and quotations (via Resend)</td></tr>
+      <tr><td><strong>Hosting</strong></td><td>Production deployment on Render with optional Vercel support</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>Public Website & Lead Generation</h2>
+  <p>
+    The public-facing homepage serves as CAGE's digital storefront. It presents the company's training credentials, client portfolio, technology fleet, and team — while converting interest into actionable leads.
+  </p>
+
+  <h3>Certification Programmes</h3>
+  <div class="program-grid">
+    <div class="program">
+      <div class="program-title">Remote Pilot License (RePL)</div>
+      <div class="program-meta"><span class="badge">Entry Level</span> 5 Days · $1,950</div>
+      <div class="program-desc">Foundational certification for commercial drone operations. Covers air law, flight theory, and practical assessment to CASA standards.</div>
+    </div>
+    <div class="program">
+      <div class="program-title">Specialized Mapping</div>
+      <div class="program-meta"><span class="badge">Specialist</span> 3 Days · $1,400</div>
+      <div class="program-desc">Advanced photogrammetry and LiDAR data acquisition for high-precision surveying and digital twin creation.</div>
+    </div>
+    <div class="program">
+      <div class="program-title">Advanced Inspection</div>
+      <div class="program-meta"><span class="badge">Advanced</span> · $2,850</div>
+      <div class="program-desc">Critical infrastructure inspection including thermal imaging, structural analysis, and close-proximity flight in high-interference environments.</div>
+    </div>
+  </div>
+
+  <h3>Inbound Business Flows</h3>
+  <div class="flow">
+    <div class="flow-step"><strong>Discover</strong>Visitor browses programmes, schedule, and case studies</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><strong>Engage</strong>Submits booking, quotation, or training application</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><strong>Notify</strong>Admin receives email alert; record stored in system</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><strong>Convert</strong>Admin follows up, confirms, and enrolls trainee</div>
+  </div>
+
+  <h3>Notable Public Features</h3>
+  <ul>
+    <li><strong>Live training schedule</strong> — cohort dates, locations, and availability (open / waitlist) pulled from the database</li>
+    <li><strong>Service booking form</strong> — capture site location, preferred dates, service type, and project area</li>
+    <li><strong>Quotation requests</strong> — structured project scope, deliverables, timeline, and budget</li>
+    <li><strong>Certificate verification</strong> — anyone can verify authenticity at <em>/verify</em> using the certificate serial number</li>
+    <li><strong>Client portfolio</strong> — documented engagements with UNICEF, ESCOM, Illovo Sugar, SMEC, and others</li>
+  </ul>
+
+  <h2 class="page-break">Student Learning Portal</h2>
+  <p>
+    Enrolled students access a dedicated learning hub where all training activity is centralised. The portal is designed for clarity and mobile use, with a sidebar navigation covering every aspect of the training journey.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Module</th><th>Capabilities</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Dashboard</strong></td><td>Course overview, announcements, upcoming deadlines, exam availability, and performance summary</td></tr>
+      <tr><td><strong>Exams</strong></td><td>Timed multiple-choice assessments with automatic scoring against a configurable pass threshold (default 70%)</td></tr>
+      <tr><td><strong>Assignments</strong></td><td>View instructions, upload deliverables, and receive graded feedback from instructors</td></tr>
+      <tr><td><strong>Grades & Results</strong></td><td>Consolidated view of exam scores and assignment outcomes</td></tr>
+      <tr><td><strong>Resources</strong></td><td>Access PDFs, videos, slides, and links with progress tracking</td></tr>
+      <tr><td><strong>Flight Logbook</strong></td><td>Digital pilot log with pre/post-flight checklists, weather, GPS location, and mission details</td></tr>
+      <tr><td><strong>Certificates</strong></td><td>View and download issued certificates of completion</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Digital Flight Logbook</h3>
+  <p>
+    A distinguishing feature of the CAGE platform is its integrated flight operations module. Students log every training flight with structured data that mirrors professional aviation practice:
+  </p>
+  <ul>
+    <li>Aircraft assignment from the organisation's register</li>
+    <li>Mission type, location, and GPS coordinates</li>
+    <li>Departure/arrival times, duration, and weather conditions</li>
+    <li><strong>Pre-flight checklist</strong> — airspace authorisation, NOTAMs, site survey, battery checks, compass calibration, RTH altitude, emergency briefing</li>
+    <li><strong>Post-flight checklist</strong> — power-down, damage inspection, log security, anomaly documentation, storage</li>
+    <li>Status workflow: Planned → In Progress → Completed (or Cancelled)</li>
+    <li>Instructor review status: Unreviewed → Approved / Needs Attention</li>
+  </ul>
+
+  <h2>Teacher & Instructor Portal</h2>
+  <p>
+    Instructors have a full course management toolkit plus operational tools for flight supervision and fleet administration.
+  </p>
+
+  <h3>Per-Course Tools</h3>
+  <div class="two-col">
+    <div class="card">
+      <h4>Course Management</h4>
+      <p>Overview, student enrollment, announcements, and publishing controls.</p>
+    </div>
+    <div class="card">
+      <h4>Assessment</h4>
+      <p>Create assignments and exams; review submissions; maintain a gradebook.</p>
+    </div>
+    <div class="card">
+      <h4>Learning Resources</h4>
+      <p>Upload and organise course materials in secure cloud storage.</p>
+    </div>
+    <div class="card">
+      <h4>Exam Builder</h4>
+      <p>Author question banks, set time limits and pass marks, publish when ready.</p>
+    </div>
+  </div>
+
+  <h3>Operations Tools</h3>
+  <ul>
+    <li><strong>Flight reviews</strong> — instructors score flights on preflight, airmanship, procedures, decision-making, and postflight (1–5 scale); assign overall grades and written feedback</li>
+    <li><strong>Aircraft register</strong> — fleet inventory with registration, model, manufacturer, serial number, and max takeoff weight</li>
+    <li><strong>Training cohorts</strong> — schedule management with codes, dates, locations, capacity, and status (open / waitlist / closed)</li>
+  </ul>
+
+  <div class="page-break"></div>
+
+  <h2>Administration Console</h2>
+  <p>
+    Platform administrators have a dedicated operations dashboard with full visibility across users, learning activity, flight operations, and business pipeline.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Section</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Dashboard</strong></td><td>Real-time counts: users, courses, exams, enrollments, resources; role breakdown; recent sign-ups</td></tr>
+      <tr><td><strong>Users</strong></td><td>Assign roles (Student, Teacher, Admin); manage access across all portals</td></tr>
+      <tr><td><strong>Inquiries</strong></td><td>General enrollment interest submissions</td></tr>
+      <tr><td><strong>Bookings</strong></td><td>Service requests — status tracking from pending through confirmed to completed</td></tr>
+      <tr><td><strong>Quotations</strong></td><td>Project quote requests with amount, currency, and pipeline status</td></tr>
+      <tr><td><strong>Applications</strong></td><td>Training cohort applications — review, accept, waitlist, or decline</td></tr>
+      <tr><td><strong>Reports & Analytics</strong></td><td>Cross-platform metrics: users, learning outcomes, flights, certificates, business pipeline</td></tr>
+      <tr><td><strong>Email Outbox</strong></td><td>Audit trail of notification emails (pending, sent, failed)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Certificates & Trust</h2>
+  <p>
+    Upon successful completion of a course, instructors or administrators can issue a <strong>Certificate of Completion</strong> with a unique serial number, grade, and issue date. Certificates can be revoked if needed, with reason and timestamp recorded.
+  </p>
+  <p>
+    A public verification page allows employers, regulators, or clients to confirm certificate authenticity by entering the serial number — without requiring a login. Only non-sensitive information is exposed: student name, course title, issue date, grade, and revocation status.
+  </p>
+
+  <h2>Security & Data Protection</h2>
+  <ul>
+    <li><strong>Role-based access</strong> — three distinct roles with enforced portal separation</li>
+    <li><strong>Row-level security</strong> — database policies ensure users access only their own data (students) or data for courses they manage (teachers)</li>
+    <li><strong>Immutable exam attempts</strong> — once submitted, exam answers cannot be altered</li>
+    <li><strong>Role change protection</strong> — only administrators can change user roles; enforced at the database level</li>
+    <li><strong>Private file storage</strong> — course resources and assignment uploads stored in secure, access-controlled buckets</li>
+    <li><strong>No exposed secrets</strong> — the application uses only public API keys in the browser; administrative database access is server-side only</li>
+  </ul>
+
+  <h2>Technology Fleet & Expertise</h2>
+  <p>CAGE's platform reflects the organisation's operational capabilities across enterprise drone hardware and software:</p>
+  <p style="font-size: 9.5pt; color: var(--muted);">
+    DJI Matrice 300/350 RTK · DJI Mavic 3 Multispectral · DJI Mavic 3 Enterprise · DJI Mavic 3 Thermal · DJI Agras T50 · Zenmuse L1 LiDAR · Pix4Dmapper · Pix4Dfields · DJI Terra · QGIS · AutoCAD
+  </p>
+
+  <h3>Selected Client Engagements</h3>
+  <table>
+    <thead>
+      <tr><th>Client</th><th>Scope</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>UNICEF Malawi</td><td>~19,700 ha flood resilience mapping — 5 cm orthomosaics, DSM/DTM, GIS flood modelling</td></tr>
+      <tr><td>ESCOM Malawi</td><td>48 engineers — 3-week RPL programme and advanced mapping with LiDAR corridor modelling</td></tr>
+      <tr><td>Illovo Sugar Malawi</td><td>17 staff trained for RePL and DJI Matrice 350 RTK familiarisation</td></tr>
+      <tr><td>SMEC</td><td>Lower Domasi Dam feasibility — ~1,207 ha surveyed with M300 RTK + LiDAR</td></tr>
+      <tr><td>Paramount Holdings / Salima Sugar</td><td>Precision aerial spraying with DJI Agras T50 across sugarcane estates</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="page-break">Platform Modules at a Glance</h2>
+
+  <table>
+    <thead>
+      <tr><th>Domain</th><th>Features</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Marketing & CRM</strong></td><td>Public website, live schedule, service bookings, quotations, training applications, enrollment inquiries, email notifications</td></tr>
+      <tr><td><strong>Learning (LMS)</strong></td><td>Courses, enrollments, resources, announcements, assignments, exams, gradebook, progress tracking</td></tr>
+      <tr><td><strong>Flight Operations</strong></td><td>Aircraft register, pilot logbook, pre/post checklists, instructor evaluations, aggregated flight hours</td></tr>
+      <tr><td><strong>Credentials</strong></td><td>Certificate issuance, revocation, public serial verification</td></tr>
+      <tr><td><strong>Administration</strong></td><td>User management, business pipeline, analytics, email outbox audit</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Deployment & Operations</h2>
+  <p>The platform is production-ready and configured for cloud hosting with the following operational characteristics:</p>
+  <ul>
+    <li>Environment-based configuration for database, authentication, and email</li>
+    <li>Automated build and deploy pipeline (Render Blueprint included in repository)</li>
+    <li>Database migrations managed as versioned SQL scripts</li>
+    <li>First administrator bootstrapped via secure one-time database promotion</li>
+    <li>Optional inline email delivery (Resend) or queued outbox for background processing</li>
+  </ul>
+
+  <div class="highlight-box">
+    <strong>Summary:</strong> The CAGE Drones platform is a complete digital backbone for a professional drone training and services organisation — combining marketing, education, flight compliance, credentialing, and business operations in one secure, scalable system built for the Malawi market and CASA-aligned training standards.
+  </div>
+
+  <p class="footer-note">
+    CAGE Drones Platform Overview · Confidential client presentation material · June 2026<br />
+    For technical or demonstration enquiries, contact info@cagemw.com
+  </p>
+
+</body>
+</html>
